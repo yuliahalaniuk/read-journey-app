@@ -1,0 +1,103 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #141414;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  outline: none;
+  border: none;
+}
+
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin: 0;
+}
+
+th,
+tr {
+  border: 0;
+  padding: 0;
+  margin: 0;
+
+}
+
+ul,
+li {
+  list-style: none;
+  padding-inline-start: 0;
+  margin: 0;
+}
+
+address {
+  font-style: normal;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+input {
+  -webkit-appearance: none; /* Remove default WebKit styling */
+  -moz-appearance: none; /* Remove default Firefox styling */
+  appearance: none; /* Remove default styling */
+  
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+
+  box-sizing: border-box;
+
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15; /* Adjust line-height to 1.15 for better readability */
+
+  width: 100%;
+  
+  background: none;
+  border-radius: 0;
+}
