@@ -1,12 +1,12 @@
-import RegisterForm from "../components/auth/forms/RegisterForm";
+import LogInForm from "../components/auth/forms/LogInForm";
 import AuthPageTemplate from "../components/auth/AuthPageTemplate/AuthPageTemplate";
 
-const RegisterPage = () => {
+const LogInPage = () => {
   return (
     <AuthPageTemplate>
-      <RegisterForm />;
+      <LogInForm />;
     </AuthPageTemplate>
   );
 };
 
-export default RegisterPage;
+export default LogInPage;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const BaseButton = styled.button`
-  width: 100%;
+  /* width: 100%; */
 
   display: flex;
   justify-content: center;
@@ -13,6 +13,9 @@ export const BaseButton = styled.button`
   letter-spacing: 0.02em;
 
   border-radius: ${(p) => p.theme.borderRadius.button};
+
+  flex-shrink: 0;
+  width: max-content;
 `;
 
 export const AccentedBtn = styled(BaseButton)`
@@ -34,12 +37,13 @@ export const AccentedBtn = styled(BaseButton)`
   max-width: 225px;
 `;
 
+// Todo
 export const TransparentBtn = styled(BaseButton)`
   background-color: "transparent";
   color: ${(p) => p.theme.text.main};
   border: 1px solid ${(p) => p.theme.border.button};
 
-  padding: 10px 20px;
+  padding: 12px 28px;
 
   &:hover,
   &:focus {

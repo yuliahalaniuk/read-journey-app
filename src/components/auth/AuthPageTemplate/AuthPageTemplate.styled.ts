@@ -1,0 +1,66 @@
+import styled from "styled-components";
+import { BaseBox } from "../../../atoms/BaseBox";
+import { FlexBox } from "../../../atoms/Flex";
+
+export const Title = styled.h1`
+  width: 100%;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0.02em;
+  color: ${(p) => p.theme.text.main};
+  margin-bottom: 20px;
+
+  span {
+    color: ${(p) => p.theme.text.lightTransparent};
+  }
+
+  @media screen and (min-width: 768px) {
+    max-width: 472px;
+    font-size: 64px;
+    line-height: 94%;
+    margin-bottom: 40px;
+  }
+`;
+
+export const ImgContainer = styled(FlexBox)`
+  margin-bottom: 40px;
+`;
+
+export const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+
+  @media screen and (min-width: 768px) {
+    max-width: 768px;
+    padding: 32px;
+
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    max-width: 1280px;
+  }
+`;
+
+export const Box = styled(BaseBox)`
+  padding: 20px;
+
+  @media screen and (min-width: 768px) {
+    padding: 40px 64px;
+  }
+`;
+
+export const PictureBox = styled(BaseBox)`
+  padding: 20px 40px 0px;
+
+  @media screen and (min-width: 768px) {
+    padding: 80px 96px 0px;
+  }
+`;

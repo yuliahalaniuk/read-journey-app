@@ -6,12 +6,16 @@ export interface RegisterFormData {
   name?: string;
 
   password?: string;
-  passwordCheck?: string;
 }
 
 export interface LoginFormData {
   email: string;
   password: string;
+}
+
+export interface FilterFormData {
+  title?: string;
+  author?: string;
 }
 
 export interface FormFieldInfo<FormData extends FieldValues = FieldValues> {
@@ -42,12 +46,12 @@ export const registerFormFieldsInfo: FormFieldInfo<RegisterFormData>[] = [
     canBeHidden: true,
     required: true,
   },
-  {
-    name: "passwordCheck",
-    label: "Enter your password again",
-    canBeHidden: true,
-    required: true,
-  },
+  // {
+  //   name: "passwordCheck",
+  //   label: "Password Check",
+  //   canBeHidden: true,
+  //   required: true,
+  // },
 ];
 
 export const loginFormFieldsInfo: FormFieldInfo<LoginFormData>[] = [
@@ -61,5 +65,19 @@ export const loginFormFieldsInfo: FormFieldInfo<LoginFormData>[] = [
     label: "Password",
     canBeHidden: true,
     required: true,
+  },
+];
+
+export const filterFormFieldsInfo: FormFieldInfo<FilterFormData>[] = [
+  {
+    name: "title",
+    label: "Book title",
+    required: false,
+  },
+  {
+    name: "author",
+    label: "The author",
+    canBeHidden: true,
+    required: false,
   },
 ];

@@ -1,17 +1,19 @@
 import React from "react";
-import { FlexBox } from "../FlexBox";
+import { FlexBox } from "../Flex";
 import styled from "styled-components";
 
 const FormInput = ({
   label,
-  id,
+  name,
   register,
-  errors = true,
+  errors,
+  required,
 }: {
   label?: string;
-  id?: string;
+  name?: string;
   register?: any;
-  errors?: any;
+  errors?: () => any;
+  required?: boolean;
 }) => {
   return (
     <FlexBox $gap="4px">
@@ -19,11 +21,11 @@ const FormInput = ({
         $fDirection="row"
         $justify={"space-between"}
         $gap="10px"
-        $errors={true}
+        $errors={false}
       >
         <FlexBox $fDirection="row" $gap="10px">
-          <StLabel htmlFor={id}>{label}</StLabel>
-          <StyledInput id={id} {...register} />
+          <StLabel htmlFor={name}>{label}</StLabel>
+          <StyledInput id={name} {...register} />
         </FlexBox>
 
         {errors && <div>NO</div>}
@@ -33,6 +35,7 @@ const FormInput = ({
   );
 };
 
+// name, { required };
 export const ErrorText = styled.p`
   width: 100%;
   color: ${(p) => p.theme.colors.error};
@@ -62,6 +65,7 @@ export const StLabel = styled.label`
   line-height: 129%;
   letter-spacing: -0.02em;
   color: ${(p) => p.theme.text.secondary};
+  white-space: nowrap;
 `;
 
 export const StyledInput = styled.input`

@@ -31,6 +31,7 @@ export const baseTheme = {
   colors: {
     error: "#e90516",
     success: "#30b94d",
+    blue: "#4f92f7",
   },
 };
 
