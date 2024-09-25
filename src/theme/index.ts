@@ -18,6 +18,7 @@ export const baseTheme = {
     input: "12px",
     button: "30px",
     small: "15px",
+    modal: "12px",
   },
 
   border: {
@@ -28,8 +29,18 @@ export const baseTheme = {
 
   timingFnMain: "ease-in-out 250ms",
 
+  backdropColor: "rgba(20, 20, 20, 0.6)",
+
+  delete: {
+    stroke: "#E85050",
+    background: "rgba(232, 80, 80, 0.1)",
+    border: "rgba(232, 80, 80, 0.2)",
+  },
+
   colors: {
     error: "#e90516",
+    errorLight: "#ff6b6b",
+    errorPressed: "#ff4f4f",
     success: "#30b94d",
     blue: "#4f92f7",
   },

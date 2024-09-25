@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { BaseBox, SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { FlexUl } from "../../../atoms/Flex";
+import { FlexBox, FlexUl } from "../../../atoms/Flex";
 import { instructionsData } from "../../../data/instructionsData";
-import FilterForm from "./FilterForm";
-import InstructionItem from "./InstructionItem";
+import FilterForm from "../../forms/FilterForm";
+import InstructionItem from "./InstructionsItem/InstructionItem";
 import { BaseLink } from "../../../atoms/BaseLink";
+import BookCard from "../Card/BookCard";
 
-const SideBar = () => {
+const HomeSideBar = () => {
   return (
     <BaseBox $gap="20px">
       <FilterForm />
@@ -20,11 +21,30 @@ const SideBar = () => {
           })}
         </FlexUl>
 
-        <BaseLink href="/library">My library</BaseLink>
+        <FlexBox
+          style={{
+            width: "100%",
+          }}
+          $justify="space-between"
+          $fDirection="row"
+        >
+          <BaseLink href="/library">My library</BaseLink>
+          <ArrowBox>{`->`}</ArrowBox>
+        </FlexBox>
+
+        <BookCard
+          deleteAction={() => {
+            console.log("hehe");
+          }}
+        />
       </SecondaryBaseBox>
     </BaseBox>
   );
 };
+
+const ArrowBox = styled.span`
+  color: ${(p) => p.theme.text.main};
+`;
 
 const Title = styled.p`
   font-weight: 700;
@@ -36,4 +56,4 @@ const Title = styled.p`
   color: ${(p) => p.theme.text.main};
 `;
 
-export default SideBar;
+export default HomeSideBar;

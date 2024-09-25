@@ -35,6 +35,7 @@ export const MainContainer = styled.div`
   width: 100%;
   max-width: 375px;
   margin: 0 auto;
+  height: 100vh;
 
   @media screen and (min-width: 768px) {
     max-width: 768px;
@@ -51,7 +52,6 @@ export const MainContainer = styled.div`
 
 export const Box = styled(BaseBox)`
   padding: 20px;
-
   @media screen and (min-width: 768px) {
     padding: 40px 64px;
   }
@@ -59,7 +59,6 @@ export const Box = styled(BaseBox)`
 
 export const PictureBox = styled(BaseBox)`
   padding: 20px 40px 0px;
-
   @media screen and (min-width: 768px) {
     padding: 80px 96px 0px;
   }

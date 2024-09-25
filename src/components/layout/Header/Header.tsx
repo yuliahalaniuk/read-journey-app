@@ -1,14 +1,18 @@
-import React from "react";
 import { BaseBox } from "../../../atoms/BaseBox";
-import { TransparentBtn } from "../../../atoms/Buttons";
+import { BaseButton } from "../../../atoms/Buttons";
 import { FlexBox } from "../../../atoms/Flex";
 import { useMediaQuery } from "react-responsive";
-import UserComponent from "./components/UserComponent";
-import NavBar from "./components/NavBar";
+import UserComponent from "./components/UserComponent/UserComponent";
+import NavBar from "./components/Navbar/NavBar";
+import LogoutBtn from "../../../atoms/LogoutBtn";
 
 const Header = () => {
   const isDesktop = useMediaQuery({
     query: "(min-width: 1280px)",
+  });
+
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
   });
 
   return (
@@ -22,11 +26,19 @@ const Header = () => {
         />
       </FlexBox>
 
-      <NavBar />
+      {!isMobile && <NavBar />}
 
-      <FlexBox $fDirection="row" $gap="16px">
+      <FlexBox $fDirection="row" $gap="16px" $justify="end">
         <UserComponent />
-        <TransparentBtn>Log out</TransparentBtn>
+
+        {isMobile ? (
+          <BaseButton>
+            {/* <MenuIcon /> */}
+            Menu
+          </BaseButton>
+        ) : (
+          <LogoutBtn />
+        )}
       </FlexBox>
     </BaseBox>
   );

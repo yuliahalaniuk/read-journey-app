@@ -1,7 +1,6 @@
 import { FlexBox, FlexForm } from "../../../atoms/Flex";
-import { AccentedBtn } from "../../../atoms/Buttons";
+import { AccentedBtn, TransparentBtn } from "../../../atoms/Buttons";
 import { BaseLink } from "../../../atoms/BaseLink";
-import FormInput from "../../../atoms/components/FormInput";
 import {
   LoginFormData,
   loginFormFieldsInfo,
@@ -10,8 +9,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 import { logInSchema } from "../../../validation-schemes/logInValidation";
+import { signInWithGoogle } from "../../../hooks/o_auth";
+import { useAuth } from "../../../providers/AuthProvider";
+import FormFields from "../../../atoms/components/FormFields";
 
 const LogInForm = () => {
+  const auth = useAuth();
+
   const form = useForm<LoginFormData>({
     mode: "onBlur",
     reValidateMode: "onSubmit",
@@ -20,20 +24,37 @@ const LogInForm = () => {
 
   const onValid = (data: LoginFormData) => {
     console.log(data);
+
+    auth.logInUser(data.email, data.password);
   };
 
   return (
-    <Form $justify="start" onSubmit={form.handleSubmit(onValid)}>
-      <FlexBox $gap="14px">
-        {loginFormFieldsInfo?.map((info) => {
-          return <FormInput {...info} />;
-        })}
-      </FlexBox>
+    <Form
+      $justify="start"
+      onSubmit={form.handleSubmit(onValid)}
+      style={{ flex: 1 }}
+    >
+      <FormFields
+        form={form}
+        fieldsInfo={loginFormFieldsInfo}
+        containerStyles={{ flex: 1, gap: "14px" }}
+      />
 
-      <ButtonPairBox $fDirection="row">
-        <AccentedBtn>Log in</AccentedBtn>
-        <BaseLink>{`Don’t have an account?`}</BaseLink>
-      </ButtonPairBox>
+      <FlexBox $align="start" $gap="16px">
+        <ButtonPairBox $fDirection="row">
+          <AccentedBtn type="submit">Log in</AccentedBtn>
+
+          <BaseLink href={"/register"}>{`Don’t have an account?`}</BaseLink>
+        </ButtonPairBox>
+
+        <TransparentBtn
+          onClick={() => {
+            signInWithGoogle();
+          }}
+        >
+          Log in with Google
+        </TransparentBtn>
+      </FlexBox>
     </Form>
   );
 };

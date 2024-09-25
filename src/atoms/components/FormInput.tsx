@@ -25,7 +25,7 @@ const FormInput = ({
       >
         <FlexBox $fDirection="row" $gap="10px">
           <StLabel htmlFor={name}>{label}</StLabel>
-          <StyledInput id={name} {...register} />
+          <StyledInput id={name} {...register(name)} />
         </FlexBox>
 
         {errors && <div>NO</div>}

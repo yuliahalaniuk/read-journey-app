@@ -18,6 +18,15 @@ export interface FilterFormData {
   author?: string;
 }
 
+export interface AddBookFormData {
+  title?: string;
+  author?: string;
+  pages?: number;
+}
+
+export interface PageFormData {
+  page?: number;
+}
 export interface FormFieldInfo<FormData extends FieldValues = FieldValues> {
   name?: Path<FormData>;
   label?: string;
@@ -77,6 +86,35 @@ export const filterFormFieldsInfo: FormFieldInfo<FilterFormData>[] = [
   {
     name: "author",
     label: "The author",
+    canBeHidden: true,
+    required: false,
+  },
+];
+
+export const addBookFormFieldsInfo: FormFieldInfo<AddBookFormData>[] = [
+  {
+    name: "title",
+    label: "Book title:",
+    required: false,
+  },
+  {
+    name: "author",
+    label: "The author:",
+    canBeHidden: true,
+    required: false,
+  },
+  {
+    name: "pages",
+    label: "Number of pages:",
+    canBeHidden: true,
+    required: false,
+  },
+];
+
+export const pageFormFieldsInfo: FormFieldInfo<PageFormData>[] = [
+  {
+    name: "page",
+    label: "Page number",
     canBeHidden: true,
     required: false,
   },

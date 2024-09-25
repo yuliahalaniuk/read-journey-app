@@ -1,14 +1,11 @@
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyle = createGlobalStyle`
 *,
 *::after,
 *::before {
   box-sizing: border-box;
 }
-
-// html {
-//   height: 100%;
-//   max-height: 100%;
-//   overflow: hidden;
-// }
 
 body {
   margin: 0;
@@ -17,7 +14,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #141414;
+  background-color: ${(p) => p.theme.background.main};
+  color: ${(p) => p.theme.main}
 }
 
 code {
@@ -80,10 +78,11 @@ img {
   max-width: 100%;
   height: auto;
 }
+
 input {
-  -webkit-appearance: none; /* Remove default WebKit styling */
-  -moz-appearance: none; /* Remove default Firefox styling */
-  appearance: none; /* Remove default styling */
+  -webkit-appearance: none; 
+  -moz-appearance: none; 
+  appearance: none; 
   
   border: none;
   outline: none;
@@ -94,10 +93,11 @@ input {
 
   font-family: inherit;
   font-size: 100%;
-  line-height: 1.15; /* Adjust line-height to 1.15 for better readability */
+  line-height: 1.15; 
 
   width: 100%;
   
   background: none;
   border-radius: 0;
 }
+`;

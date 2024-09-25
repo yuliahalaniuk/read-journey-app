@@ -1,12 +1,18 @@
 import { ToastContainer } from "react-toastify";
 import AppRoutes from "./AppRoutes/AppRoutes";
+import { ThemeProvider } from "styled-components";
+import { baseTheme } from "./theme";
+import { GlobalStyle } from "./theme/GlobalStyles";
 
-export interface AppProps {}
-export default function App(_props: AppProps) {
+export default function App() {
   return (
     <>
-      <AppRoutes />
-      <ToastContainer theme={"light"} autoClose={2000} />
+      <ThemeProvider theme={baseTheme}>
+        <GlobalStyle />
+
+        <AppRoutes />
+        <ToastContainer theme={"light"} autoClose={2000} />
+      </ThemeProvider>
     </>
   );
 }

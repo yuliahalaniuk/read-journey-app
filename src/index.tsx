@@ -1,19 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import "./index.scss";
+import ReactDOM from "react-dom/client";
 import App from './App';
 import reportWebVitals from "./test/reportWebVitals";
-import { ThemeProvider } from "styled-components";
-import { baseTheme } from "./theme";
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={baseTheme}>
-      <App />
-    </ThemeProvider>
+    <App />
   </React.StrictMode>
 );
 

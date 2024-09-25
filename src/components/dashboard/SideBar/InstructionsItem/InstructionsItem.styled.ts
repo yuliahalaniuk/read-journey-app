@@ -6,24 +6,28 @@ export const AvatarBox = styled(FlexBox)`
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  background: ${(p) => p.theme.background.light};
-  border: 1px solid ${(p) => p.theme.border.button};
+  background: ${(p) => p.theme.accentColor};
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 
   p {
     font-weight: 700;
-    font-size: 16px;
-    line-height: 112%;
+    font-size: 18px;
+    line-height: 100%;
     letter-spacing: -0.02em;
-    color: ${(p) => p.theme.text.main};
+    color: ${(p) => p.theme.text.inverted};
   }
 `;
 
-export const UserName = styled.p`
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 112%;
+export const Text = styled.p`
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 129%;
   letter-spacing: -0.02em;
   color: ${(p) => p.theme.text.main};
+
+  span {
+    color: ${(p) => p.theme.text.secondary};
+  }
 `;

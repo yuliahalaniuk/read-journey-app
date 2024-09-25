@@ -1,30 +1,30 @@
 import styled from "styled-components";
-import { FlexBox } from "../../../../atoms/Flex";
-import { navLinksData } from "../../../../data/navLinksData";
-import { useParams } from "react-router-dom";
+import { FlexLi, FlexUl } from "../../../../../atoms/Flex";
+import { navLinksData } from "../../../../../data/navLinksData";
+import { useLocation } from "react-router-dom";
 
-//ToDo це ліст
-
-const NavBar = ({ direction }: { direction?: string }) => {
-  const pathname = useParams();
-  console.log("para", pathname);
-
-  const isActive = "/home";
+const NavBar = ({ direction = "row" }: { direction?: string }) => {
+  const { pathname } = useLocation();
 
   return (
-    <FlexBox $fDirection={direction ? direction : "row"} $gap="32px">
+    <FlexUl
+      $fDirection={direction}
+      $gap={direction.includes("row") ? "32px" : "20px"}
+      $justify="center"
+      $align={direction.includes("column") ? "start" : "center"}
+    >
       {navLinksData?.map((info) => {
         return (
-          <NavLinkItem key={info?.id} $isActive={isActive === info?.href}>
+          <NavLinkItem key={info?.id} $isActive={pathname === info?.href}>
             <a href={info?.href}>{info?.label}</a>
           </NavLinkItem>
         );
       })}
-    </FlexBox>
+    </FlexUl>
   );
 };
 
-const NavLinkItem = styled(FlexBox)<{ $isActive?: boolean }>`
+const NavLinkItem = styled(FlexLi)<{ $isActive?: boolean }>`
   width: fit-content;
 
   a {
