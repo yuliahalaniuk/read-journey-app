@@ -5,19 +5,21 @@ import { instructionsData } from "../../../data/instructionsData";
 import FilterForm from "../../forms/FilterForm";
 import InstructionItem from "./InstructionsItem/InstructionItem";
 import { BaseLink } from "../../../atoms/BaseLink";
+import BookCard from "../Card/BookCard";
 
 const LibrarySideBar = () => {
+  const books = [];
   return (
     <BaseBox $gap="20px">
       <FilterForm />
 
       <SecondaryBaseBox $gap="20px">
-        <Title>Start your workout</Title>
+        <Title>Recommended</Title>
 
         <FlexUl $gap="20px">
-          {instructionsData?.map((instr) => {
-            return <InstructionItem key={instr?.id} {...instr} />;
-          })}
+          {/* {books?.map((book) => {
+            return <BookCard key={book?.id} {...book} />;
+          })} */}
         </FlexUl>
 
         <FlexBox
@@ -27,7 +29,7 @@ const LibrarySideBar = () => {
           $justify="space-between"
           $fDirection="row"
         >
-          <BaseLink href="/library">My library</BaseLink>
+          <BaseLink href="/library">Home</BaseLink>
           <ArrowBox>{`->`}</ArrowBox>
         </FlexBox>
       </SecondaryBaseBox>

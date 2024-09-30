@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import Modal from "../../atoms/Modal";
 import { FlexBox } from "../../atoms/Flex";
 import styled from "styled-components";
+import { TextWithAccent } from "../../atoms/Text";
 
 const SmallModal = ({ title, text }: { title?: string; text?: ReactNode }) => {
   return (
@@ -14,7 +15,7 @@ const SmallModal = ({ title, text }: { title?: string; text?: ReactNode }) => {
         </FlexBox>
 
         <Title>{title}</Title>
-        <MainText>{text}</MainText>
+        <TextWithAccent $primary={true}>{text}</TextWithAccent>
       </Modal.Body>
     </Modal.Backdrop>
   );
@@ -32,16 +33,5 @@ const Title = styled.p`
   text-align: center;
 `;
 
-const MainText = styled.p`
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 129%;
-  letter-spacing: -0.02em;
-  text-align: center;
-  color: ${(p) => p.theme.text.secondary};
 
-  span {
-    color: ${(p) => p.theme.text.main};
-  }
-`;
 export default SmallModal;
