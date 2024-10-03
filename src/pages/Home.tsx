@@ -1,23 +1,27 @@
-import React from "react";
-import Header from "../components/layout/Header/Header";
-import styled from "styled-components";
-import { FlexBox } from "../atoms/Flex";
 import HomeSideBar from "../components/dashboard/SideBar/HomeSideBar";
+import { BaseBox } from "../atoms/BaseBox";
+import MainLayout from "../components/layout/MainLayout/MainLayout";
+import { MainTitle } from "../atoms/Text";
+
+import BooksList from "../components/dashboard/BooksList/BooksList";
+import { BookEntity } from "../types/books";
 
 const Home = () => {
-  return (
-    <Container>
-      <Header />
-      {/* <TestComp /> */}
+  const handleBookSelect = (book?: BookEntity) => {
+    return "";
+  };
 
+  return (
+    <MainLayout>
       <HomeSideBar />
-    </Container>
+
+      <BaseBox $gap="40px">
+        <MainTitle>Recommended</MainTitle>
+
+        <BooksList onSelect={handleBookSelect} />
+      </BaseBox>
+    </MainLayout>
   );
 };
-
-const Container = styled(FlexBox)`
-  padding: 20px 20px 40px;
-  gap: 10px;
-`;
 
 export default Home;

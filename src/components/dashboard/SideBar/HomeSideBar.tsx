@@ -1,16 +1,23 @@
 import styled from "styled-components";
-import { BaseBox, SecondaryBaseBox } from "../../../atoms/BaseBox";
+import { SecondaryBaseBox } from "../../../atoms/BaseBox";
 import { FlexBox, FlexUl } from "../../../atoms/Flex";
 import { instructionsData } from "../../../data/instructionsData";
 import FilterForm from "../../forms/FilterForm";
 import InstructionItem from "./InstructionsItem/InstructionItem";
 import { BaseLink } from "../../../atoms/BaseLink";
-import BookCard from "../Card/BookCard";
+import { SidebarContainer } from "../../../atoms/SidebarContainer";
+import { TextWithAccent } from "../../../atoms/Text";
+import { useMediaQuery } from "react-responsive";
+import { isDesktopQuery } from "../../../utils/mediaQueries";
 
 const HomeSideBar = () => {
+  const isDesktop = useMediaQuery(isDesktopQuery);
+
   return (
-    <BaseBox $gap="20px">
-      <FilterForm />
+    <SidebarContainer $gap="20px">
+      <FlexBox className="FormContainer">
+        <FilterForm />
+      </FlexBox>
 
       <SecondaryBaseBox $gap="20px">
         <Title>Start your workout</Title>
@@ -32,15 +39,25 @@ const HomeSideBar = () => {
           <ArrowBox>{`->`}</ArrowBox>
         </FlexBox>
 
-        <BookCard
+        {/* <BookCard
           deleteAction={() => {
             console.log("hehe");
           }}
-        />
+        /> */}
       </SecondaryBaseBox>
-    </BaseBox>
+
+      {isDesktop && (
+        <SecondaryBaseBox>
+          <TextWithAccent>
+            "Books are <span>windows</span> to the world, and reading is a
+            journey into the unknown."
+          </TextWithAccent>
+        </SecondaryBaseBox>
+      )}
+    </SidebarContainer>
   );
 };
+
 
 const ArrowBox = styled.span`
   color: ${(p) => p.theme.text.main};

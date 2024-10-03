@@ -8,12 +8,17 @@ export const MainTitle = styled.p`
   color: ${(p) => p.theme.text.main};
 `;
 
-export const TextWithAccent = styled.p<{ $primary?: boolean }>`
+//ToDo css types
+
+export const TextWithAccent = styled.p<{
+  $primary?: boolean;
+  $textAlign?: string;
+}>`
   font-weight: 500;
   font-size: 14px;
   line-height: 129%;
   letter-spacing: -0.02em;
-  text-align: center;
+  text-align:  ${ p => p.$textAlign ?  p.$textAlign :'center' };
   color: ${(p) => (p.$primary ? p.theme.text.main : p.theme.text.secondary)};
 
   span {

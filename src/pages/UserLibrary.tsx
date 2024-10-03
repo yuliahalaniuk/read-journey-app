@@ -1,52 +1,45 @@
-import React from "react";
-import Header from "../components/layout/Header/Header";
-import { Container } from "../atoms/PageContainer";
 import LibrarySideBar from "../components/dashboard/SideBar/LibrarySideBar";
-import { BaseBox, SecondaryBaseBox } from "../atoms/BaseBox";
+import { BaseBox } from "../atoms/BaseBox";
 import { MainTitle } from "../atoms/Text";
-import BookCard from "../components/dashboard/Card/BookCard";
-import { FlexBox, FlexUl } from "../atoms/Flex";
-import TabPlaceholder from "../atoms/components/TabPlaceholder";
+import { FlexBox } from "../atoms/Flex";
 import SelectSt from "../atoms/components/Select";
+import MainLayout from "../components/layout/MainLayout/MainLayout";
+import BooksList from "../components/dashboard/BooksList/BooksList";
+
+const options = [
+  { value: "All", label: "all" },
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
 
 const UserLibrary = () => {
-  const books = [];
-
   return (
-    <Container>
-      <Header />
-
+    <MainLayout>
       <LibrarySideBar />
 
       <BaseBox $gap="40px">
-        <FlexBox $gap="40px" style={{ width: " 100%" }}>
+        <FlexBox
+          $gap="40px"
+          $fDirection="row"
+          $justify="space-between"
+          style={{ width: " 100%" }}
+        >
           <MainTitle>My library</MainTitle>
+
+          <SelectSt options={options} />
         </FlexBox>
 
-        {!!books.length ? (
-          <FlexUl $gap="20px">
-            {/* {books?.map((book) => {
-              return <BookCard key={book?.id} {...book} />;
-            })} */}
-          </FlexUl>
-        ) : (
-          <TabPlaceholder
-            size={130}
-            imgSrc={"https://picsum.photos/id/237/200/300"}
-            text={
-              <>
-                To start training, add <span>some of your books</span> or from
-                the recommended ones
-              </>
-            }
-          />
-        )}
-
-        <FlexBox style={{ padding: "16px", width: "100%" }}>
-          <SelectSt />
-        </FlexBox>
+        <BooksList
+          placeholderText={
+            <>
+              To start training, add <span>some of your books</span> or from the
+              recommended ones
+            </>
+          }
+        />
       </BaseBox>
-    </Container>
+    </MainLayout>
   );
 };
 

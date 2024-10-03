@@ -5,6 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import UserComponent from "./components/UserComponent/UserComponent";
 import NavBar from "./components/Navbar/NavBar";
 import LogoutBtn from "../../../atoms/LogoutBtn";
+import { Box } from "./Header.styled";
 
 const Header = () => {
   const isDesktop = useMediaQuery({
@@ -16,31 +17,33 @@ const Header = () => {
   });
 
   return (
-    <BaseBox $fDirection="row" $justify="space-between">
-      <FlexBox $align="start">
-        <img
-          src={isDesktop ? "/images/logo.png" : "/images/logoSmall.png"}
-          alt={"Logo"}
-          width={isDesktop ? 182 : 42}
-          height={17}
-        />
-      </FlexBox>
+    <Box>
+      <BaseBox $fDirection="row" $justify="space-between">
+        <FlexBox $align="start">
+          <img
+            src={isDesktop ? "/images/logo.png" : "/images/logoSmall.png"}
+            alt={"Logo"}
+            width={isDesktop ? 182 : 42}
+            height={17}
+          />
+        </FlexBox>
 
-      {!isMobile && <NavBar />}
+        {!isMobile && <NavBar />}
 
-      <FlexBox $fDirection="row" $gap="16px" $justify="end">
-        <UserComponent />
+        <FlexBox $fDirection="row" $gap="16px" $justify="end">
+          <UserComponent />
 
-        {isMobile ? (
-          <BaseButton>
-            {/* <MenuIcon /> */}
-            Menu
-          </BaseButton>
-        ) : (
-          <LogoutBtn />
-        )}
-      </FlexBox>
-    </BaseBox>
+          {isMobile ? (
+            <BaseButton>
+              {/* <MenuIcon /> */}
+              Menu
+            </BaseButton>
+          ) : (
+            <LogoutBtn />
+          )}
+        </FlexBox>
+      </BaseBox>
+    </Box>
   );
 };
 

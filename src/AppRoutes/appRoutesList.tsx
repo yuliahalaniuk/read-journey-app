@@ -7,6 +7,7 @@ import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "../providers/AuthProvider";
 import PublicRoute from "./PublicRoute";
 import ErrorBoundary from "./ErrorBoundary";
+import DiaryPage from "../pages/Diary";
 
 const WelcomePage = () => {
   return <Navigate to={"/register"} />;
@@ -30,6 +31,10 @@ export const appRoutesList = [
       {
         path: "/library",
         element: <UserLibrary />,
+      },
+      {
+        path: "/diary",
+        element: <DiaryPage />,
       },
     ],
   },

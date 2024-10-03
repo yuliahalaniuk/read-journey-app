@@ -1,27 +1,33 @@
 import Select from "react-select";
 import { baseTheme } from "../../theme";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
 
+interface SelectOption {
+  value: string;
+  label: string;
+}
 const customStyles = {
-  control: (provided: any) => ({
+  control: (provided: any, state: any) => ({
     ...provided,
     backgroundColor: "transparent",
     outline: "none",
     border: "1px solid #3e3e3e",
     borderRadius: "12px",
-    // padding: "14px",
     width: "153px",
     height: "46px",
     color: "red",
+    borderColor: state.isFocused
+      ? baseTheme.border.select
+      : baseTheme.border.select,
+    // position: "relative",
   }),
-  dropdownIndicator: (provided: any) => ({
+  dropdownIndicator: (provided: any, state: any) => ({
     ...provided,
     color: "#f9f9f9",
+    position: "relative",
+    borderColor: state.isFocused
+      ? baseTheme.border.select
+      : baseTheme.border.select,
   }),
   singleValue: (provided: any) => ({
     ...provided,
@@ -31,13 +37,17 @@ const customStyles = {
     letterSpacing: "-0.02em",
     color: "#f9f9f9",
   }),
-  menu: () => ({
+  menu: (provided: any) => ({
+    ...provided,
+    position: "absolute",
+    top: "100%",
+    left: 0,
     borderRadius: "12px",
-
     backgroundColor: baseTheme.background.light,
     padding: "8px 0",
   }),
-  menuList: () => ({
+  menuList: (provided: any) => ({
+    ...provided,
     borderRadius: "12px",
     backgroundColor: baseTheme.background.light,
     padding: "14px 0",
@@ -46,6 +56,7 @@ const customStyles = {
     display: "none",
   }),
   option: (provided: any, state: any) => ({
+    ...provided,
     padding: "10px 14px",
     borderBottom: "none",
     fontWeight: "500",
@@ -58,8 +69,16 @@ const customStyles = {
       : baseTheme.background.light,
   }),
 };
-const SelectSt = () => {
-  return <Select options={options} styles={customStyles} />;
+
+const SelectSt = ({ options }: { options?: SelectOption[] }) => {
+  return (
+    <Select
+      options={options}
+      styles={customStyles}
+      isSearchable={false}
+      defaultValue={options && options[0]}
+    />
+  );
 };
 
 export default SelectSt;

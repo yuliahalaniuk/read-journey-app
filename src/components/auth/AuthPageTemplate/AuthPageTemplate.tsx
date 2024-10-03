@@ -7,15 +7,14 @@ import {
   PictureBox,
 } from "./AuthPageTemplate.styled";
 import { useMediaQuery } from "react-responsive";
+import {
+  isTabletAndMoreQuery,
+  isTabletQuery,
+} from "../../../utils/mediaQueries";
 
 const AuthPageTemplate = ({ children }: { children?: ReactNode }) => {
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-width: 768px)",
-  });
-
-  const isTablet = useMediaQuery({
-    query: "(min-width: 768px) and (max-width: 1280px)",
-  });
+  const isDesktopOrLaptop = useMediaQuery(isTabletAndMoreQuery);
+  const isTablet = useMediaQuery(isTabletQuery);
 
   return (
     <MainContainer className="Main">

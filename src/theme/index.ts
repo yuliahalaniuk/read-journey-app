@@ -23,6 +23,7 @@ export const baseTheme = {
 
   border: {
     button: "rgba(249, 249, 249, 0.2)",
+    select: "#3e3e3e",
   },
 
   accentColor: "#f9f9f9",

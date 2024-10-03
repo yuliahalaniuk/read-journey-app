@@ -8,7 +8,7 @@ import { pageSchema } from "../../validation-schemes/pageValidation";
 //   console.log(data);
 // };
 
-type ActionType = "start" | "stop";
+export type ActionType = "start" | "stop";
 
 const textInfo = {
   start: {

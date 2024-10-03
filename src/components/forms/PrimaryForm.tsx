@@ -17,7 +17,7 @@ const PrimaryForm: React.FC<PrimaryFormProps> = ({
   ...props
 }) => {
   return (
-    <FlexForm onSubmit={onSubmit} $align="start">
+    <FlexForm onSubmit={onSubmit} $align="start" style={{ flex: 1 }}>
       <Title>{title}</Title>
 
       <FormFields {...props} />

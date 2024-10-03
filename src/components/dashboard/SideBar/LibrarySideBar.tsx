@@ -1,26 +1,27 @@
 import styled from "styled-components";
-import { BaseBox, SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { FlexBox, FlexUl } from "../../../atoms/Flex";
-import { instructionsData } from "../../../data/instructionsData";
+import { SecondaryBaseBox } from "../../../atoms/BaseBox";
+import { FlexBox } from "../../../atoms/Flex";
 import FilterForm from "../../forms/FilterForm";
-import InstructionItem from "./InstructionsItem/InstructionItem";
 import { BaseLink } from "../../../atoms/BaseLink";
-import BookCard from "../Card/BookCard";
+
+// import { useMediaQuery } from "react-responsive";
+// import { isTabletQuery } from "../../../utils/mediaQueries";
+import { SidebarContainer } from "../../../atoms/SidebarContainer";
+import BooksList from "../BooksList/BooksList";
 
 const LibrarySideBar = () => {
-  const books = [];
+  // const isTablet = useMediaQuery(isTabletQuery);
+
   return (
-    <BaseBox $gap="20px">
-      <FilterForm />
+    <SidebarContainer $gap="20px">
+      <FlexBox className="FormContainer">
+        <FilterForm />
+      </FlexBox>
 
       <SecondaryBaseBox $gap="20px">
         <Title>Recommended</Title>
 
-        <FlexUl $gap="20px">
-          {/* {books?.map((book) => {
-            return <BookCard key={book?.id} {...book} />;
-          })} */}
-        </FlexUl>
+        <BooksList CustomUl={FlexCont} />
 
         <FlexBox
           style={{
@@ -33,7 +34,7 @@ const LibrarySideBar = () => {
           <ArrowBox>{`->`}</ArrowBox>
         </FlexBox>
       </SecondaryBaseBox>
-    </BaseBox>
+    </SidebarContainer>
   );
 };
 
@@ -49,6 +50,19 @@ const Title = styled.p`
   text-align: center;
 
   color: ${(p) => p.theme.text.main};
+`;
+
+const FlexCont = styled.div`
+  /* display: grid; */
+  /* grid-template-rows: ; */
+  /* grid-template-columns: repeat(3, 1fr); */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  /* flex-wrap: nowrap; */
+  overflow: auto;
+  gap: 16px;
+  width: 100%;
 `;
 
 export default LibrarySideBar;

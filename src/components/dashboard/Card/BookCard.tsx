@@ -1,24 +1,31 @@
 import styled from "styled-components";
 import { FlexBox } from "../../../atoms/Flex";
 import DeleteBtn from "../../../atoms/DeleteBtn";
+import { BookEntity } from "../../../types/books";
+
+// ToDo button
 
 const BookCard = ({
-  img,
-  name,
-  subtext,
+  book,
   deleteAction,
+  onSelect,
 }: {
-  img?: any;
-  name?: string;
-  subtext?: string;
   deleteAction?: () => void;
+  onSelect?: (book: BookEntity) => void;
+  book: BookEntity;
 }) => {
+  const { cover_image, title, author } = book;
   return (
-    <FlexBox>
-      <img alt="hr" />
+    <FlexBox
+      style={{ flexShrink: 0, maxWidth: "71px", overflow: "hidden" }}
+      onClick={() => {
+        onSelect?.(book);
+      }}
+    >
+      <img alt="hr" src={cover_image} width={71} height={107} />
 
-      <NameText>{name}</NameText>
-      <SubText>{subtext}</SubText>
+      <NameText>{title}</NameText>
+      <SubText>{author}</SubText>
 
       {deleteAction && <DeleteBtn onClick={deleteAction} />}
     </FlexBox>
@@ -32,7 +39,10 @@ const NameText = styled.p`
   letter-spacing: -0.02em;
   color: ${(p) => p.theme.text.main};
   margin-bottom: 2px;
-  text-align: center;
+  text-align: left;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const SubText = styled.p`
@@ -41,8 +51,11 @@ const SubText = styled.p`
   line-height: 117%;
   letter-spacing: -0.02em;
   color: ${(p) => p.theme.text.secondary};
-  text-align: center;
+  text-align: left;
 
   margin-bottom: 4px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 export default BookCard;
