@@ -46,4 +46,5 @@ export const Backdrop = styled(FlexBox)<{ $hasChildren?: boolean }>`
 `;
 
 const Modal = { Backdrop, Body, CloseBtn };
+
 export default Modal;

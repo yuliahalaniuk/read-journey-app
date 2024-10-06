@@ -7,20 +7,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { filterSchema } from "../../validation-schemes/filterValidation";
 import PrimaryForm from "./PrimaryForm";
 
-const FilterForm = () => {
+const FilterForm = ({
+  onSubmit,
+}: {
+  onSubmit?: (data: FilterFormData) => void;
+}) => {
   const form = useForm<FilterFormData>({
     mode: "onBlur",
     reValidateMode: "onSubmit",
     resolver: yupResolver<FilterFormData>(filterSchema),
   });
 
-  const onValid = (data: FilterFormData) => {
-    console.log(data);
-  };
-
   return (
     <PrimaryForm
-      onSubmit={form.handleSubmit(onValid)}
+      onSubmit={onSubmit && form.handleSubmit(onSubmit)}
       title="Filters:"
       btnText="Apply"
       form={form}

@@ -1,44 +1,24 @@
-import React, { ReactNode, useEffect, useMemo, useState } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { BookEntity } from "../../../types/books";
 import { FlexLi } from "../../../atoms/Flex";
 import BookCard from "../Card/BookCard";
 import TabPlaceholder from "../../../atoms/components/TabPlaceholder";
 import styled from "styled-components";
+import { SizeTypeEnum } from "../../../types/global";
 
 const BooksList = ({
   placeholderText,
   onSelect,
   deleteAction,
   CustomUl,
+  books,
 }: {
   placeholderText?: ReactNode;
   onSelect?: (book?: BookEntity) => void;
-  deleteAction?: () => void;
+  deleteAction?: (bookId?: number) => void;
   CustomUl?: any;
+  books?: BookEntity[];
 }) => {
-  const [books, setBooks] = useState<BookEntity[]>([]);
-
-  useEffect(() => {
-    // const controller = new AbortController();
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://freetestapi.com/api/v1/books", {
-          // signal: controller.signal,
-        });
-        const data = await response.json();
-        console.log("data", data);
-        setBooks(data);
-      } catch (e: { name: string } | any) {
-        if (e.name !== "AbortError") {
-          console.error("Error", e);
-        }
-      }
-    };
-
-    fetchData();
-    // return () => controller.abort();
-  }, []);
-
   const renderList = useMemo(() => {
     if (CustomUl) {
       return (
@@ -74,12 +54,13 @@ const BooksList = ({
     );
   }, [CustomUl, books, deleteAction, onSelect]);
 
-  return !!books.length ? (
+  return !!books?.length ? (
     renderList
   ) : (
     <TabPlaceholder
-      size={130}
-      imgSrc={"https://picsum.photos/id/237/200/300"}
+      circleSizeType={SizeTypeEnum.M}
+      size={50}
+      imgSrc={"/images/books.png"}
       text={placeholderText ? placeholderText : <>Nothing found</>}
     />
   );

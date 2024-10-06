@@ -1,5 +1,3 @@
-import React from "react";
-import { SecondaryBaseBox } from "../../../atoms/BaseBox";
 import { FlexBox } from "../../../atoms/Flex";
 import { SidebarContainer } from "../../../atoms/SidebarContainer";
 import { SideBarTitle } from "../../../atoms/SideBarTitle";
@@ -7,6 +5,7 @@ import PageForm from "../../forms/PageForm";
 import { PageFormData } from "../../../data/formFieldsInfo";
 import { TextWithAccent } from "../../../atoms/Text";
 import { CircleImgWrapper } from "../../../atoms/CircleImgWrapper";
+import { SizeTypeEnum } from "../../../types/global";
 
 const DiarySideBar = () => {
   const handleSubmit = (data: PageFormData) => {
@@ -28,7 +27,7 @@ const DiarySideBar = () => {
         </TextWithAccent>
 
         <FlexBox>
-          <CircleImgWrapper $size={"100px"}>
+          <CircleImgWrapper $type={SizeTypeEnum.S}>
             <img src={"/images/star.png"} alt={"Star"} width={50} height={70} />
           </CircleImgWrapper>
         </FlexBox>

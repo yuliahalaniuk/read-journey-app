@@ -1,11 +1,7 @@
 import Select from "react-select";
 import { baseTheme } from "../../theme";
+import { SelectOptionEntity } from "../../types/global";
 
-
-interface SelectOption {
-  value: string;
-  label: string;
-}
 const customStyles = {
   control: (provided: any, state: any) => ({
     ...provided,
@@ -70,13 +66,22 @@ const customStyles = {
   }),
 };
 
-const SelectSt = ({ options }: { options?: SelectOption[] }) => {
+const SelectSt = ({
+  options,
+  value,
+  onChange,
+}: {
+  options?: SelectOptionEntity[];
+  value: SelectOptionEntity | null;
+  onChange: (p: SelectOptionEntity | null) => void;
+}) => {
   return (
     <Select
+      value={value}
+      onChange={onChange}
       options={options}
       styles={customStyles}
       isSearchable={false}
-      defaultValue={options && options[0]}
     />
   );
 };

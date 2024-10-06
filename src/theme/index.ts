@@ -38,6 +38,12 @@ export const baseTheme = {
     border: "rgba(232, 80, 80, 0.2)",
   },
 
+  breakpoints: {
+    mobile: "480px",
+    tablet: "768px",
+    desktop: "1280px",
+  },
+
   colors: {
     error: "#e90516",
     errorLight: "#ff6b6b",

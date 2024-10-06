@@ -3,32 +3,39 @@ import Modal from "../../atoms/Modal";
 import { FlexBox } from "../../atoms/Flex";
 import styled from "styled-components";
 import { TransparentBtn } from "../../atoms/Buttons";
+import { BookEntity } from "../../types/books";
 
 const BookModal = ({
-  name = "Hi hi",
-  subtext = "ahaha",
+  title = "Hi hi",
+  author = "ahaha",
+  cover_image,
   pages = "412 pages",
   btnOnClick,
   btnText = "Submit",
+  onClose,
 }: {
-  name?: string;
   pages?: string;
-  subtext?: string;
   btnOnClick?: () => void;
   btnText?: string;
-}) => {
+  onClose: () => void;
+} & BookEntity) => {
   return (
     <Modal.Backdrop>
       <Modal.Body $sizeType="m">
-        <Modal.CloseBtn>X</Modal.CloseBtn>
+        <Modal.CloseBtn onClick={onClose}>X</Modal.CloseBtn>
 
         <FlexBox style={{ margin: "18px" }}>
-          <img src="/images/iphone.png" alt={name} width={140} height={213} />
+          <img
+            src={cover_image ? cover_image : "/images/iphone.png"}
+            alt={title}
+            width={140}
+            height={213}
+          />
         </FlexBox>
 
         <FlexBox style={{ margin: "20px" }}>
-          <NameText>{name}</NameText>
-          <SubText>{subtext}</SubText>
+          <NameText>{title}</NameText>
+          <SubText>{author}</SubText>
           <PagesText>{pages}</PagesText>
         </FlexBox>
 

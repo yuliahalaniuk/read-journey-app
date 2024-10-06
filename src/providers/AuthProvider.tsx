@@ -8,8 +8,9 @@ import {
   UserCredential,
 } from "firebase/auth";
 import { createContext, ReactNode, useContext, useState } from "react";
-import { auth } from "../firebase/firebase";
+import { auth, database, db } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import { set, ref } from "firebase/database";
 
 export interface UserNeeded {
   accessToken?: string;
@@ -38,13 +39,27 @@ const AuthContext = createContext<AuthContextType | null>(null);
 const provider = new GoogleAuthProvider();
 
 export const TOKEN_LS_NAME = "access";
+export const USER_LS_NAME = "user";
+function writeUserData(
+  userId: string,
+  fields: Record<string, string | null | undefined>
+) {
+  set(ref(database, "users/" + userId), fields);
+}
 
 const getTokenFromLS = () => {
   return localStorage.getItem(TOKEN_LS_NAME) || "";
 };
+
+const getUserFromLS = () => {
+  const user = localStorage.getItem(USER_LS_NAME);
+  return user ? JSON.parse(user) : null;
+};
+
 export const AuthProvider = ({ children }: { children?: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(getUserFromLS);
   const [token, setToken] = useState<string>(getTokenFromLS);
+
   const nav = useNavigate();
   //   useEffect(() => {
   //     console.log("token", token);
@@ -57,6 +72,7 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
         email,
         password
       );
+
       const user = userCredential.user;
 
       const token = await user.getIdToken();
@@ -65,13 +81,25 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
         throw new Error("Failed to retrieve token.");
       }
 
-      console.log("Token retrieved:", token);
-
+      console.log("Token retrieved:", user);
       localStorage.setItem(TOKEN_LS_NAME, token);
       setUser(user);
       setToken(token);
 
+      const necessaryFields = {
+        name: user.displayName,
+        photoURL: user.photoURL,
+        email: user.email,
+        id: user.uid,
+      };
+
+      // set(userRef, {
+      //   displayName,
+      //   photoUrl,
+      // });
+
       nav("/home");
+      await writeUserData(user.uid, necessaryFields);
     } catch (error: any) {
       console.error("Login error:", error);
       console.error(`Error Code: ${error.code}, Message: ${error.message}`);
@@ -105,26 +133,35 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
       console.log("result", result);
       console.log("credential", credential);
+      const necessaryFields = {
+        name: user.displayName,
+        photoURL: user.photoURL,
+        email: user.email,
+        id: user.uid,
+      };
 
+      const userId = user.uid;
+
+      if (!token) {
+        throw new Error("Failed to retrieve token.");
+      }
       setUser(user);
-      setToken(token || "");
-      localStorage.setItem(TOKEN_LS_NAME, token || "");
+      setToken(token);
+      localStorage.setItem(TOKEN_LS_NAME, token);
+
+      await writeUserData(userId, necessaryFields);
     } catch (error: any) {
       console.log("error", error);
       console.error(`Error Code: ${error.code}, Message: ${error.message}`);
     }
   };
 
-  const logOut = () => {
-    signOut(auth)
-      .then(() => {
-        setUser(null);
-        setToken("");
-        localStorage.removeItem(TOKEN_LS_NAME);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+  const logOut = async () => {
+    const result = await signOut(auth);
+
+    setUser(null);
+    setToken("");
+    localStorage.removeItem(TOKEN_LS_NAME);
   };
 
   return (
@@ -136,7 +173,6 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
   );
 };
 
-// Custom hook to access the Auth context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

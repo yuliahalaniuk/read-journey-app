@@ -10,7 +10,7 @@ const UserComponent = () => {
   });
 
   return isDesktop ? (
-    <FlexBox $fDirection="row" $gap="8px">
+    <FlexBox $fDirection="row" $gap="8px" style={{ maxWidth: "max-content" }}>
       <AvatarBox>
         {/* <p> {user ? user?.name?.slice(1)?.toLocaleUpperCase() : "A"}</p> */}
         <p>A</p>

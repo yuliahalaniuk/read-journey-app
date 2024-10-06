@@ -8,20 +8,48 @@ import { BaseLink } from "../../../atoms/BaseLink";
 // import { isTabletQuery } from "../../../utils/mediaQueries";
 import { SidebarContainer } from "../../../atoms/SidebarContainer";
 import BooksList from "../BooksList/BooksList";
+import { BookEntity } from "../../../types/books";
+import { useEffect, useState } from "react";
+import { FilterFormData } from "../../../data/formFieldsInfo";
 
-const LibrarySideBar = () => {
-  // const isTablet = useMediaQuery(isTabletQuery);
+const LibrarySideBar = ({
+  handleFilterFormSubmit,
+}: {
+  handleFilterFormSubmit?: (data: FilterFormData) => void;
+}) => {
+  const [books, setBooks] = useState<BookEntity[]>([]);
+
+  useEffect(() => {
+    // const controller = new AbortController();
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://freetestapi.com/api/v1/books", {
+          // signal: controller.signal,
+        });
+        const data = await response.json();
+        // console.log("data", data);
+        setBooks(data);
+      } catch (e: { name: string } | any) {
+        if (e.name !== "AbortError") {
+          console.error("Error", e);
+        }
+      }
+    };
+
+    fetchData();
+    // return () => controller.abort();
+  }, []);
 
   return (
     <SidebarContainer $gap="20px">
       <FlexBox className="FormContainer">
-        <FilterForm />
+        <FilterForm onSubmit={handleFilterFormSubmit} />
       </FlexBox>
 
       <SecondaryBaseBox $gap="20px">
         <Title>Recommended</Title>
 
-        <BooksList CustomUl={FlexCont} />
+        <BooksList CustomUl={FlexCont} books={books} />
 
         <FlexBox
           style={{

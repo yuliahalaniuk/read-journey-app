@@ -7,3 +7,6 @@ export interface BookEntity {
   genre?: string[];
   publication_year?: number;
 }
+
+
+export const LS_BOOK_KEY = "read_app_books";

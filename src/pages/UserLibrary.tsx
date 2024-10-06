@@ -5,18 +5,39 @@ import { FlexBox } from "../atoms/Flex";
 import SelectSt from "../atoms/components/Select";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import BooksList from "../components/dashboard/BooksList/BooksList";
-
-const options = [
-  { value: "All", label: "all" },
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
+import { useLibrary } from "../providers/LibraryProvider";
+import { FilterFormData } from "../data/formFieldsInfo";
+import { useState } from "react";
+import { SelectOptionEntity } from "../types/global";
+import { libraryFilterOptions } from "../data/libraryFilterOptions";
+import { BaseButton } from "../atoms/Buttons";
+import { useModal } from "../providers/ModalProvider";
+import BookModal from "../components/modals/BookModal";
+import { useNavigate } from "react-router-dom";
 
 const UserLibrary = () => {
+  const [selectedOption, setSelectedOption] =
+    useState<SelectOptionEntity | null>(libraryFilterOptions[0]);
+
+  const { filteredBooks, deleteBook, deleteAllBooks, filterBooks } =
+    useLibrary();
+  const { showModal, hideModal } = useModal();
+  const nav = useNavigate();
+
+  const handleFilterFormSubmit = (data: FilterFormData) => {
+    console.log(data);
+  };
+
+  const handleChange = (option: SelectOptionEntity | null) => {
+    if (option) {
+      setSelectedOption(option);
+      filterBooks(option.value);
+    }
+  };
+
   return (
     <MainLayout>
-      <LibrarySideBar />
+      <LibrarySideBar handleFilterFormSubmit={handleFilterFormSubmit} />
 
       <BaseBox $gap="40px">
         <FlexBox
@@ -27,16 +48,49 @@ const UserLibrary = () => {
         >
           <MainTitle>My library</MainTitle>
 
-          <SelectSt options={options} />
+          <BaseButton
+            style={{
+              border: "1px solid red",
+              color: "red",
+            }}
+            onClick={() => {
+              deleteAllBooks();
+            }}
+          >
+            Delete All
+          </BaseButton>
+
+          <SelectSt
+            options={libraryFilterOptions}
+            value={selectedOption}
+            onChange={handleChange}
+          />
         </FlexBox>
 
         <BooksList
+          books={filteredBooks}
           placeholderText={
             <>
               To start training, add <span>some of your books</span> or from the
               recommended ones
             </>
           }
+          onSelect={(book) => {
+            showModal(
+              <BookModal
+                {...book}
+                btnText="Start Reading"
+                btnOnClick={() => {
+                  console.log("Reading started");
+                  nav(`/diary/${book?.id}`);
+                  // addBook(book);
+                  hideModal();
+                }}
+                onClose={hideModal}
+              />
+            );
+          }}
+          deleteAction={deleteBook}
         />
       </BaseBox>
     </MainLayout>

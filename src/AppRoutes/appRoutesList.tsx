@@ -8,6 +8,7 @@ import { AuthProvider } from "../providers/AuthProvider";
 import PublicRoute from "./PublicRoute";
 import ErrorBoundary from "./ErrorBoundary";
 import DiaryPage from "../pages/Diary";
+import { LibraryProvider } from "../providers/LibraryProvider";
 
 const WelcomePage = () => {
   return <Navigate to={"/register"} />;
@@ -20,7 +21,9 @@ export const appRoutesList = [
     errorElement: <ErrorBoundary />,
     element: (
       <AuthProvider>
-        <PrivateRoute />
+        <LibraryProvider>
+          <PrivateRoute />
+        </LibraryProvider>
       </AuthProvider>
     ),
     children: [
@@ -35,6 +38,7 @@ export const appRoutesList = [
       {
         path: "/diary",
         element: <DiaryPage />,
+        children: [{ path: ":id", element: <DiaryPage /> }],
       },
     ],
   },
