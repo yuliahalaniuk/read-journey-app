@@ -13,3 +13,5 @@ export const isDesktopQuery = {
 export const isTabletAndMoreQuery = {
   query: "(min-width: 768px)",
 };
+
+

@@ -1,23 +1,30 @@
-import React from "react";
 import styled from "styled-components";
 import { FlexBox } from "../../atoms/Flex";
-import { BaseButton } from "../../atoms/Buttons";
-import LogoutBtn from "../../atoms/LogoutBtn";
+import { BaseButton, TransparentBtn } from "../../atoms/Buttons";
 import NavBar from "../layout/Header/components/Navbar/NavBar";
 import Modal from "../../atoms/Modal";
 
 // s -small modal, m -biggerModal
-const MenuModal = () => {
+const MenuModal = ({
+  onClose,
+  pathname,
+  handleLogOut,
+}: {
+  onClose?: () => void;
+  pathname?: string;
+  handleLogOut?: () => void;
+}) => {
   return (
     <Modal.Backdrop>
       <MenuBody $align="center" $justify="space-between">
         <FlexBox $align="end">
-          <CloseBtn>X</CloseBtn>
+          <CloseBtn onClick={onClose}>X</CloseBtn>
         </FlexBox>
         <FlexBox style={{ paddingLeft: "50px" }}>
-          <NavBar direction="column" />
+          <NavBar direction="column" pathname={pathname} />
         </FlexBox>
-        <LogoutBtn />
+
+        <TransparentBtn onClick={handleLogOut}>Log out</TransparentBtn>
       </MenuBody>
     </Modal.Backdrop>
   );

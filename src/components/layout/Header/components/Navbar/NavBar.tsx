@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { FlexLi, FlexUl } from "../../../../../atoms/Flex";
 import { navLinksData } from "../../../../../data/navLinksData";
-import { useLocation } from "react-router-dom";
 
-const NavBar = ({ direction = "row" }: { direction?: string }) => {
-  const { pathname } = useLocation();
-
+const NavBar = ({
+  direction = "row",
+  pathname,
+}: {
+  direction?: string;
+  pathname?: string;
+}) => {
   return (
     <FlexUl
       $fDirection={direction}

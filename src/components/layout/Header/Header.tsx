@@ -6,15 +6,35 @@ import UserComponent from "./components/UserComponent/UserComponent";
 import NavBar from "./components/Navbar/NavBar";
 import LogoutBtn from "../../../atoms/LogoutBtn";
 import { Box } from "./Header.styled";
+import MenuIcon from "../../../assets/MenuIcon";
+import { isDesktopQuery } from "../../../utils/mediaQueries";
+import { useModal } from "../../../providers/ModalProvider";
+import MenuModal from "../../modals/MenuModal";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "../../../providers/AuthProvider";
 
 const Header = () => {
-  const isDesktop = useMediaQuery({
-    query: "(min-width: 1280px)",
-  });
-
+  const { showModal, hideModal } = useModal();
+  const isDesktop = useMediaQuery(isDesktopQuery);
   const isMobile = useMediaQuery({
     query: "(max-width: 767px)",
   });
+  const { pathname } = useLocation();
+  const auth = useAuth();
+
+  const handleLogOut = () => {
+    auth.logOut();
+  };
+
+  const handleMenuClick = () => {
+    showModal(
+      <MenuModal
+        onClose={hideModal}
+        pathname={pathname}
+        handleLogOut={handleLogOut}
+      />
+    );
+  };
 
   return (
     <Box>
@@ -28,15 +48,14 @@ const Header = () => {
           />
         </FlexBox>
 
-        {!isMobile && <NavBar />}
+        {!isMobile && <NavBar pathname={pathname} />}
 
         <FlexBox $fDirection="row" $gap="16px" $justify="end">
           <UserComponent />
 
           {isMobile ? (
-            <BaseButton>
-              {/* <MenuIcon /> */}
-              Menu
+            <BaseButton onClick={handleMenuClick}>
+              <MenuIcon />
             </BaseButton>
           ) : (
             <LogoutBtn />

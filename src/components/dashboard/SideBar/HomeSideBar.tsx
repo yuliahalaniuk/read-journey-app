@@ -38,17 +38,12 @@ const HomeSideBar = () => {
           <BaseLink href="/library">My library</BaseLink>
           <ArrowBox>{`->`}</ArrowBox>
         </FlexBox>
-
-        {/* <BookCard
-          deleteAction={() => {
-            console.log("hehe");
-          }}
-        /> */}
       </SecondaryBaseBox>
 
       {isDesktop && (
-        <SecondaryBaseBox>
-          <TextWithAccent>
+        <SecondaryBaseBox $fDirection="row" $gap="8px">
+          <img src={"/images/books.png"} alt={"Books"} width={40} height={40} />
+          <TextWithAccent $textAlign="left">
             "Books are <span>windows</span> to the world, and reading is a
             journey into the unknown."
           </TextWithAccent>
