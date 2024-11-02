@@ -26,7 +26,7 @@ const PageForm = ({
   onValid,
 }: {
   action: ActionType;
-  onValid: (d: PageFormData) => void;
+  onValid?: (d: PageFormData) => void;
 }) => {
   const form = useForm<PageFormData>({
     mode: "onBlur",
@@ -36,7 +36,7 @@ const PageForm = ({
 
   return (
     <PrimaryForm
-      onSubmit={form.handleSubmit(onValid)}
+      onSubmit={onValid && form.handleSubmit(onValid)}
       {...(action && textInfo[action])}
       form={form}
       fieldsInfo={pageFormFieldsInfo}

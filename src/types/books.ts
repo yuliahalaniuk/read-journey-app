@@ -1,11 +1,16 @@
 export interface BookEntity {
-  id?: number;
-  title?: string;
-  author?: string;
-  description?: string;
-  cover_image?: string;
-  genre?: string[];
-  publication_year?: number;
+  id?: string;
+  volumeInfo?: {
+    title?: string;
+    authors?: string[];
+    description?: string;
+    imageLinks?: {
+      thumbnail?: string;
+    };
+    categories?: string[];
+    publication_year?: number;
+    pageCount?: number;
+  };
 }
 
 

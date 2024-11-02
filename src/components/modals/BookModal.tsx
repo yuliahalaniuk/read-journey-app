@@ -6,19 +6,17 @@ import { TransparentBtn } from "../../atoms/Buttons";
 import { BookEntity } from "../../types/books";
 
 const BookModal = ({
-  title = "Hi hi",
-  author = "ahaha",
-  cover_image,
-  pages = "412 pages",
+  volumeInfo,
   btnOnClick,
   btnText = "Submit",
   onClose,
 }: {
-  pages?: string;
   btnOnClick?: () => void;
   btnText?: string;
   onClose: () => void;
-} & BookEntity) => {
+} & (BookEntity | undefined)) => {
+  const { title, authors, pageCount, imageLinks } = volumeInfo || {};
+
   return (
     <Modal.Backdrop>
       <Modal.Body $sizeType="m">
@@ -26,7 +24,11 @@ const BookModal = ({
 
         <FlexBox style={{ margin: "18px" }}>
           <img
-            src={cover_image ? cover_image : "/images/iphone.png"}
+            src={
+              imageLinks?.thumbnail
+                ? imageLinks?.thumbnail
+                : "/images/iphone.png"
+            }
             alt={title}
             width={140}
             height={213}
@@ -35,8 +37,10 @@ const BookModal = ({
 
         <FlexBox style={{ margin: "20px" }}>
           <NameText>{title}</NameText>
-          <SubText>{author}</SubText>
-          <PagesText>{pages}</PagesText>
+          {authors?.map((x) => (
+            <SubText>{x}</SubText>
+          ))}
+          <PagesText>{pageCount} pages</PagesText>
         </FlexBox>
 
         <TransparentBtn onClick={btnOnClick}>{btnText}</TransparentBtn>

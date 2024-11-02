@@ -10,30 +10,36 @@ const BookCard = ({
   deleteAction,
   onSelect,
 }: {
-  deleteAction?: (bookId?: number) => void;
+  deleteAction?: (bookId?: string) => void;
   onSelect?: (book: BookEntity) => void;
   book: BookEntity;
 }) => {
-  const { cover_image, title, author } = book;
+  const { volumeInfo, id } = book;
+  const { title, authors, imageLinks } = volumeInfo || {};
+
   return (
     <FlexBox
       style={{ flexShrink: 0, overflow: "hidden" }}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         onSelect?.(book);
       }}
     >
-      <img alt="hr" src={cover_image} width={71} height={107} />
+      <img alt="hr" src={imageLinks?.thumbnail} width={71} height={107} />
 
       <FlexBox $fDirection="row">
         <FlexBox>
           <NameText>{title}</NameText>
-          <SubText>{author}</SubText>
+          {authors?.map((x) => (
+            <SubText>{x}</SubText>
+          ))}
         </FlexBox>
 
         {deleteAction && (
           <DeleteBtn
-            onClick={() => {
-              deleteAction(book.id);
+            onClick={(e: any) => {
+              e.stopPropagation();
+              deleteAction(id);
             }}
           />
         )}

@@ -5,15 +5,17 @@ import { FlexBox } from "../atoms/Flex";
 import SelectSt from "../atoms/components/Select";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import BooksList from "../components/dashboard/BooksList/BooksList";
-import { useLibrary } from "../providers/LibraryProvider";
+import { useLibrary, userId } from "../providers/LibraryProvider";
 import { FilterFormData } from "../data/formFieldsInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SelectOptionEntity } from "../types/global";
 import { libraryFilterOptions } from "../data/libraryFilterOptions";
 import { BaseButton } from "../atoms/Buttons";
 import { useModal } from "../providers/ModalProvider";
 import BookModal from "../components/modals/BookModal";
 import { useNavigate } from "react-router-dom";
+import { database } from "../firebase/firebase";
+import { onValue, ref } from "firebase/database";
 
 const UserLibrary = () => {
   const [selectedOption, setSelectedOption] =
@@ -22,6 +24,7 @@ const UserLibrary = () => {
   const { filteredBooks, deleteBook, deleteAllBooks, filterBooks } =
     useLibrary();
   const { showModal, hideModal } = useModal();
+
   const nav = useNavigate();
 
   const handleFilterFormSubmit = (data: FilterFormData) => {
@@ -34,6 +37,17 @@ const UserLibrary = () => {
       filterBooks(option.value);
     }
   };
+
+  useEffect(() => {
+    // if (user) {
+    const userBooksRef = ref(database, `users/${userId}/stats`);
+
+    onValue(userBooksRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log("stats", data);
+    });
+    // }
+  }, []);
 
   return (
     <MainLayout>

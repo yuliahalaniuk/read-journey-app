@@ -16,16 +16,18 @@ const Home = () => {
 
   const [books, setBooks] = useState<BookEntity[]>([]);
 
+  
+
   useEffect(() => {
     // const controller = new AbortController();
     const fetchData = async () => {
       try {
-        const response = await fetch("https://freetestapi.com/api/v1/books", {
-          // signal: controller.signal,
-        });
+        const response = await fetch(
+          "https://www.googleapis.com/books/v1/volumes?q=*"
+        );
         const data = await response.json();
         console.log("data", data);
-        setBooks(data);
+        setBooks(data.items);
       } catch (e: { name: string } | any) {
         if (e.name !== "AbortError") {
           console.error("Error", e);

@@ -25,3 +25,16 @@ export const TextWithAccent = styled.p<{
     color: ${(p) => (p.$primary ? p.theme.text.secondary : p.theme.text.main)};
   }
 `;
+
+export const Text = styled.span<{
+  $primary?: boolean;
+  $textAlign?: string;
+  $size?: string;
+}>`
+  font-weight: 500;
+  font-size: ${(p) => (p.$size ? p.$size : "14px")};
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  text-align: ${(p) => (p.$textAlign ? p.$textAlign : "center")};
+  color: ${(p) => (p.$primary ? p.theme.text.main : p.theme.text.secondary)};
+`;

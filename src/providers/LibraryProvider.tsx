@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   ReactNode,
   useContext,
@@ -8,17 +8,17 @@ import React, {
 import { BookEntity, LS_BOOK_KEY } from "../types/books";
 import { ref, onValue, set, push, remove } from "firebase/database";
 import { database } from "../firebase/firebase";
-import { useAuth } from "./AuthProvider";
+// import { useAuth } from "./AuthProvider";
 
 interface LibraryCtxProps {
   books: BookEntity[];
   addBook: (book: BookEntity) => void;
-  deleteBook: (bookId?: number) => void;
+  deleteBook: (bookId?: string) => void;
   deleteAllBooks: () => void;
   filteredBooks: BookEntity[];
   filterBooks: (genre: string) => void;
 }
-const userId = "iMGF4aVTmyOJgdqJLpY5mnv9HY92";
+export const userId = "iMGF4aVTmyOJgdqJLpY5mnv9HY92";
 const LibraryCtx = createContext<LibraryCtxProps | undefined>(undefined);
 
 function writeBooksData(userId: string, book: BookEntity) {
@@ -30,7 +30,7 @@ function writeBooksData(userId: string, book: BookEntity) {
 export const LibraryProvider = ({ children }: { children?: ReactNode }) => {
   const [books, setBooks] = useState<BookEntity[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<BookEntity[]>([]);
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   useEffect(() => {
     // if (user) {
@@ -57,7 +57,9 @@ export const LibraryProvider = ({ children }: { children?: ReactNode }) => {
     if (genre === "all") {
       setFilteredBooks(books);
     } else {
-      const filtered = books.filter((book) => book?.genre?.includes(genre));
+      const filtered = books.filter((book) =>
+        book?.volumeInfo?.categories?.includes(genre)
+      );
       setFilteredBooks(filtered);
     }
   };
@@ -75,7 +77,7 @@ export const LibraryProvider = ({ children }: { children?: ReactNode }) => {
     // }
   };
 
-  const deleteBook = (bookId?: number) => {
+  const deleteBook = (bookId?: string) => {
     setBooks((prev) => {
       return prev.filter((x) => x.id !== bookId);
     });

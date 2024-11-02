@@ -25,7 +25,7 @@ const RegisterForm = () => {
     console.log(data);
 
     if (data.email && data.password) {
-      auth.registerUser(data.email, data.password);
+      auth.registerUser(data);
     }
   };
 

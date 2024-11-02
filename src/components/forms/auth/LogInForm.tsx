@@ -25,7 +25,7 @@ const LogInForm = () => {
   const onValid = (data: LoginFormData) => {
     console.log(data);
 
-    auth.logInUser(data.email, data.password);
+    auth.logInUser(data);
   };
 
   return (

@@ -15,7 +15,7 @@ const BooksList = ({
 }: {
   placeholderText?: ReactNode;
   onSelect?: (book?: BookEntity) => void;
-  deleteAction?: (bookId?: number) => void;
+  deleteAction?: (bookId?: string) => void;
   CustomUl?: any;
   books?: BookEntity[];
 }) => {
@@ -41,7 +41,7 @@ const BooksList = ({
       <GridBox>
         {books?.map((book) => {
           return (
-            <FlexLi key={book?.id} $justify="center">
+            <FlexLi key={book.id} $justify="center">
               <BookCard
                 book={book}
                 onSelect={onSelect}

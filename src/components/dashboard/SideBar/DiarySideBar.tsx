@@ -1,27 +1,80 @@
 import { FlexBox } from "../../../atoms/Flex";
 import { SidebarContainer } from "../../../atoms/SidebarContainer";
 import { SideBarTitle } from "../../../atoms/SideBarTitle";
-import PageForm from "../../forms/PageForm";
 import { PageFormData } from "../../../data/formFieldsInfo";
-import { TextWithAccent } from "../../../atoms/Text";
+import { Text, TextWithAccent } from "../../../atoms/Text";
 import { CircleImgWrapper } from "../../../atoms/CircleImgWrapper";
 import { SizeTypeEnum } from "../../../types/global";
 import { SecondaryBaseBox } from "../../../atoms/BaseBox";
-import PieChartIcon from "../../../assets/PieChartIcon";
-import HourGlassIcon from "../../../assets/HourGlassIcon";
-import { BaseButton } from "../../../atoms/Buttons";
-import { useMemo, useState } from "react";
 
-enum DiaryTabsEnum {
+import { useEffect, useMemo, useState } from "react";
+
+import { onValue, ref } from "firebase/database";
+import { database } from "../../../firebase/firebase";
+import { useLocation } from "react-router-dom";
+import { userId } from "../../../providers/LibraryProvider";
+import Layout from "./Diary/Layout";
+import DiaryTab from "./Diary/DiaryTab";
+import { BookEntity } from "../../../types/books";
+import DoughnutGraph from "./Doughnut/DoughnutGraph";
+
+export enum DiaryTabsEnum {
   Progress = "progress",
   Diary = "diary",
   Statistics = "statistics",
 }
 
-const DiarySideBar = () => {
-  const handleSubmit = (data: PageFormData) => {
-    console.log(data);
-  };
+const DiarySideBar = ({
+  handleSubmit,
+  isStarted,
+  book,
+}: {
+  handleSubmit?: (data: PageFormData) => void;
+  isStarted?: boolean;
+  book?: BookEntity;
+}) => {
+  const location = useLocation();
+  const path = location.pathname.split("/");
+  const bookId = path[path.length - 1];
+  const [stats, setStats] = useState<{ sessions?: any; totalRead?: number }>(
+    {}
+  );
+
+  const { doughnutData, readPerc } = useMemo(() => {
+    const totalRead = stats.totalRead || 0;
+    const pageCount = book?.volumeInfo?.pageCount || 0;
+
+    const readPerc =
+      pageCount > 0 ? ((totalRead * 100) / pageCount).toFixed(0) : "0";
+
+    const data = {
+      labels: ["Read", "Left"],
+      datasets: [
+        {
+          data: [totalRead, pageCount - totalRead],
+          backgroundColor: ["#30B94D", "#1F1F1F"],
+          borderColor: "transparent",
+          borderRadius: [12, 0],
+        },
+      ],
+    };
+
+    return {
+      doughnutData: data,
+      readPerc,
+    };
+  }, [book?.volumeInfo?.pageCount, stats.totalRead]);
+
+  useEffect(() => {
+    const userBooksRef = ref(database, `users/${userId}/stats/${bookId}`);
+
+    onValue(userBooksRef, (snapshot) => {
+      const data = snapshot.val();
+      // console.log("stats in sidebar", Object.entries(data));
+      setStats(data);
+    });
+  }, [bookId]);
+
   const [tab, setTab] = useState<DiaryTabsEnum>(DiaryTabsEnum.Statistics);
 
   const renderTab = useMemo(() => {
@@ -55,92 +108,71 @@ const DiarySideBar = () => {
 
     if (tab === DiaryTabsEnum.Diary) {
       return (
-        <FlexBox $gap="20px">
-          <FlexBox
-            $fDirection="row"
-            $justify="space-between"
-            style={{
-              width: "100%",
-            }}
-          >
-            <SideBarTitle>Diary</SideBarTitle>
-
-            <FlexBox
-              $fDirection="row"
-              style={{ flex: 1 }}
-              $justify="flex-end"
-              $gap="8px"
-            >
-              <BaseButton style={{ padding: 0 }}>
-                <HourGlassIcon />
-              </BaseButton>
-              <BaseButton
-                style={{ padding: 0 }}
-                onClick={() => {
-                  setTab(DiaryTabsEnum.Statistics);
-                }}
-              >
-                <PieChartIcon />
-              </BaseButton>
-            </FlexBox>
-          </FlexBox>
-          <SecondaryBaseBox $gap="20px"></SecondaryBaseBox>
-        </FlexBox>
+        <Layout
+          title="Diary"
+          handleChangeTab={(tab) => {
+            setTab(tab);
+          }}
+          tab={tab}
+        >
+          <SecondaryBaseBox $gap="20px" style={{ overflow: "auto" }}>
+            <DiaryTab stats={stats} bookPages={300} />
+          </SecondaryBaseBox>
+        </Layout>
       );
     }
 
     if (tab === DiaryTabsEnum.Statistics) {
       return (
-        <FlexBox $gap="20px">
-          <FlexBox
-            $fDirection="row"
-            $justify="space-between"
-            style={{
-              width: "100%",
-            }}
-          >
-            <SideBarTitle>Statistics</SideBarTitle>
-
-            <FlexBox
-              $fDirection="row"
-              style={{ flex: 1 }}
-              $justify="flex-end"
-              $gap="8px"
-            >
-              <BaseButton
-                style={{ padding: 0 }}
-                onClick={() => {
-                  setTab(DiaryTabsEnum.Diary);
-                }}
-              >
-                <HourGlassIcon />
-              </BaseButton>
-              <BaseButton style={{ padding: 0 }}>
-                <PieChartIcon />
-              </BaseButton>
-            </FlexBox>
-          </FlexBox>
-
+        <Layout
+          title="Diary"
+          handleChangeTab={(tab) => {
+            setTab(tab);
+          }}
+          tab={tab}
+        >
           <TextWithAccent $textAlign="left">
             Each page, each chapter is a new round of knowledge, a new step
             towards understanding. By rewriting statistics, we create our own
             reading history.
           </TextWithAccent>
-          <SecondaryBaseBox $gap="20px"></SecondaryBaseBox>
-        </FlexBox>
+          <SecondaryBaseBox $gap="20px">
+            <DoughnutGraph data={doughnutData} />
+
+            <FlexBox
+              $fDirection="row"
+              $gap="16px"
+              $justify="flex-start"
+              $align="flex-start"
+              style={{ maxWidth: "max-content" }}
+            >
+              <div
+                style={{
+                  width: "14px",
+                  height: "14px",
+                  backgroundColor: "#30B94D",
+                  borderRadius: "4px",
+                  flexShrink: 0,
+                  marginTop: "2px",
+                }}
+              ></div>
+
+              <FlexBox $gap="8px" $align="flex-start">
+                <Text $primary $textAlign="left" $size="20px">
+                  {readPerc}%
+                </Text>
+                <Text $textAlign="left">
+                  {(stats?.totalRead || 0) + " "}pages read
+                </Text>
+              </FlexBox>
+            </FlexBox>
+          </SecondaryBaseBox>
+        </Layout>
       );
     }
-  }, [tab]);
+  }, [doughnutData, readPerc, stats, tab]);
 
-  return (
-    <SidebarContainer $gap="20px">
-      <FlexBox className="FormContainer">
-        <PageForm onValid={handleSubmit} action={"start"} />
-      </FlexBox>
-
-      {renderTab}
-    </SidebarContainer>
-  );
+  return <SidebarContainer $gap="20px">{renderTab}</SidebarContainer>;
 };
 
 export default DiarySideBar;

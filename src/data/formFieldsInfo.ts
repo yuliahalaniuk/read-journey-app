@@ -2,10 +2,10 @@ import { HTMLInputTypeAttribute } from "react";
 import { FieldValues, Path } from "react-hook-form";
 
 export interface RegisterFormData {
-  email?: string;
-  name?: string;
+  email: string;
+  password: string;
 
-  password?: string;
+  name?: string;
 }
 
 export interface LoginFormData {
