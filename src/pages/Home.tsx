@@ -7,37 +7,21 @@ import BooksList from "../components/dashboard/BooksList/BooksList";
 import { BookEntity } from "../types/books";
 import { useModal } from "../providers/ModalProvider";
 import BookModal from "../components/modals/BookModal";
-import { useLibrary } from "../providers/LibraryProvider";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useAppDispatch } from "../redux/store";
+import { getAllBooksThunk } from "../redux/books/books.thunks";
+import { useBooksSelector } from "../redux/selectors";
+import { addOneThunk } from "../redux/library/library.thunks";
 
 const Home = () => {
   const { showModal, hideModal } = useModal();
-  const { addBook } = useLibrary();
-
-  const [books, setBooks] = useState<BookEntity[]>([]);
-
-  
+  // const { addBook } = useLibrary();
+  const dispatch = useAppDispatch();
+  const { books } = useBooksSelector();
 
   useEffect(() => {
-    // const controller = new AbortController();
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://www.googleapis.com/books/v1/volumes?q=*"
-        );
-        const data = await response.json();
-        console.log("data", data);
-        setBooks(data.items);
-      } catch (e: { name: string } | any) {
-        if (e.name !== "AbortError") {
-          console.error("Error", e);
-        }
-      }
-    };
-
-    fetchData();
-    // return () => controller.abort();
-  }, []);
+    dispatch(getAllBooksThunk());
+  }, [dispatch]);
 
   const handleBookSelect = (book?: BookEntity) => {
     if (!book) {
@@ -50,7 +34,8 @@ const Home = () => {
         btnText="Add to library"
         btnOnClick={() => {
           console.log("Added to library");
-          addBook(book);
+          // addBook(book);
+          dispatch(addOneThunk({ book }));
           hideModal();
         }}
         onClose={hideModal}

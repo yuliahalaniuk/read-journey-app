@@ -13,5 +13,11 @@ export interface BookEntity {
   };
 }
 
+export interface UserBookData {
+  totalRead: number;
+  sessions: SessionEntity[];
+}
+
+export interface SessionEntity {}
 
 export const LS_BOOK_KEY = "read_app_books";

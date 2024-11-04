@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../providers/AuthProvider";
+import { useAuthSelector } from "../redux/selectors";
 
 const PublicRoute = () => {
-  const auth = useAuth();
+  const auth = useAuthSelector();
 
   return !auth?.token ? <Outlet /> : <Navigate to="/home" />;
 };

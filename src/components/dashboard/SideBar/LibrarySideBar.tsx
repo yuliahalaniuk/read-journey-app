@@ -1,45 +1,38 @@
 import styled from "styled-components";
 import { SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox, FlexLi } from "../../../atoms/Flex";
 import FilterForm from "../../forms/FilterForm";
 import { BaseLink } from "../../../atoms/BaseLink";
-
-// import { useMediaQuery } from "react-responsive";
-// import { isTabletQuery } from "../../../utils/mediaQueries";
 import { SidebarContainer } from "../../../atoms/SidebarContainer";
-import BooksList from "../BooksList/BooksList";
-import { BookEntity } from "../../../types/books";
-import { useEffect, useState } from "react";
 import { FilterFormData } from "../../../data/formFieldsInfo";
+import { useBooksSelector } from "../../../redux/selectors";
+import BookCard from "../Card/BookCard";
+import Slider from "react-slick";
+import BooksList from "../BooksList/BooksList";
+import { useEffect, useState } from "react";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const LibrarySideBar = ({
   handleFilterFormSubmit,
 }: {
   handleFilterFormSubmit?: (data: FilterFormData) => void;
 }) => {
-  const [books, setBooks] = useState<BookEntity[]>([]);
+  const { recommended } = useBooksSelector();
+  const [sliderKey, setSliderKey] = useState(0);
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+  };
+
+  // Force re-render on mount
   useEffect(() => {
-    // const controller = new AbortController();
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://freetestapi.com/api/v1/books", {
-          // signal: controller.signal,
-        });
-        const data = await response.json();
-        // console.log("data", data);
-        setBooks(data);
-      } catch (e: { name: string } | any) {
-        if (e.name !== "AbortError") {
-          console.error("Error", e);
-        }
-      }
-    };
-
-    fetchData();
-    // return () => controller.abort();
-  }, []);
-
+    setSliderKey((prevKey: any) => prevKey + 1);
+  }, [recommended]);
   return (
     <SidebarContainer $gap="20px">
       <FlexBox className="FormContainer">
@@ -49,7 +42,31 @@ const LibrarySideBar = ({
       <SecondaryBaseBox $gap="20px">
         <Title>Recommended</Title>
 
-        <BooksList CustomUl={FlexCont} books={books} />
+        <BooksList CustomUl={FlexCont} books={recommended} />
+
+        <FlexBox
+          style={{
+            minHeight: "300px",
+            maxHeight: "310px",
+            maxWidth: "400px",
+            zIndex: 200,
+          }}
+          className="slider-container"
+        >
+          <StyledSlider key={sliderKey} {...settings}>
+            {recommended?.map((book) => {
+              return (
+                <FlexBox key={book.id} $justify="center">
+                  <BookCard
+                    book={book}
+                    // onSelect={onSelect}
+                    // deleteAction={deleteAction}
+                  />
+                </FlexBox>
+              );
+            })}
+          </StyledSlider>
+        </FlexBox>
 
         <FlexBox
           style={{
@@ -65,6 +82,34 @@ const LibrarySideBar = ({
     </SidebarContainer>
   );
 };
+
+const StyledSlider = styled(Slider)`
+  .slick-slider {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    user-select: none;
+    touch-action: pan-y;
+  }
+
+  .slick-list {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .slick-track {
+    display: flex;
+  }
+
+  .slick-slide {
+    display: block;
+    height: auto;
+  }
+
+  /* Customize dots, arrows, etc., as needed */
+`;
 
 const ArrowBox = styled.span`
   color: ${(p) => p.theme.text.main};

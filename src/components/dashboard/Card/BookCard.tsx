@@ -19,7 +19,7 @@ const BookCard = ({
 
   return (
     <FlexBox
-      style={{ flexShrink: 0, overflow: "hidden" }}
+      style={{ flexShrink: 0, overflow: "hidden", maxWidth: "220px" }}
       onClick={(e) => {
         e.stopPropagation();
         onSelect?.(book);
@@ -28,7 +28,7 @@ const BookCard = ({
       <img alt="hr" src={imageLinks?.thumbnail} width={71} height={107} />
 
       <FlexBox $fDirection="row">
-        <FlexBox>
+        <FlexBox style={{ overflow: "hidden" }}>
           <NameText>{title}</NameText>
           {authors?.map((x) => (
             <SubText>{x}</SubText>
@@ -56,7 +56,7 @@ const NameText = styled.p`
   color: ${(p) => p.theme.text.main};
   margin-bottom: 2px;
   text-align: left;
-
+  max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;

@@ -7,14 +7,10 @@ import {
   PictureBox,
 } from "./AuthPageTemplate.styled";
 import { useMediaQuery } from "react-responsive";
-import {
-  isTabletAndMoreQuery,
-  isTabletQuery,
-} from "../../../utils/mediaQueries";
+import { isTabletAndMoreQuery } from "../../../utils/mediaQueries";
 
 const AuthPageTemplate = ({ children }: { children?: ReactNode }) => {
   const isDesktopOrLaptop = useMediaQuery(isTabletAndMoreQuery);
-  const isTablet = useMediaQuery(isTabletQuery);
 
   return (
     <MainContainer className="Main">
@@ -34,11 +30,9 @@ const AuthPageTemplate = ({ children }: { children?: ReactNode }) => {
         </Title>
         {children}
       </Box>
-      {!isTablet && (
-        <PictureBox>
-          <img src="/images/iphone.png" alt={"Mobile"} />
-        </PictureBox>
-      )}
+      <PictureBox>
+        <img src="/images/iphone.png" alt={"Mobile"} />
+      </PictureBox>
     </MainContainer>
   );
 };

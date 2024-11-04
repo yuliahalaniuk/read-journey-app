@@ -1,3 +1,4 @@
+// <reference types="redux-persist" />
 {
   "compilerOptions": {
     "target": "es5",
@@ -17,7 +18,5 @@
     "jsx": "react-jsx",
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

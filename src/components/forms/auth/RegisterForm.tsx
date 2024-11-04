@@ -9,11 +9,12 @@ import { registrationSchema } from "../../../validation-schemes/registerValidati
 import { BaseLink } from "../../../atoms/BaseLink";
 import { AccentedBtn } from "../../../atoms/Buttons";
 import { FlexBox, FlexForm } from "../../../atoms/Flex";
-import { useAuth } from "../../../providers/AuthProvider";
 import FormFields from "../../../atoms/components/FormFields";
+import { useAppDispatch } from "../../../redux/store";
+import { registerUserThunk } from "../../../redux/auth/auth.thunks";
 
 const RegisterForm = () => {
-  const auth = useAuth();
+  const dispatch = useAppDispatch();
 
   const form = useForm<RegisterFormData>({
     mode: "onBlur",
@@ -25,7 +26,7 @@ const RegisterForm = () => {
     console.log(data);
 
     if (data.email && data.password) {
-      auth.registerUser(data);
+      dispatch(registerUserThunk(data));
     }
   };
 

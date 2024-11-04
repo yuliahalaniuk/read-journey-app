@@ -4,7 +4,6 @@ import LogInPage from "../pages/LogInPage";
 import RegisterPage from "../pages/RegisterPage";
 import UserLibrary from "../pages/UserLibrary";
 import PrivateRoute from "./PrivateRoute";
-import { AuthProvider } from "../providers/AuthProvider";
 import PublicRoute from "./PublicRoute";
 import ErrorBoundary from "./ErrorBoundary";
 import DiaryPage from "../pages/Diary";
@@ -20,11 +19,9 @@ export const appRoutesList = [
     path: "/",
     errorElement: <ErrorBoundary />,
     element: (
-      <AuthProvider>
-        <LibraryProvider>
-          <PrivateRoute />
-        </LibraryProvider>
-      </AuthProvider>
+      <LibraryProvider>
+        <PrivateRoute />
+      </LibraryProvider>
     ),
     children: [
       {
@@ -45,20 +42,12 @@ export const appRoutesList = [
   {
     path: "/",
     errorElement: <ErrorBoundary />,
-    element: (
-      <AuthProvider>
-        <PublicRoute />
-      </AuthProvider>
-    ),
+    element: <PublicRoute />,
     children: [
       {
         path: "/register",
 
-        element: (
-          <AuthProvider>
-            <RegisterPage />
-          </AuthProvider>
-        ),
+        element: <RegisterPage />,
       },
       {
         path: "/logIn",

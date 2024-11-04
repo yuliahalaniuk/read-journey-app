@@ -1,17 +1,17 @@
 import { BaseBox } from "../../../atoms/BaseBox";
-import { BaseButton } from "../../../atoms/Buttons";
+import { BaseButton, TransparentBtn } from "../../../atoms/Buttons";
 import { FlexBox } from "../../../atoms/Flex";
 import { useMediaQuery } from "react-responsive";
 import UserComponent from "./components/UserComponent/UserComponent";
 import NavBar from "./components/Navbar/NavBar";
-import LogoutBtn from "../../../atoms/LogoutBtn";
 import { Box } from "./Header.styled";
 import MenuIcon from "../../../assets/MenuIcon";
 import { isDesktopQuery } from "../../../utils/mediaQueries";
 import { useModal } from "../../../providers/ModalProvider";
 import MenuModal from "../../modals/MenuModal";
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../../../providers/AuthProvider";
+import { logOutThunk } from "../../../redux/auth/auth.thunks";
+import { useAppDispatch } from "../../../redux/store";
 
 const Header = () => {
   const { showModal, hideModal } = useModal();
@@ -20,10 +20,10 @@ const Header = () => {
     query: "(max-width: 767px)",
   });
   const { pathname } = useLocation();
-  const auth = useAuth();
+  const dispatch = useAppDispatch();
 
   const handleLogOut = () => {
-    auth.logOut();
+    dispatch(logOutThunk());
   };
 
   const handleMenuClick = () => {
@@ -58,7 +58,7 @@ const Header = () => {
               <MenuIcon />
             </BaseButton>
           ) : (
-            <LogoutBtn />
+            <TransparentBtn onClick={handleLogOut}>Log out</TransparentBtn>
           )}
         </FlexBox>
       </BaseBox>

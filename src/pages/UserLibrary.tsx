@@ -5,7 +5,6 @@ import { FlexBox } from "../atoms/Flex";
 import SelectSt from "../atoms/components/Select";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import BooksList from "../components/dashboard/BooksList/BooksList";
-import { useLibrary, userId } from "../providers/LibraryProvider";
 import { FilterFormData } from "../data/formFieldsInfo";
 import { useEffect, useState } from "react";
 import { SelectOptionEntity } from "../types/global";
@@ -14,15 +13,21 @@ import { BaseButton } from "../atoms/Buttons";
 import { useModal } from "../providers/ModalProvider";
 import BookModal from "../components/modals/BookModal";
 import { useNavigate } from "react-router-dom";
-import { database } from "../firebase/firebase";
-import { onValue, ref } from "firebase/database";
+import { useAppDispatch } from "../redux/store";
+import {
+  deleteAllThunk,
+  deleteOneThunk,
+  getAllThunk,
+} from "../redux/library/library.thunks";
+import { useAuthSelector, useLibrarySelector } from "../redux/selectors";
+import { getRecommendedThunk } from "../redux/books/books.thunks";
 
 const UserLibrary = () => {
   const [selectedOption, setSelectedOption] =
     useState<SelectOptionEntity | null>(libraryFilterOptions[0]);
-
-  const { filteredBooks, deleteBook, deleteAllBooks, filterBooks } =
-    useLibrary();
+  const dispatch = useAppDispatch();
+  const { user } = useAuthSelector();
+  const { books } = useLibrarySelector();
   const { showModal, hideModal } = useModal();
 
   const nav = useNavigate();
@@ -34,20 +39,13 @@ const UserLibrary = () => {
   const handleChange = (option: SelectOptionEntity | null) => {
     if (option) {
       setSelectedOption(option);
-      filterBooks(option.value);
+      // filterBooks(option.value);
     }
   };
-
   useEffect(() => {
-    // if (user) {
-    const userBooksRef = ref(database, `users/${userId}/stats`);
-
-    onValue(userBooksRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log("stats", data);
-    });
-    // }
-  }, []);
+    dispatch(getAllThunk());
+    dispatch(getRecommendedThunk());
+  }, [dispatch]);
 
   return (
     <MainLayout>
@@ -68,7 +66,7 @@ const UserLibrary = () => {
               color: "red",
             }}
             onClick={() => {
-              deleteAllBooks();
+              dispatch(deleteAllThunk({}));
             }}
           >
             Delete All
@@ -82,7 +80,7 @@ const UserLibrary = () => {
         </FlexBox>
 
         <BooksList
-          books={filteredBooks}
+          books={books}
           placeholderText={
             <>
               To start training, add <span>some of your books</span> or from the
@@ -98,13 +96,16 @@ const UserLibrary = () => {
                   console.log("Reading started");
                   nav(`/diary/${book?.id}`);
                   // addBook(book);
+
                   hideModal();
                 }}
                 onClose={hideModal}
               />
             );
           }}
-          deleteAction={deleteBook}
+          deleteAction={(id) => {
+            dispatch(deleteOneThunk({ bookId: id, userId: user?.uid }));
+          }}
         />
       </BaseBox>
     </MainLayout>

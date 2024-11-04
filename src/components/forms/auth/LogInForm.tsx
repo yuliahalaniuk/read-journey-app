@@ -9,23 +9,27 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 import { logInSchema } from "../../../validation-schemes/logInValidation";
-import { signInWithGoogle } from "../../../hooks/o_auth";
-import { useAuth } from "../../../providers/AuthProvider";
+
 import FormFields from "../../../atoms/components/FormFields";
+import { useAppDispatch } from "../../../redux/store";
+import {
+  logInUserThunk,
+  signInWithGoogleThunk,
+} from "../../../redux/auth/auth.thunks";
 
 const LogInForm = () => {
-  const auth = useAuth();
-
   const form = useForm<LoginFormData>({
     mode: "onBlur",
     reValidateMode: "onSubmit",
     resolver: yupResolver<LoginFormData>(logInSchema),
   });
 
+  const dispatch = useAppDispatch();
+
   const onValid = (data: LoginFormData) => {
     console.log(data);
 
-    auth.logInUser(data);
+    dispatch(logInUserThunk(data));
   };
 
   return (
@@ -49,7 +53,7 @@ const LogInForm = () => {
 
         <TransparentBtn
           onClick={() => {
-            signInWithGoogle();
+            dispatch(signInWithGoogleThunk());
           }}
         >
           Log in with Google

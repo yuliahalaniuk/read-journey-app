@@ -15,6 +15,8 @@ import { database } from "../firebase/firebase";
 import { userId } from "../providers/LibraryProvider";
 import { useModal } from "../providers/ModalProvider";
 import PageModal from "../components/modals/PageModal";
+import { useAppDispatch } from "../redux/store";
+import { addReadingSessionThunk } from "../redux/library/library.thunks";
 
 // export const updateFirebaseReadingData = async (
 //   bookId: string,
@@ -38,62 +40,63 @@ import PageModal from "../components/modals/PageModal";
 //   await push(readingRef, newSession);
 // };
 
-export const updateFirebaseReadingData = async ({
-  userId,
-  bookId,
-  pagesRead,
-  startTime,
-}: {
-  userId: string;
-  bookId: string;
-  pagesRead: number;
-  startTime: number;
-}) => {
-  const currentDate = new Date().toISOString().split("T")[0];
-  const readingRef = ref(database, `users/${userId}/stats/${bookId}`);
-  const sessionDuration = Math.floor((Date.now() - startTime) / 1000); // Duration in seconds
+// export const updateFirebaseReadingData = async ({
+//   userId,
+//   bookId,
+//   pagesRead,
+//   startTime,
+// }: {
+//   userId: string;
+//   bookId: string;
+//   pagesRead: number;
+//   startTime: number;
+// }) => {
+//   const currentDate = new Date().toISOString().split("T")[0];
+//   const readingRef = ref(database, `users/${userId}/stats/${bookId}`);
+//   const sessionDuration = Math.floor((Date.now() - startTime) / 1000); // Duration in seconds
 
-  // New session data
-  const newSession = {
-    pagesRead,
-    startTime,
-    endTime: Date.now(),
-    duration: sessionDuration,
-  };
+//   // New session data
+//   const newSession = {
+//     pagesRead,
+//     startTime,
+//     endTime: Date.now(),
+//     duration: sessionDuration,
+//   };
 
-  // Retrieve the existing book data
-  const snapshot = await get(readingRef);
-  const bookData = snapshot.exists()
-    ? snapshot.val()
-    : { totalRead: 0, sessions: {} };
+//   // Retrieve the existing book data
+//   const snapshot = await get(readingRef);
+//   const bookData = snapshot.exists()
+//     ? snapshot.val()
+//     : { totalRead: 0, sessions: {} };
 
-  // Update totalRead and add the new session
-  const updatedTotalRead = bookData.totalRead + pagesRead;
-  const updatedSessions = {
-    ...bookData.sessions,
-    [currentDate]: {
-      ...(bookData.sessions[currentDate] || {}),
-      [push(ref(database)).key as any]: newSession,
-    },
-  };
+//   // Update totalRead and add the new session
+//   const updatedTotalRead = bookData.totalRead + pagesRead;
+//   const updatedSessions = {
+//     ...bookData.sessions,
+//     [currentDate]: {
+//       ...(bookData.sessions[currentDate] || {}),
+//       [push(ref(database)).key as any]: newSession,
+//     },
+//   };
 
-  // Update Firebase with the new data
-  await set(readingRef, {
-    totalRead: updatedTotalRead,
-    sessions: updatedSessions,
-  });
+//   // Update Firebase with the new data
+//   await set(readingRef, {
+//     totalRead: updatedTotalRead,
+//     sessions: updatedSessions,
+//   });
 
-  console.log("Updated book data:", {
-    totalRead: updatedTotalRead,
-    sessions: updatedSessions,
-  });
-};
+//   console.log("Updated book data:", {
+//     totalRead: updatedTotalRead,
+//     sessions: updatedSessions,
+//   });
+// };
 
 const DiaryPage = () => {
   const location = useLocation();
   const path = location.pathname.split("/");
   const bookId = path[path.length - 1];
   const { showModal, hideModal } = useModal();
+  const dispatch = useAppDispatch();
 
   console.log("bookId", bookId);
   const [book, setBook] = useState<BookEntity>({});
@@ -135,12 +138,15 @@ const DiaryPage = () => {
       const pagesRead = (data?.page || 0) - (startRef.current.page || 0);
       setIsStarted(false);
 
-      updateFirebaseReadingData({
-        bookId,
-        pagesRead,
-        startTime: startRef.current.time || 0,
-        userId,
-      });
+      dispatch(
+        addReadingSessionThunk({
+          bookId,
+          pagesRead,
+          startTime: startRef.current.time || 0,
+          userId,
+        })
+      );
+      // updateFirebaseReadingData({});
     }
   };
 

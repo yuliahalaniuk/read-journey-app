@@ -7,7 +7,7 @@ import {
   signInWithGoogleThunk,
 } from "./auth.thunks";
 
-interface AuthState {
+export interface AuthState {
   user: User | null;
   token: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";

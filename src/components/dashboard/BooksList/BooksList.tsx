@@ -19,6 +19,7 @@ const BooksList = ({
   CustomUl?: any;
   books?: BookEntity[];
 }) => {
+  console.log("books", books);
   const renderList = useMemo(() => {
     if (CustomUl) {
       return (

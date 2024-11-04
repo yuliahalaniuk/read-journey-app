@@ -28,30 +28,36 @@ export const ImgContainer = styled(FlexBox)`
 `;
 
 export const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, minmax(50vh, 1fr));
   gap: 10px;
   padding: 20px;
   width: 100%;
   max-width: 375px;
   margin: 0 auto;
-  height: 100vh;
+  min-height: 100vh;
+  overflow: auto;
 
   @media screen and (min-width: 768px) {
+    grid-template-rows: repeat(2, minmax(50vh, 1fr));
+
     max-width: 768px;
     padding: 32px;
-
-    flex-direction: row;
-    gap: 16px;
   }
 
   @media screen and (min-width: 1280px) {
     max-width: 1280px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 16px;
   }
 `;
 
 export const Box = styled(BaseBox)`
   padding: 20px;
+  overflow: hidden;
+
   @media screen and (min-width: 768px) {
     padding: 40px 64px;
   }
