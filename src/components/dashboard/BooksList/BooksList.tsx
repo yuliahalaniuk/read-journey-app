@@ -19,7 +19,6 @@ const BooksList = ({
   CustomUl?: any;
   books?: BookEntity[];
 }) => {
-  console.log("books", books);
   const renderList = useMemo(() => {
     if (CustomUl) {
       return (
@@ -67,7 +66,7 @@ const BooksList = ({
   );
 };
 
-const GridBox = styled.ul`
+export const GridBox = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;

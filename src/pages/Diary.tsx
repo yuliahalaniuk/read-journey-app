@@ -16,7 +16,11 @@ import { userId } from "../providers/LibraryProvider";
 import { useModal } from "../providers/ModalProvider";
 import PageModal from "../components/modals/PageModal";
 import { useAppDispatch } from "../redux/store";
-import { addReadingSessionThunk } from "../redux/library/library.thunks";
+import {
+  addReadingSessionThunk,
+  getOneThunk,
+} from "../redux/library/library.thunks";
+import { useLibrarySelector } from "../redux/selectors";
 
 // export const updateFirebaseReadingData = async (
 //   bookId: string,
@@ -99,7 +103,7 @@ const DiaryPage = () => {
   const dispatch = useAppDispatch();
 
   console.log("bookId", bookId);
-  const [book, setBook] = useState<BookEntity>({});
+  const { currentBook } = useLibrarySelector();
   const [isStarted, setIsStarted] = useState(false);
   const startRef = useRef<{
     page?: number;
@@ -107,28 +111,8 @@ const DiaryPage = () => {
   }>({});
 
   useEffect(() => {
-    // const controller = new AbortController();
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          // `https://freetestapi.com/api/v1/books/${bookId}`,
-          `https://www.googleapis.com/books/v1/volumes/${bookId}`,
-          {
-            // signal: controller.signal,
-          }
-        );
-        const data = await response.json();
-        console.log("data", data);
-        setBook(data);
-      } catch (e: { name: string } | any) {
-        if (e.name !== "AbortError") {
-          console.error("Error", e);
-        }
-      }
-    };
-
-    fetchData();
-  }, [bookId]);
+    dispatch(getOneThunk({ bookId }));
+  }, [dispatch, bookId]);
 
   const handlePageFormSubmit = (data: PageFormData) => {
     if (!isStarted) {
@@ -146,7 +130,6 @@ const DiaryPage = () => {
           userId,
         })
       );
-      // updateFirebaseReadingData({});
     }
   };
 
@@ -159,7 +142,7 @@ const DiaryPage = () => {
       <DiarySideBar
         handleSubmit={handlePageFormSubmit}
         isStarted={isStarted}
-        book={book}
+        book={currentBook}
       />
 
       <BaseBox>
@@ -167,19 +150,19 @@ const DiaryPage = () => {
           <FlexBox style={{ margin: "18px" }}>
             <img
               src={
-                book?.volumeInfo?.imageLinks?.thumbnail
-                  ? book?.volumeInfo.imageLinks?.thumbnail
+                currentBook?.volumeInfo?.imageLinks?.thumbnail
+                  ? currentBook?.volumeInfo.imageLinks?.thumbnail
                   : "/images/iphone.png"
               }
-              alt={book?.volumeInfo?.title}
+              alt={currentBook?.volumeInfo?.title}
               width={140}
               height={213}
             />
           </FlexBox>
 
           <FlexBox style={{ margin: "20px" }}>
-            <NameText>{book?.volumeInfo?.title}</NameText>
-            {book?.volumeInfo?.authors?.map((x) => (
+            <NameText>{currentBook?.volumeInfo?.title}</NameText>
+            {currentBook?.volumeInfo?.authors?.map((x: string) => (
               <SubText>{x}</SubText>
             ))}
           </FlexBox>

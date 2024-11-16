@@ -47,7 +47,7 @@ const DiaryTab = ({
 
               <FlexBox $gap="28px">
                 {Object.values(sessions as any).map((session: any) => {
-                  const time = (session.endTime - session.startTime) / 1000;
+                  const time = session.duration / 1000000;
                   console.log("session in here", session);
                   return (
                     <FlexBox
@@ -61,7 +61,8 @@ const DiaryTab = ({
                             "%"}
                         </Text>
                         <Text $textAlign="left">
-                          {`${session.pagesRead} pages read`}
+                          {/* {`${session.pagesRead} pages read`} */}
+                          {/* {(time / 60).toFloor()}minutes */}
                         </Text>
                       </FlexBox>
 

@@ -17,6 +17,7 @@ import Layout from "./Diary/Layout";
 import DiaryTab from "./Diary/DiaryTab";
 import { BookEntity } from "../../../types/books";
 import DoughnutGraph from "./Doughnut/DoughnutGraph";
+import { useLibrarySelector } from "../../../redux/selectors";
 
 export enum DiaryTabsEnum {
   Progress = "progress",
@@ -36,12 +37,13 @@ const DiarySideBar = ({
   const location = useLocation();
   const path = location.pathname.split("/");
   const bookId = path[path.length - 1];
-  const [stats, setStats] = useState<{ sessions?: any; totalRead?: number }>(
-    {}
-  );
+  const [stats, setStats] = useState<{ sessions?: any; totalRead?: number }>({
+    totalRead: 0,
+  });
+  const { currentBook } = useLibrarySelector();
 
   const { doughnutData, readPerc } = useMemo(() => {
-    const totalRead = stats.totalRead || 0;
+    const totalRead = stats?.totalRead || 0;
     const pageCount = book?.volumeInfo?.pageCount || 0;
 
     const readPerc =
@@ -63,14 +65,14 @@ const DiarySideBar = ({
       doughnutData: data,
       readPerc,
     };
-  }, [book?.volumeInfo?.pageCount, stats.totalRead]);
+  }, [book?.volumeInfo?.pageCount, stats?.totalRead]);
 
   useEffect(() => {
     const userBooksRef = ref(database, `users/${userId}/stats/${bookId}`);
 
     onValue(userBooksRef, (snapshot) => {
       const data = snapshot.val();
-      // console.log("stats in sidebar", Object.entries(data));
+      console.log("stats in sidebar", data);
       setStats(data);
     });
   }, [bookId]);
@@ -116,7 +118,10 @@ const DiarySideBar = ({
           tab={tab}
         >
           <SecondaryBaseBox $gap="20px" style={{ overflow: "auto" }}>
-            <DiaryTab stats={stats} bookPages={300} />
+            <DiaryTab
+              stats={stats}
+              bookPages={currentBook.volumeInfo.pageCount}
+            />
           </SecondaryBaseBox>
         </Layout>
       );
@@ -125,7 +130,7 @@ const DiarySideBar = ({
     if (tab === DiaryTabsEnum.Statistics) {
       return (
         <Layout
-          title="Diary"
+          title="Statistics"
           handleChangeTab={(tab) => {
             setTab(tab);
           }}

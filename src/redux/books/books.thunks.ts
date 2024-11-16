@@ -2,10 +2,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getAllBooksThunk = createAsyncThunk(
   "books/getAll",
-  async (_, { rejectWithValue }) => {
+  async ({ query }: { query?: string }, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        "https://www.googleapis.com/books/v1/volumes?q=*"
+        `https://www.googleapis.com/books/v1/volumes?q=${query ? query : "*"}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch books data");

@@ -1,118 +1,182 @@
 import styled from "styled-components";
 import { SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { FlexBox, FlexLi } from "../../../atoms/Flex";
-import FilterForm from "../../forms/FilterForm";
+import { FlexBox } from "../../../atoms/Flex";
 import { BaseLink } from "../../../atoms/BaseLink";
 import { SidebarContainer } from "../../../atoms/SidebarContainer";
-import { FilterFormData } from "../../../data/formFieldsInfo";
 import { useBooksSelector } from "../../../redux/selectors";
-import BookCard from "../Card/BookCard";
-import Slider from "react-slick";
-import BooksList from "../BooksList/BooksList";
+import BookCard, { CardSize } from "../Card/BookCard";
 import { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import ArrowRight from "../../../assets/ArrowRight";
+import AddBookForm from "../../forms/AddBookForm";
+import { useAppDispatch } from "../../../redux/store";
+import { addOneThunk } from "../../../redux/library/library.thunks";
+import { nanoid } from "@reduxjs/toolkit";
 
-const LibrarySideBar = ({
-  handleFilterFormSubmit,
-}: {
-  handleFilterFormSubmit?: (data: FilterFormData) => void;
-}) => {
+const LibrarySideBar = () => {
   const { recommended } = useBooksSelector();
-  const [sliderKey, setSliderKey] = useState(0);
+  const [sliderKey, setSliderKey] = useState<number>(0);
+  const dispatch = useAppDispatch();
+
+  const handleAddBookFormSubmit = (data: any) => {
+    console.log("data", data);
+
+    dispatch(
+      addOneThunk({
+        book: {
+          id: nanoid(9),
+          volumeInfo: {
+            title: data.title,
+            pageCount: data.pages,
+            authors: [data.author],
+          },
+        },
+      })
+    );
+  };
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
 
   // Force re-render on mount
   useEffect(() => {
-    setSliderKey((prevKey: any) => prevKey + 1);
+    setSliderKey((prevKey: number) => prevKey + 1);
   }, [recommended]);
+
   return (
     <SidebarContainer $gap="20px">
       <FlexBox className="FormContainer">
-        <FilterForm onSubmit={handleFilterFormSubmit} />
+        <AddBookForm onValid={handleAddBookFormSubmit} />
       </FlexBox>
 
       <SecondaryBaseBox $gap="20px">
         <Title>Recommended</Title>
 
-        <BooksList CustomUl={FlexCont} books={recommended} />
-
-        <FlexBox
-          style={{
-            minHeight: "300px",
-            maxHeight: "310px",
-            maxWidth: "400px",
-            zIndex: 200,
-          }}
-          className="slider-container"
-        >
-          <StyledSlider key={sliderKey} {...settings}>
-            {recommended?.map((book) => {
-              return (
+        <FlexBox $align="stretch">
+          {recommended && recommended.length > 0 ? (
+            <StyledSlider key={sliderKey} {...settings}>
+              {recommended.map((book) => (
                 <FlexBox key={book.id} $justify="center">
-                  <BookCard
-                    book={book}
-                    // onSelect={onSelect}
-                    // deleteAction={deleteAction}
-                  />
+                  <BookCard book={book} size={CardSize.Small} />
                 </FlexBox>
-              );
-            })}
-          </StyledSlider>
+              ))}
+            </StyledSlider>
+          ) : (
+            <p>No recommendations available</p>
+          )}
         </FlexBox>
 
-        <FlexBox
+        <BaseLink
+          href="/library"
           style={{
+            display: "flex",
+            justifyContent: "space-between",
             width: "100%",
+            alignItems: "center",
           }}
-          $justify="space-between"
-          $fDirection="row"
         >
-          <BaseLink href="/library">Home</BaseLink>
-          <ArrowBox>{`->`}</ArrowBox>
-        </FlexBox>
+          <span>Home</span>
+          <ArrowRight />
+        </BaseLink>
       </SecondaryBaseBox>
     </SidebarContainer>
   );
 };
 
-const StyledSlider = styled(Slider)`
-  .slick-slider {
-    position: relative;
+const ArrowButton = styled.button`
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  color: red;
+  z-index: 100;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background: ${(p) => p.theme.primary};
+    color: red;
+  }
+
+  &:before {
+    content: "";
     display: block;
-    box-sizing: border-box;
-    user-select: none;
-    touch-action: pan-y;
+    font-size: 20px;
+    font-weight: bold;
+    width: 40px;
+    height: 40px;
+    color: ${(p) => p.theme.text.main};
   }
 
-  .slick-list {
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    max-width: 100%;
+  &.slick-prev {
+
+    &:before {
+      content: "<";
+    }
   }
 
-  .slick-track {
-    display: flex;
-  }
+  &.slick-next {
 
-  .slick-slide {
-    display: block;
-    height: auto;
-  }
-
-  /* Customize dots, arrows, etc., as needed */
+    &:before {
+      content: ">";
+    }
+  } */
 `;
 
-const ArrowBox = styled.span`
-  color: ${(p) => p.theme.text.main};
+const NextArrow = (props: any) => {
+  const { onClick, style } = props;
+  return (
+    <ArrowButton
+      className="slick-next"
+      onClick={onClick}
+      style={{
+        ...style,
+        display: "block",
+        width: "40px",
+        height: "40px",
+        color: "red",
+      }}
+    >{`>`}</ArrowButton>
+  );
+};
+
+const PrevArrow = (props: any) => {
+  const { onClick, style } = props;
+  return (
+    <ArrowButton
+      className="slick-prev"
+      onClick={onClick}
+      style={{
+        ...style,
+        display: "block",
+        width: "40px",
+        height: "40px",
+        color: "red",
+      }}
+    >{`<`}</ArrowButton>
+  );
+};
+
+const StyledSlider = styled(Slider)`
+  .slick-track {
+    display: flex;
+    gap: 16px;
+  }
 `;
 
 const Title = styled.p`
@@ -125,17 +189,5 @@ const Title = styled.p`
   color: ${(p) => p.theme.text.main};
 `;
 
-const FlexCont = styled.div`
-  /* display: grid; */
-  /* grid-template-rows: ; */
-  /* grid-template-columns: repeat(3, 1fr); */
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  /* flex-wrap: nowrap; */
-  overflow: auto;
-  gap: 16px;
-  width: 100%;
-`;
-
 export default LibrarySideBar;
+

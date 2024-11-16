@@ -3,75 +3,122 @@ import { FlexBox } from "../../../atoms/Flex";
 import DeleteBtn from "../../../atoms/DeleteBtn";
 import { BookEntity } from "../../../types/books";
 
-// ToDo button
+export enum CardSize {
+  Large = "large",
+  Small = "small",
+}
+
+type BookCardProps = {
+  deleteAction?: (bookId?: string) => void;
+  onSelect?: (book: BookEntity) => void;
+  book: BookEntity;
+  size?: CardSize;
+};
 
 const BookCard = ({
   book,
   deleteAction,
   onSelect,
-}: {
-  deleteAction?: (bookId?: string) => void;
-  onSelect?: (book: BookEntity) => void;
-  book: BookEntity;
-}) => {
+  size = CardSize.Large,
+}: BookCardProps) => {
   const { volumeInfo, id } = book;
   const { title, authors, imageLinks } = volumeInfo || {};
 
   return (
-    <FlexBox
-      style={{ flexShrink: 0, overflow: "hidden", maxWidth: "220px" }}
+    <CardWrapper
+      size={size}
       onClick={(e) => {
         e.stopPropagation();
         onSelect?.(book);
       }}
     >
-      <img alt="hr" src={imageLinks?.thumbnail} width={71} height={107} />
+      <ImageContainer size={size}>
+        <img
+          alt="Book Thumbnail"
+          src={imageLinks?.thumbnail || "/images/bookCover.png"}
+        />
+      </ImageContainer>
 
-      <FlexBox $fDirection="row">
-        <FlexBox style={{ overflow: "hidden" }}>
-          <NameText>{title}</NameText>
-          {authors?.map((x) => (
-            <SubText>{x}</SubText>
-          ))}
-        </FlexBox>
+      <Content size={size}>
+        <TextContainer size={size}>
+          <Title size={size}>{title}</Title>
+          <Author size={size}>{authors?.join(", ")}</Author>
+        </TextContainer>
 
         {deleteAction && (
-          <DeleteBtn
-            onClick={(e: any) => {
+          <DeleteBtnWrapper
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation();
               deleteAction(id);
             }}
           />
         )}
-      </FlexBox>
-    </FlexBox>
+      </Content>
+    </CardWrapper>
   );
 };
+const CardWrapper = styled(FlexBox)<{ size: CardSize }>`
+  flex-direction: column;
+  width: 100%;
+  max-width: ${({ size }) => (size === CardSize.Large ? "180px" : "71px")};
+  height: ${({ size }) => (size === CardSize.Large ? "320px" : "140px")};
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: transparent;
+`;
 
-const NameText = styled.p`
+const ImageContainer = styled.div<{ size: CardSize }>`
+  width: 100%;
+  height: ${({ size }) => (size === CardSize.Large ? "255px" : "107px")};
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const Content = styled.div<{ size: CardSize }>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: ${({ size }) => (size === CardSize.Large ? "8px" : "4px")};
+  width: 100%;
+  height: ${({ size }) => (size === CardSize.Large ? "65px" : "34px")};
+`;
+
+const TextContainer = styled.div<{ size: CardSize }>`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+`;
+
+const Title = styled.p<{ size: CardSize }>`
   font-weight: 700;
-  font-size: 18px;
-  line-height: 100%;
-  letter-spacing: -0.02em;
   color: ${(p) => p.theme.text.main};
-  margin-bottom: 2px;
-  text-align: left;
-  max-width: 100%;
+  font-size: ${({ size }) => (size === CardSize.Large ? "16px" : "10px")};
+  margin-bottom: ${({ size }) => (size === CardSize.Large ? "4px" : "2px")};
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 `;
 
-const SubText = styled.p`
+const Author = styled.p<{ size: CardSize }>`
   font-weight: 500;
-  font-size: 12px;
-  line-height: 117%;
-  letter-spacing: -0.02em;
+  font-size: ${({ size }) => (size === CardSize.Large ? "12px" : "10px")};
   color: ${(p) => p.theme.text.secondary};
-  text-align: left;
-
-  margin-bottom: 4px;
-
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 `;
+
+const DeleteBtnWrapper = styled(DeleteBtn)`
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-left: 8px;
+`;
+
 export default BookCard;

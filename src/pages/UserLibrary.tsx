@@ -5,20 +5,14 @@ import { FlexBox } from "../atoms/Flex";
 import SelectSt from "../atoms/components/Select";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import BooksList from "../components/dashboard/BooksList/BooksList";
-import { FilterFormData } from "../data/formFieldsInfo";
 import { useEffect, useState } from "react";
 import { SelectOptionEntity } from "../types/global";
 import { libraryFilterOptions } from "../data/libraryFilterOptions";
-import { BaseButton } from "../atoms/Buttons";
 import { useModal } from "../providers/ModalProvider";
 import BookModal from "../components/modals/BookModal";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/store";
-import {
-  deleteAllThunk,
-  deleteOneThunk,
-  getAllThunk,
-} from "../redux/library/library.thunks";
+import { deleteOneThunk, getAllThunk } from "../redux/library/library.thunks";
 import { useAuthSelector, useLibrarySelector } from "../redux/selectors";
 import { getRecommendedThunk } from "../redux/books/books.thunks";
 
@@ -31,10 +25,6 @@ const UserLibrary = () => {
   const { showModal, hideModal } = useModal();
 
   const nav = useNavigate();
-
-  const handleFilterFormSubmit = (data: FilterFormData) => {
-    console.log(data);
-  };
 
   const handleChange = (option: SelectOptionEntity | null) => {
     if (option) {
@@ -49,7 +39,7 @@ const UserLibrary = () => {
 
   return (
     <MainLayout>
-      <LibrarySideBar handleFilterFormSubmit={handleFilterFormSubmit} />
+      <LibrarySideBar />
 
       <BaseBox $gap="40px">
         <FlexBox
@@ -59,18 +49,6 @@ const UserLibrary = () => {
           style={{ width: " 100%" }}
         >
           <MainTitle>My library</MainTitle>
-
-          <BaseButton
-            style={{
-              border: "1px solid red",
-              color: "red",
-            }}
-            onClick={() => {
-              dispatch(deleteAllThunk({}));
-            }}
-          >
-            Delete All
-          </BaseButton>
 
           <SelectSt
             options={libraryFilterOptions}

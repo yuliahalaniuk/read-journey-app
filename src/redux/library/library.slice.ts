@@ -6,6 +6,7 @@ import {
   deleteOneThunk,
   filterByGenreThunk,
   getAllThunk,
+  getOneThunk,
 } from "./library.thunks";
 import { BookEntity } from "../../types/books";
 
@@ -37,6 +38,9 @@ export const librarySlice = createSlice({
       })
       .addCase(addOneThunk.fulfilled, (state, action) => {
         state.books.push(action.payload);
+      })
+      .addCase(getOneThunk.fulfilled, (state, action) => {
+        state.currentBook = action.payload;
       })
       .addCase(deleteOneThunk.fulfilled, (state, action) => {
         state.books = state.books.filter((book) => book.id !== action.payload);

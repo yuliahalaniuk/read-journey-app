@@ -5,7 +5,7 @@ import { TransparentBtn } from "../../atoms/Buttons";
 import FormFields, { FormFieldsProps } from "../../atoms/components/FormFields";
 
 interface PrimaryFormProps extends FormFieldsProps {
-  onSubmit?: () => void;
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   title?: string;
   btnText?: string;
 }

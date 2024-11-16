@@ -27,6 +27,50 @@ export const getAllThunk = createAsyncThunk(
   }
 );
 
+export const getOneThunk = createAsyncThunk(
+  "library/getOne",
+  async ({ bookId }: { bookId?: string }, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState;
+      const userId = state?.auth?.user?.uid;
+
+      const userBookRef = ref(database, `books/${userId}/${bookId}`);
+
+      return new Promise<BookEntity>((resolve) => {
+        onValue(userBookRef, (snapshot) => {
+          const data = snapshot.val();
+          console.log("booksArray", data);
+          resolve(data);
+        });
+      });
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+
+  // const controller = new AbortController();
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       // `https://freetestapi.com/api/v1/books/${bookId}`,
+  //       `https://www.googleapis.com/books/v1/volumes/${bookId}`,
+  //       {
+  //         // signal: controller.signal,
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     console.log("data", data);
+  //     setBook(data);
+  //   } catch (e: { name: string } | any) {
+  //     if (e.name !== "AbortError") {
+  //       console.error("Error", e);
+  //     }
+  //   }
+  // };
+
+  // fetchData();
+);
+
 export const filterByGenreThunk = createAsyncThunk(
   "library/filterByGenre",
   async ({ genre }: { genre: string }, { getState }) => {
@@ -93,14 +137,7 @@ export const addReadingSessionThunk = createAsyncThunk(
   ) => {
     const currentDate = new Date().toISOString().split("T")[0];
     const readingRef = ref(database, `users/${userId}/stats/${bookId}`);
-    const sessionDuration = Math.floor((Date.now() - startTime) / 1000); // Duration in seconds
-
-    const newSession = {
-      pagesRead,
-      startTime,
-      endTime: Date.now(),
-      duration: sessionDuration,
-    };
+    const sessionDuration = Math.floor((Date.now() - startTime) / 1000);
 
     try {
       const snapshot = await get(readingRef);
@@ -108,12 +145,20 @@ export const addReadingSessionThunk = createAsyncThunk(
         ? snapshot.val()
         : { totalRead: 0, sessions: {} };
 
+      const newSession = {
+        pagesRead: bookData.totalRead + pagesRead,
+        startTime,
+        endTime: Date.now(),
+        duration: sessionDuration,
+      };
+
       const updatedTotalRead = bookData.totalRead + pagesRead;
       const updatedSessions = {
         ...bookData.sessions,
         [currentDate]: {
           ...(bookData.sessions[currentDate] || {}),
-          [push(ref(database)).key as any]: newSession,
+          [push(ref(database, `users/${userId}/stats/${bookId}/sessions`))
+            .key as any]: newSession,
         },
       };
 
