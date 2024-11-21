@@ -48,7 +48,7 @@ const LogInForm = () => {
         <ButtonPairBox $fDirection="row">
           <AccentedBtn type="submit">Log in</AccentedBtn>
 
-          <BaseLink href={"/register"}>{`Don’t have an account?`}</BaseLink>
+          <BaseLink to={"/register"}>{`Don’t have an account?`}</BaseLink>
         </ButtonPairBox>
 
         <TransparentBtn

@@ -17,7 +17,6 @@ export const getAllThunk = createAsyncThunk(
         onValue(userBooksRef, (snapshot) => {
           const data = snapshot.val();
           const booksArray: BookEntity[] = data ? Object.values(data) : [];
-          console.log("booksArray", booksArray);
           resolve(booksArray);
         });
       });
@@ -39,7 +38,7 @@ export const getOneThunk = createAsyncThunk(
       return new Promise<BookEntity>((resolve) => {
         onValue(userBookRef, (snapshot) => {
           const data = snapshot.val();
-          console.log("booksArray", data);
+          // console.log("booksArray", data);
           resolve(data);
         });
       });
@@ -123,18 +122,19 @@ export const addReadingSessionThunk = createAsyncThunk(
   "library/addReadingSession",
   async (
     {
-      userId,
       bookId,
       pagesRead,
       startTime,
     }: {
-      userId: string;
       bookId: string;
       pagesRead: number;
       startTime: number;
     },
-    { rejectWithValue }
+    { rejectWithValue, getState }
   ) => {
+    const state = getState() as RootState;
+    const userId = state?.auth?.user?.uid;
+
     const currentDate = new Date().toISOString().split("T")[0];
     const readingRef = ref(database, `users/${userId}/stats/${bookId}`);
     const sessionDuration = Math.floor((Date.now() - startTime) / 1000);
@@ -169,6 +169,64 @@ export const addReadingSessionThunk = createAsyncThunk(
 
       return { totalRead: updatedTotalRead, sessions: updatedSessions };
     } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteSessionThunk = createAsyncThunk(
+  "library/deleteSession",
+  async (
+    {
+      bookId,
+      date,
+      sessionId,
+    }: {
+      bookId?: string;
+      date: string;
+      sessionId: string;
+    },
+    { rejectWithValue, getState }
+  ) => {
+    const state = getState() as RootState;
+    const userId = state?.auth?.user?.uid;
+
+    try {
+      const sessionRef = ref(
+        database,
+        `users/${userId}/stats/${bookId}/sessions/${date}/${sessionId}`
+      );
+
+      const sessionSnapshot = await get(sessionRef);
+      if (!sessionSnapshot.exists()) {
+        throw new Error("Session not found");
+      }
+
+      const sessionData = sessionSnapshot.val();
+      const pagesRead = sessionData.pagesRead || 0;
+
+      await remove(sessionRef);
+
+      const bookStatsRef = ref(database, `users/${userId}/stats/${bookId}`);
+      const bookStatsSnapshot = await get(bookStatsRef);
+      if (!bookStatsSnapshot.exists()) {
+        throw new Error("Book stats not found");
+      }
+
+      const bookStats = bookStatsSnapshot.val();
+      const updatedTotalRead = Math.max(
+        (bookStats.totalRead || 0) - pagesRead,
+        0
+      );
+
+      await set(bookStatsRef, {
+        ...bookStats,
+        totalRead: updatedTotalRead,
+      });
+
+      return { bookId, date, sessionId, updatedTotalRead };
+    } catch (error) {
+      console.error("Error deleting session:", error);
       return rejectWithValue(error);
     }
   }

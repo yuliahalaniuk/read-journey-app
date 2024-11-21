@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { SecondaryBaseBox } from "../../../atoms/BaseBox";
 import { FlexBox } from "../../../atoms/Flex";
-import { BaseLink } from "../../../atoms/BaseLink";
 import { SidebarContainer } from "../../../atoms/SidebarContainer";
 import { useBooksSelector } from "../../../redux/selectors";
 import BookCard, { CardSize } from "../Card/BookCard";
@@ -9,17 +8,21 @@ import { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import ArrowRight from "../../../assets/ArrowRight";
 import AddBookForm from "../../forms/AddBookForm";
 import { useAppDispatch } from "../../../redux/store";
 import { addOneThunk } from "../../../redux/library/library.thunks";
 import { nanoid } from "@reduxjs/toolkit";
+import LinkWithArrow from "../../../atoms/components/LinkWithArrow";
+import BookModal from "../../modals/BookModal";
+import { useModal } from "../../../providers/ModalProvider";
+import { BookEntity } from "../../../types/books";
+import AddedBookModal from "../../modals/AddedBookModal";
 
 const LibrarySideBar = () => {
   const { recommended } = useBooksSelector();
   const [sliderKey, setSliderKey] = useState<number>(0);
   const dispatch = useAppDispatch();
-
+  const { showModal } = useModal();
   const handleAddBookFormSubmit = (data: any) => {
     console.log("data", data);
 
@@ -47,6 +50,24 @@ const LibrarySideBar = () => {
     prevArrow: <PrevArrow />,
   };
 
+  const handleBookSelect = (book?: BookEntity) => {
+    if (!book) {
+      throw new Error("Book is not passed");
+    }
+
+    showModal(
+      <BookModal
+        {...book}
+        btnText="Add to library"
+        btnOnClick={() => {
+          dispatch(addOneThunk({ book }));
+          showModal(<AddedBookModal />);
+        }}
+      />,
+      { bodySize: "m" }
+    );
+  };
+
   // Force re-render on mount
   useEffect(() => {
     setSliderKey((prevKey: number) => prevKey + 1);
@@ -54,11 +75,8 @@ const LibrarySideBar = () => {
 
   return (
     <SidebarContainer $gap="20px">
-      <FlexBox className="FormContainer">
-        <AddBookForm onValid={handleAddBookFormSubmit} />
-      </FlexBox>
-
-      <SecondaryBaseBox $gap="20px">
+      <AddBookForm onValid={handleAddBookFormSubmit} />
+      <SliderContainer $gap="20px">
         <Title>Recommended</Title>
 
         <FlexBox $align="stretch">
@@ -66,7 +84,11 @@ const LibrarySideBar = () => {
             <StyledSlider key={sliderKey} {...settings}>
               {recommended.map((book) => (
                 <FlexBox key={book.id} $justify="center">
-                  <BookCard book={book} size={CardSize.Small} />
+                  <BookCard
+                    book={book}
+                    size={CardSize.Small}
+                    onSelect={handleBookSelect}
+                  />
                 </FlexBox>
               ))}
             </StyledSlider>
@@ -75,23 +97,23 @@ const LibrarySideBar = () => {
           )}
         </FlexBox>
 
-        <BaseLink
-          href="/library"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <span>Home</span>
-          <ArrowRight />
-        </BaseLink>
-      </SecondaryBaseBox>
+        <LinkWithArrow text="Home" href="/home" />
+      </SliderContainer>
     </SidebarContainer>
   );
 };
 
+const SliderContainer = styled(SecondaryBaseBox)`
+  max-width: 335px;
+
+  @media screen and (min-width: 768px) {
+    max-width: 320px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 313px;
+  }
+`;
 const ArrowButton = styled.button`
   /* display: flex;
   align-items: center;

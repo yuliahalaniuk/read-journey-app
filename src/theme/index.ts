@@ -1,6 +1,7 @@
 export const baseTheme = {
   background: {
     main: "#141414",
+    mainTransparent: "rgba(20, 20, 20, 0.4)",
     secondary: "#1F1F1F",
     input: "#262626",
     light: "#262626",
@@ -28,7 +29,8 @@ export const baseTheme = {
 
   accentColor: "#f9f9f9",
 
-  timingFnMain: "ease-in-out 250ms",
+  animationTime: "250",
+  timingFnMain: "linear 250ms",
 
   backdropColor: "rgba(20, 20, 20, 0.6)",
 

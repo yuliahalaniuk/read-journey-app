@@ -1,8 +1,7 @@
-import React, { ComponentElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { FlexBox } from "../../../../atoms/Flex";
 import { SideBarTitle } from "../../../../atoms/SideBarTitle";
 import { BaseButton } from "../../../../atoms/Buttons";
-import { SecondaryBaseBox } from "../../../../atoms/BaseBox";
 import HourGlassIcon from "../../../../assets/HourGlassIcon";
 import PieChartIcon from "../../../../assets/PieChartIcon";
 import { DiaryTabsEnum } from "../DiarySideBar";
@@ -19,7 +18,7 @@ const Layout = ({
   tab?: DiaryTabsEnum;
 }) => {
   return (
-    <FlexBox $gap="20px">
+    <FlexBox $gap="20px" style={{ width: "100%" }}>
       <FlexBox
         $fDirection="row"
         $justify="space-between"

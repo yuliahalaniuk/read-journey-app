@@ -12,12 +12,12 @@ import { useEffect, useMemo, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import { database } from "../../../firebase/firebase";
 import { useLocation } from "react-router-dom";
-import { userId } from "../../../providers/LibraryProvider";
 import Layout from "./Diary/Layout";
 import DiaryTab from "./Diary/DiaryTab";
 import { BookEntity } from "../../../types/books";
-import DoughnutGraph from "./Doughnut/DoughnutGraph";
-import { useLibrarySelector } from "../../../redux/selectors";
+import DoughnutGraph from "../../grahps/DoughnutGraph";
+import { useAuthSelector, useLibrarySelector } from "../../../redux/selectors";
+import PageForm from "../../forms/PageForm";
 
 export enum DiaryTabsEnum {
   Progress = "progress",
@@ -37,11 +37,12 @@ const DiarySideBar = ({
   const location = useLocation();
   const path = location.pathname.split("/");
   const bookId = path[path.length - 1];
-  const [stats, setStats] = useState<{ sessions?: any; totalRead?: number }>({
-    totalRead: 0,
-  });
+  const [stats, setStats] = useState<{
+    sessions?: any;
+    totalRead?: number;
+  } | null>(null);
   const { currentBook } = useLibrarySelector();
-
+  const { user } = useAuthSelector();
   const { doughnutData, readPerc } = useMemo(() => {
     const totalRead = stats?.totalRead || 0;
     const pageCount = book?.volumeInfo?.pageCount || 0;
@@ -68,19 +69,19 @@ const DiarySideBar = ({
   }, [book?.volumeInfo?.pageCount, stats?.totalRead]);
 
   useEffect(() => {
-    const userBooksRef = ref(database, `users/${userId}/stats/${bookId}`);
+    const userBooksRef = ref(database, `users/${user?.uid}/stats/${bookId}`);
 
     onValue(userBooksRef, (snapshot) => {
       const data = snapshot.val();
       console.log("stats in sidebar", data);
       setStats(data);
     });
-  }, [bookId]);
+  }, [bookId, user?.uid]);
 
   const [tab, setTab] = useState<DiaryTabsEnum>(DiaryTabsEnum.Statistics);
 
   const renderTab = useMemo(() => {
-    if (tab === DiaryTabsEnum.Progress) {
+    if (!stats) {
       return (
         <FlexBox
           $gap="20px"
@@ -119,6 +120,7 @@ const DiarySideBar = ({
         >
           <SecondaryBaseBox $gap="20px" style={{ overflow: "auto" }}>
             <DiaryTab
+              bookId={book?.id}
               stats={stats}
               bookPages={currentBook.volumeInfo.pageCount}
             />
@@ -141,7 +143,12 @@ const DiarySideBar = ({
             towards understanding. By rewriting statistics, we create our own
             reading history.
           </TextWithAccent>
-          <SecondaryBaseBox $gap="20px">
+
+          <SecondaryBaseBox
+            $gap="20px"
+            style={{ width: "100%" }}
+            className="here"
+          >
             <DoughnutGraph data={doughnutData} />
 
             <FlexBox
@@ -175,9 +182,22 @@ const DiarySideBar = ({
         </Layout>
       );
     }
-  }, [doughnutData, readPerc, stats, tab]);
+  }, [
+    book?.id,
+    currentBook.volumeInfo.pageCount,
+    doughnutData,
+    readPerc,
+    stats,
+    tab,
+  ]);
 
-  return <SidebarContainer $gap="20px">{renderTab}</SidebarContainer>;
+  return (
+    <SidebarContainer $gap="40px" className="SidebarContainer">
+      <PageForm action={"start"} />
+
+      {renderTab}
+    </SidebarContainer>
+  );
 };
 
 export default DiarySideBar;

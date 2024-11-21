@@ -3,18 +3,31 @@ import styled from "styled-components";
 
 export const Container = styled(FlexBox)`
   position: relative;
-  padding: 20px 20px 40px;
-  gap: 16px;
+  padding: 0 20px 20px;
 `;
 
 export const Content = styled(FlexBox)`
   /* position: relative; */
-  gap: 16px;
-
   overflow: hidden;
 
+  display: grid;
+  grid-template-rows: auto auto;
+  /* grid-template-columns: 375px; */
+  justify-content: center;
+  max-width: 375px;
+  width: 100%;
+  gap: 16px;
+
+  @media screen and (min-width: 768px) {
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr;
+    max-width: 704px;
+  }
+
   @media screen and (min-width: 1280px) {
-    flex-direction: row;
+    max-width: 100%;
+    grid-template-rows: 1fr;
+    grid-template-columns: auto 1fr;
     align-items: flex-start;
   }
 `;

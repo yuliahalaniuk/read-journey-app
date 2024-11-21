@@ -1,9 +1,10 @@
 import React from "react";
-import SmallModal from "./SmallModal";
+import SmallModal from "./base/SmallModal";
 
 const BookReadModal = () => {
   return (
     <SmallModal
+      imgSrc="/images/books.png"
       text={
         <>
           It was an <span>exciting journey</span>, where each page revealed new

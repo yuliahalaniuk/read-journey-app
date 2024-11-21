@@ -4,6 +4,7 @@ import {
   addReadingSessionThunk,
   deleteAllThunk,
   deleteOneThunk,
+  deleteSessionThunk,
   filterByGenreThunk,
   getAllThunk,
   getOneThunk,
@@ -13,13 +14,15 @@ import { BookEntity } from "../../types/books";
 export interface LibraryState {
   books: BookEntity[];
   filteredBooks: BookEntity[];
-  currentBook: any | null; //UserBookData
+  currentBook: any | null;
+  stats: {};
 }
 
 const initialState: LibraryState = {
   books: [],
   filteredBooks: [],
   currentBook: null,
+  stats: {},
 };
 
 export const librarySlice = createSlice({
@@ -56,6 +59,34 @@ export const librarySlice = createSlice({
           sessions: action.payload.sessions,
         };
       })
+      .addCase(deleteSessionThunk.fulfilled, (state, action) => {
+        const { date, sessionId } = action.payload;
+
+        if (state.currentBook?.sessions) {
+          const dateSessions = state.currentBook.sessions[date];
+          if (dateSessions) {
+            delete dateSessions[sessionId];
+
+            if (Object.keys(dateSessions).length === 0) {
+              delete state.currentBook.sessions[date];
+            }
+
+            // Recalculate totalRead if needed
+            const totalRead = Object.values(state.currentBook.sessions).reduce(
+              (total: number, sessionMap: any) =>
+                total +
+                Object.values(sessionMap).reduce(
+                  (sessionTotal: number, session: any) =>
+                    sessionTotal + session.pagesRead,
+                  0
+                ),
+              0
+            );
+            state.currentBook.totalRead = totalRead;
+          }
+        }
+      })
+
       .addCase(addReadingSessionThunk.rejected, (state, action) => {
         state.currentBook =
           action.error.message || "Failed to update reading data";

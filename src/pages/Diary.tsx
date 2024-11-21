@@ -4,15 +4,13 @@ import DiarySideBar from "../components/dashboard/SideBar/DiarySideBar";
 import { BaseBox } from "../atoms/BaseBox";
 import { useLocation } from "react-router-dom";
 import { FlexBox } from "../atoms/Flex";
-import { BookEntity } from "../types/books";
+
 import styled from "styled-components";
 import RecordStartedIcon from "../assets/RecordStartedIcon";
 import NotStartedIcon from "../assets/NotStartedIcon";
 import { BaseButton } from "../atoms/Buttons";
 import { PageFormData } from "../data/formFieldsInfo";
-import { get, push, ref, set } from "firebase/database";
-import { database } from "../firebase/firebase";
-import { userId } from "../providers/LibraryProvider";
+
 import { useModal } from "../providers/ModalProvider";
 import PageModal from "../components/modals/PageModal";
 import { useAppDispatch } from "../redux/store";
@@ -21,79 +19,7 @@ import {
   getOneThunk,
 } from "../redux/library/library.thunks";
 import { useLibrarySelector } from "../redux/selectors";
-
-// export const updateFirebaseReadingData = async (
-//   bookId: string,
-//   pagesRead: number,
-//   startTime: number
-// ) => {
-//   const currentDate = new Date().toISOString().split("T")[0];
-
-//   const readingRef = ref(
-//     database,
-//     `users/${userId}/stats/${bookId}/${currentDate}`
-//   );
-
-//   const newSession = {
-//     pagesRead,
-//     startTime,
-//     endTime: Date.now(),
-//   };
-
-//   console.log("added ", newSession);
-//   await push(readingRef, newSession);
-// };
-
-// export const updateFirebaseReadingData = async ({
-//   userId,
-//   bookId,
-//   pagesRead,
-//   startTime,
-// }: {
-//   userId: string;
-//   bookId: string;
-//   pagesRead: number;
-//   startTime: number;
-// }) => {
-//   const currentDate = new Date().toISOString().split("T")[0];
-//   const readingRef = ref(database, `users/${userId}/stats/${bookId}`);
-//   const sessionDuration = Math.floor((Date.now() - startTime) / 1000); // Duration in seconds
-
-//   // New session data
-//   const newSession = {
-//     pagesRead,
-//     startTime,
-//     endTime: Date.now(),
-//     duration: sessionDuration,
-//   };
-
-//   // Retrieve the existing book data
-//   const snapshot = await get(readingRef);
-//   const bookData = snapshot.exists()
-//     ? snapshot.val()
-//     : { totalRead: 0, sessions: {} };
-
-//   // Update totalRead and add the new session
-//   const updatedTotalRead = bookData.totalRead + pagesRead;
-//   const updatedSessions = {
-//     ...bookData.sessions,
-//     [currentDate]: {
-//       ...(bookData.sessions[currentDate] || {}),
-//       [push(ref(database)).key as any]: newSession,
-//     },
-//   };
-
-//   // Update Firebase with the new data
-//   await set(readingRef, {
-//     totalRead: updatedTotalRead,
-//     sessions: updatedSessions,
-//   });
-
-//   console.log("Updated book data:", {
-//     totalRead: updatedTotalRead,
-//     sessions: updatedSessions,
-//   });
-// };
+import { ContentContainer } from "../atoms/PageContainer";
 
 const DiaryPage = () => {
   const location = useLocation();
@@ -102,7 +28,6 @@ const DiaryPage = () => {
   const { showModal, hideModal } = useModal();
   const dispatch = useAppDispatch();
 
-  console.log("bookId", bookId);
   const { currentBook } = useLibrarySelector();
   const [isStarted, setIsStarted] = useState(false);
   const startRef = useRef<{
@@ -127,15 +52,14 @@ const DiaryPage = () => {
           bookId,
           pagesRead,
           startTime: startRef.current.time || 0,
-          userId,
         })
       );
     }
   };
 
-  useEffect(() => {
-    console.log("startRef", startRef.current);
-  }, [startRef]);
+  // useEffect(() => {
+  //   console.log("startRef", startRef.current);
+  // }, [startRef]);
 
   return (
     <MainLayout>
@@ -175,8 +99,12 @@ const DiaryPage = () => {
                 showModal(
                   <PageModal
                     action="stop"
-                    onValid={(data) => handlePageFormSubmit(data)}
-                    onClose={hideModal}
+                    onValid={(data) => {
+                      handlePageFormSubmit(data);
+                      hideModal();
+                    }}
+                    maxPages={currentBook.volumeInfo.pageCount}
+                    minPages={0}
                   />
                 );
               }

@@ -1,58 +1,69 @@
 import { Navigate } from "react-router-dom";
 import Home from "../pages/Home";
-import LogInPage from "../pages/LogInPage";
-import RegisterPage from "../pages/RegisterPage";
+import LogInPage from "../pages/auth/LogInPage";
+import RegisterPage from "../pages/auth/RegisterPage";
 import UserLibrary from "../pages/UserLibrary";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import ErrorBoundary from "./ErrorBoundary";
 import DiaryPage from "../pages/Diary";
-import { LibraryProvider } from "../providers/LibraryProvider";
-
-const WelcomePage = () => {
-  return <Navigate to={"/register"} />;
-};
+import { ModalProvider } from "../providers/ModalProvider";
 
 export const appRoutesList = [
-  { path: "/", element: <WelcomePage /> },
   {
     path: "/",
-    errorElement: <ErrorBoundary />,
+    element: <Navigate to="/home" replace />,
+  },
+  {
+    path: "/",
     element: (
-      <LibraryProvider>
+      <ModalProvider>
         <PrivateRoute />
-      </LibraryProvider>
+      </ModalProvider>
     ),
+    errorElement: <ErrorBoundary />,
     children: [
       {
-        path: "/home",
+        path: "home",
         element: <Home />,
       },
       {
-        path: "/library",
+        path: "library",
         element: <UserLibrary />,
       },
       {
-        path: "/diary",
+        path: "diary",
         element: <DiaryPage />,
-        children: [{ path: ":id", element: <DiaryPage /> }],
+        children: [
+          {
+            path: ":id",
+            element: <DiaryPage />,
+          },
+        ],
       },
     ],
   },
   {
     path: "/",
+    element: (
+      <ModalProvider>
+        <PublicRoute />
+      </ModalProvider>
+    ),
     errorElement: <ErrorBoundary />,
-    element: <PublicRoute />,
     children: [
       {
-        path: "/register",
-
+        path: "register",
         element: <RegisterPage />,
       },
       {
-        path: "/logIn",
+        path: "logIn",
         element: <LogInPage />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <ErrorBoundary />,
   },
 ];

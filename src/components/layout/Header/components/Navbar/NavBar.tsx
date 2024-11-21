@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FlexLi, FlexUl } from "../../../../../atoms/Flex";
 import { navLinksData } from "../../../../../data/navLinksData";
+import { NavLink } from "react-router-dom";
 
 const NavBar = ({
   direction = "row",
@@ -19,7 +20,7 @@ const NavBar = ({
       {navLinksData?.map((info) => {
         return (
           <NavLinkItem key={info?.id} $isActive={pathname === info?.href}>
-            <a href={info?.href}>{info?.label}</a>
+            <NavLink to={info?.href}>{info?.label}</NavLink>
           </NavLinkItem>
         );
       })}

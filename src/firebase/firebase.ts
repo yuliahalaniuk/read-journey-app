@@ -1,7 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { collection, getFirestore } from "firebase/firestore/lite";
+import { getFirestore } from "firebase/firestore/lite";
+import ConfigsService from "../service/ConfigsService";
+
+// const firebaseConfig = ConfigsService.getFirebaseConfigs();
 
 const firebaseConfig = {
   apiKey: "AIzaSyDsijWkcSF1KsZl645eI94F5LT0g40dKyQ",
@@ -18,12 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-export async function getUsers() {
-  const citiesCol = collection(db, "users");
-  // const citySnapshot = await getDocs(citiesCol);
-  // const cityList = citySnapshot.docs.map((doc) => doc.data());
-  return citiesCol;
-}
 const database = getDatabase(app);
+
 export { app, auth, db, database };

@@ -1,6 +1,7 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-export const BaseLink = styled.a`
+export const BaseLink = styled(NavLink)`
   flex-shrink: 0;
   font-weight: 500;
   font-size: 14px;

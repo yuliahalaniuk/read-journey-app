@@ -1,23 +1,21 @@
 import styled from "styled-components";
 import { SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { FlexBox, FlexUl } from "../../../atoms/Flex";
+import { FlexUl } from "../../../atoms/Flex";
 import { instructionsData } from "../../../data/instructionsData";
 import FilterForm from "../../forms/FilterForm";
 import InstructionItem from "./InstructionsItem/InstructionItem";
-import { BaseLink } from "../../../atoms/BaseLink";
 import { SidebarContainer } from "../../../atoms/SidebarContainer";
 import { TextWithAccent } from "../../../atoms/Text";
 import { useMediaQuery } from "react-responsive";
 import { isDesktopQuery } from "../../../utils/mediaQueries";
+import LinkWithArrow from "../../../atoms/components/LinkWithArrow";
 
 const HomeSideBar = () => {
   const isDesktop = useMediaQuery(isDesktopQuery);
 
   return (
     <SidebarContainer $gap="20px">
-      <FlexBox className="FormContainer">
-        <FilterForm />
-      </FlexBox>
+      <FilterForm />
 
       <SecondaryBaseBox $gap="20px">
         <Title>Start your workout</Title>
@@ -28,16 +26,7 @@ const HomeSideBar = () => {
           })}
         </FlexUl>
 
-        <FlexBox
-          style={{
-            width: "100%",
-          }}
-          $justify="space-between"
-          $fDirection="row"
-        >
-          <BaseLink href="/library">My library</BaseLink>
-          <ArrowBox>{`->`}</ArrowBox>
-        </FlexBox>
+        <LinkWithArrow href="/library" text="My library" />
       </SecondaryBaseBox>
 
       {isDesktop && (

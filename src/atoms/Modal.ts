@@ -1,6 +1,12 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { FlexBox } from "./Flex";
 import { BaseButton } from "./Buttons";
+import {
+  fadeInBackdrop,
+  fadeOutBackdrop,
+  scaleInFromCenter,
+  scaleOutToCenter,
+} from "../theme/animations";
 
 export const CloseBtn = styled(BaseButton)`
   width: 28px;
@@ -8,7 +14,10 @@ export const CloseBtn = styled(BaseButton)`
   font-size: 28px;
 `;
 
-export const Body = styled(FlexBox)<{ $sizeType?: "s" | "m" }>`
+export const Body = styled(FlexBox)<{
+  $sizeType?: "s" | "m";
+  $isExiting?: boolean;
+}>`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -16,7 +25,7 @@ export const Body = styled(FlexBox)<{ $sizeType?: "s" | "m" }>`
   border-radius: ${(p) => p.theme.borderRadius.modal};
   width: 100%;
   max-width: ${(p) => (p.$sizeType === "m" ? "500px" : "342px")};
-
+  z-index: 201;
   background-color: ${(p) => p.theme.background.secondary};
   color: ${(p) => p.theme.text.main};
   opacity: 1;
@@ -28,15 +37,37 @@ export const Body = styled(FlexBox)<{ $sizeType?: "s" | "m" }>`
     top: 16px;
     right: ${(p) => (p.$sizeType === "m" ? "16px" : "12px")};
   }
+
+  ${({ $isExiting, theme }) =>
+    $isExiting
+      ? css`
+          animation: ${scaleOutToCenter} ${theme.timingFnMain};
+        `
+      : css`
+          animation: ${scaleInFromCenter} ${theme.timingFnMain};
+        `}
 `;
 
-export const Backdrop = styled(FlexBox)<{ $hasChildren?: boolean }>`
+export const Backdrop = styled(FlexBox)<{
+  $hasChildren?: boolean;
+  $isExiting?: boolean;
+}>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 200;
   background-color: ${(p) => p.theme.backdropColor};
+
+  ${({ $isExiting, theme }) =>
+    $isExiting
+      ? css`
+          animation: ${fadeOutBackdrop} ${theme.timingFnMain};
+        `
+      : css`
+          animation: ${fadeInBackdrop}${theme.timingFnMain};
+        `}
 
   ${(p) =>
     p.$hasChildren &&

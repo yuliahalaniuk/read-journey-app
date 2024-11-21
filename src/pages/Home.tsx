@@ -2,7 +2,6 @@ import HomeSideBar from "../components/dashboard/SideBar/HomeSideBar";
 import { BaseBox } from "../atoms/BaseBox";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import { MainTitle } from "../atoms/Text";
-
 import { GridBox } from "../components/dashboard/BooksList/BooksList";
 import { BookEntity } from "../types/books";
 import { useModal } from "../providers/ModalProvider";
@@ -15,10 +14,10 @@ import { addOneThunk } from "../redux/library/library.thunks";
 import BookCard from "../components/dashboard/Card/BookCard";
 import { FlexLi } from "../atoms/Flex";
 import { useLocation } from "react-router-dom";
+import AddedBookModal from "../components/modals/AddedBookModal";
 
 const Home = () => {
-  const { showModal, hideModal } = useModal();
-  // const { addBook } = useLibrary();
+  const { showModal } = useModal();
   const dispatch = useAppDispatch();
   const { books } = useBooksSelector();
   const { search } = useLocation();
@@ -38,13 +37,11 @@ const Home = () => {
         {...book}
         btnText="Add to library"
         btnOnClick={() => {
-          console.log("Added to library");
-          // addBook(book);
-          dispatch(addOneThunk({ book }));
-          hideModal();
+          dispatch(addOneThunk({ book })); // onSuccess
+          showModal(<AddedBookModal />);
         }}
-        onClose={hideModal}
-      />
+      />,
+      { bodySize: "m" }
     );
   };
 
@@ -59,11 +56,7 @@ const Home = () => {
           {books?.map((book) => {
             return (
               <FlexLi key={book.id} $justify="center">
-                <BookCard
-                  book={book}
-                  onSelect={handleBookSelect}
-                  // deleteAction={deleteAction}
-                />
+                <BookCard book={book} onSelect={handleBookSelect} />
               </FlexLi>
             );
           })}

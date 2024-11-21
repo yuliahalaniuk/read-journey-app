@@ -13,8 +13,8 @@ import { useLocation } from "react-router-dom";
 import { logOutThunk } from "../../../redux/auth/auth.thunks";
 import { useAppDispatch } from "../../../redux/store";
 
-const Header = () => {
-  const { showModal, hideModal } = useModal();
+const Header = ({ isScrollingUp }: { isScrollingUp?: boolean }) => {
+  const { showModal, hideModal, isExiting } = useModal();
   const isDesktop = useMediaQuery(isDesktopQuery);
   const isMobile = useMediaQuery({
     query: "(max-width: 767px)",
@@ -30,14 +30,17 @@ const Header = () => {
     showModal(
       <MenuModal
         onClose={hideModal}
-        pathname={pathname}
         handleLogOut={handleLogOut}
-      />
+        isExiting={isExiting}
+      />,
+      {
+        isDrawer: true,
+      }
     );
   };
 
   return (
-    <Box>
+    <Box $isVisible={isScrollingUp}>
       <BaseBox $fDirection="row" $justify="space-between">
         <FlexBox $align="start">
           <img

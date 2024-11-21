@@ -45,7 +45,7 @@ const RegisterForm = () => {
 
       <ButtonPairBox $fDirection="row">
         <AccentedBtn type="submit">Registration</AccentedBtn>
-        <BaseLink href="/login">Already have an account?</BaseLink>
+        <BaseLink to="/login">Already have an account?</BaseLink>
       </ButtonPairBox>
     </Form>
   );

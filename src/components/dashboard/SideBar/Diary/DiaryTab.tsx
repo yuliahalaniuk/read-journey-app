@@ -3,14 +3,21 @@ import { FlexBox } from "../../../../atoms/Flex";
 import { Text } from "../../../../atoms/Text";
 import DeleteBtmIcon from "../../../../assets/DeleteBtmIcon";
 import { BaseButton } from "../../../../atoms/Buttons";
+import { useAppDispatch } from "../../../../redux/store";
+import { deleteSessionThunk } from "../../../../redux/library/library.thunks";
+import DiaryGraph from "../../../grahps/HorisontalBar";
 
 const DiaryTab = ({
   stats,
   bookPages = 0,
+  bookId,
 }: {
   stats?: any;
   bookPages?: number;
+  bookId?: string;
 }) => {
+  const dispatch = useAppDispatch();
+
   return (
     <>
       {stats &&
@@ -46,39 +53,56 @@ const DiaryTab = ({
               </FlexBox>
 
               <FlexBox $gap="28px">
-                {Object.values(sessions as any).map((session: any) => {
-                  const time = session.duration / 1000000;
-                  console.log("session in here", session);
-                  return (
-                    <FlexBox
-                      key={session.id}
-                      style={{ paddingLeft: "20px" }}
-                      $fDirection="row"
-                    >
-                      <FlexBox $gap="8px" $align="flex-start">
-                        <Text $primary $textAlign="left" $size="20px">
-                          {((session.pagesRead * 100) / bookPages).toFixed(0) +
-                            "%"}
-                        </Text>
-                        <Text $textAlign="left">
-                          {/* {`${session.pagesRead} pages read`} */}
-                          {/* {(time / 60).toFloor()}minutes */}
-                        </Text>
-                      </FlexBox>
+                {Object.entries(sessions as any).map(
+                  ([key, session]: [key: string, session: any]) => {
+                    const time = session.duration / 1000000;
+                    console.log("session in here", session);
+                    return (
+                      <FlexBox
+                        key={session.id}
+                        style={{ paddingLeft: "20px" }}
+                        $fDirection="row"
+                        $align="center"
+                      >
+                        <FlexBox $gap="8px" $align="flex-start">
+                          <Text $primary $textAlign="left" $size="20px">
+                            {((session.pagesRead * 100) / bookPages).toFixed(
+                              0
+                            ) + "%"}
+                          </Text>
+                          <Text $textAlign="left">
+                            {Math.floor(time / 60)} minutes
+                          </Text>
+                        </FlexBox>
 
-                      <FlexBox $fDirection="row">
-                        <Text $textAlign="left">
-                          {`${(session.pagesRead / (time / 3600)).toFixed(
-                            0
-                          )} pages per hour`}
-                        </Text>
-                        <BaseButton>
-                          <DeleteBtmIcon />
-                        </BaseButton>
+                        <FlexBox $fDirection="row" $align="center">
+                          <FlexBox $gap="8px">
+                            <DiaryGraph />
+
+                            <Text $textAlign="left" $size="12px">
+                              {`${(session.pagesRead / (time / 3600)).toFixed(
+                                0
+                              )} pages per hour`}
+                            </Text>
+                          </FlexBox>
+                          <BaseButton
+                            onClick={() => {
+                              dispatch(
+                                deleteSessionThunk({
+                                  sessionId: key,
+                                  date,
+                                  bookId,
+                                })
+                              );
+                            }}
+                          >
+                            <DeleteBtmIcon />
+                          </BaseButton>
+                        </FlexBox>
                       </FlexBox>
-                    </FlexBox>
-                  );
-                })}
+                    );
+                  }
+                )}
               </FlexBox>
             </FlexBox>
           );

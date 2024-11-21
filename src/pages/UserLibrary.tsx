@@ -15,16 +15,22 @@ import { useAppDispatch } from "../redux/store";
 import { deleteOneThunk, getAllThunk } from "../redux/library/library.thunks";
 import { useAuthSelector, useLibrarySelector } from "../redux/selectors";
 import { getRecommendedThunk } from "../redux/books/books.thunks";
+import { BookEntity } from "../types/books";
 
 const UserLibrary = () => {
-  const [selectedOption, setSelectedOption] =
-    useState<SelectOptionEntity | null>(libraryFilterOptions[0]);
   const dispatch = useAppDispatch();
+  const nav = useNavigate();
+
   const { user } = useAuthSelector();
   const { books } = useLibrarySelector();
   const { showModal, hideModal } = useModal();
+  const [selectedOption, setSelectedOption] =
+    useState<SelectOptionEntity | null>(libraryFilterOptions[0]);
 
-  const nav = useNavigate();
+  useEffect(() => {
+    dispatch(getAllThunk());
+    dispatch(getRecommendedThunk());
+  }, [dispatch]);
 
   const handleChange = (option: SelectOptionEntity | null) => {
     if (option) {
@@ -32,10 +38,27 @@ const UserLibrary = () => {
       // filterBooks(option.value);
     }
   };
-  useEffect(() => {
-    dispatch(getAllThunk());
-    dispatch(getRecommendedThunk());
-  }, [dispatch]);
+
+  const handleBookSelect = (book?: BookEntity) => {
+    showModal(
+      <BookModal
+        {...book}
+        btnText="Start Reading"
+        btnOnClick={() => {
+          console.log("Reading started");
+          nav(`/diary/${book?.id}`);
+          // addBook(book);
+
+          hideModal();
+        }}
+      />,
+      { bodySize: "m" }
+    );
+  };
+
+  const handleDeleteBook = (id?: string) => {
+    dispatch(deleteOneThunk({ bookId: id, userId: user?.uid }));
+  };
 
   return (
     <MainLayout>
@@ -65,25 +88,8 @@ const UserLibrary = () => {
               recommended ones
             </>
           }
-          onSelect={(book) => {
-            showModal(
-              <BookModal
-                {...book}
-                btnText="Start Reading"
-                btnOnClick={() => {
-                  console.log("Reading started");
-                  nav(`/diary/${book?.id}`);
-                  // addBook(book);
-
-                  hideModal();
-                }}
-                onClose={hideModal}
-              />
-            );
-          }}
-          deleteAction={(id) => {
-            dispatch(deleteOneThunk({ bookId: id, userId: user?.uid }));
-          }}
+          onSelect={handleBookSelect}
+          deleteAction={handleDeleteBook}
         />
       </BaseBox>
     </MainLayout>

@@ -1,5 +1,3 @@
-import React from "react";
-import Modal from "../../atoms/Modal";
 import { FlexBox } from "../../atoms/Flex";
 import styled from "styled-components";
 import { TransparentBtn } from "../../atoms/Buttons";
@@ -9,43 +7,35 @@ const BookModal = ({
   volumeInfo,
   btnOnClick,
   btnText = "Submit",
-  onClose,
 }: {
   btnOnClick?: () => void;
   btnText?: string;
-  onClose: () => void;
 } & (BookEntity | undefined)) => {
   const { title, authors, pageCount, imageLinks } = volumeInfo || {};
 
   return (
-    <Modal.Backdrop>
-      <Modal.Body $sizeType="m">
-        <Modal.CloseBtn onClick={onClose}>X</Modal.CloseBtn>
+    <>
+      <FlexBox style={{ margin: "18px" }}>
+        <img
+          src={
+            imageLinks?.thumbnail ? imageLinks?.thumbnail : "/images/iphone.png"
+          }
+          alt={title}
+          width={140}
+          height={213}
+        />
+      </FlexBox>
 
-        <FlexBox style={{ margin: "18px" }}>
-          <img
-            src={
-              imageLinks?.thumbnail
-                ? imageLinks?.thumbnail
-                : "/images/iphone.png"
-            }
-            alt={title}
-            width={140}
-            height={213}
-          />
-        </FlexBox>
+      <FlexBox style={{ margin: "20px" }}>
+        <NameText>{title}</NameText>
+        {authors?.map((x) => (
+          <SubText>{x}</SubText>
+        ))}
+        <PagesText>{pageCount} pages</PagesText>
+      </FlexBox>
 
-        <FlexBox style={{ margin: "20px" }}>
-          <NameText>{title}</NameText>
-          {authors?.map((x) => (
-            <SubText>{x}</SubText>
-          ))}
-          <PagesText>{pageCount} pages</PagesText>
-        </FlexBox>
-
-        <TransparentBtn onClick={btnOnClick}>{btnText}</TransparentBtn>
-      </Modal.Body>
-    </Modal.Backdrop>
+      <TransparentBtn onClick={btnOnClick}>{btnText}</TransparentBtn>
+    </>
   );
 };
 

@@ -1,8 +1,9 @@
-import SmallModal from "./SmallModal";
+import SmallModal from "./base/SmallModal";
 
 const AddedBookModal = () => {
   return (
     <SmallModal
+      imgSrc="/images/goodJob.png"
       text={
         <>
           Your book is now in <span>the library!</span> The joy knows no bounds
