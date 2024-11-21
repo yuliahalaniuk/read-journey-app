@@ -4,8 +4,7 @@ import { FieldValues, Path } from "react-hook-form";
 export interface RegisterFormData {
   email: string;
   password: string;
-
-  name?: string;
+  name: string;
 }
 
 export interface LoginFormData {
@@ -86,7 +85,6 @@ export const filterFormFieldsInfo: FormFieldInfo<FilterFormData>[] = [
   {
     name: "author",
     label: "The author",
-    canBeHidden: true,
     required: false,
   },
 ];
@@ -100,13 +98,11 @@ export const addBookFormFieldsInfo: FormFieldInfo<AddBookFormData>[] = [
   {
     name: "author",
     label: "The author:",
-    canBeHidden: true,
     required: false,
   },
   {
     name: "pages",
     label: "Number of pages:",
-    canBeHidden: true,
     required: false,
   },
 ];
@@ -115,7 +111,6 @@ export const pageFormFieldsInfo: FormFieldInfo<PageFormData>[] = [
   {
     name: "page",
     label: "Page number",
-    canBeHidden: true,
     required: false,
   },
 ];

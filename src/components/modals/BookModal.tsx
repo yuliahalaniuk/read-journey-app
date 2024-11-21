@@ -12,31 +12,33 @@ const BookModal = ({
   btnText?: string;
 } & (BookEntity | undefined)) => {
   const { title, authors, pageCount, imageLinks } = volumeInfo || {};
+console.log("imageLinks?.thumbnail", imageLinks?.thumbnail);
+return (
+  <>
+    <FlexBox style={{ margin: "18px" }}>
+      <img
+        src={
+          imageLinks?.thumbnail
+            ? imageLinks?.thumbnail
+            : "/images/bookCover.png"
+        }
+        alt={title}
+        width={140}
+        height={213}
+      />
+    </FlexBox>
 
-  return (
-    <>
-      <FlexBox style={{ margin: "18px" }}>
-        <img
-          src={
-            imageLinks?.thumbnail ? imageLinks?.thumbnail : "/images/iphone.png"
-          }
-          alt={title}
-          width={140}
-          height={213}
-        />
-      </FlexBox>
+    <FlexBox style={{ margin: "20px" }}>
+      <NameText>{title}</NameText>
+      {authors?.map((x) => (
+        <SubText>{x}</SubText>
+      ))}
+      <PagesText>{pageCount} pages</PagesText>
+    </FlexBox>
 
-      <FlexBox style={{ margin: "20px" }}>
-        <NameText>{title}</NameText>
-        {authors?.map((x) => (
-          <SubText>{x}</SubText>
-        ))}
-        <PagesText>{pageCount} pages</PagesText>
-      </FlexBox>
-
-      <TransparentBtn onClick={btnOnClick}>{btnText}</TransparentBtn>
-    </>
-  );
+    <TransparentBtn onClick={btnOnClick}>{btnText}</TransparentBtn>
+  </>
+);
 };
 
 const NameText = styled.p`

@@ -102,4 +102,30 @@ input {
 }
 
 
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: ${(p) => p.theme.background.mainTransparent};
+  border-radius: ${(p) => p.theme.borderRadius.small};
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: ${(p) => p.theme.background.secondary};
+  border-radius: ${(p) => p.theme.borderRadius.small};
+  border: 1px solid ${(p) => p.theme.background.mainTransparent};
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: ${(p) => p.theme.background.light};
+}
+
+scrollbar-width: thin; 
+scrollbar-color: ${(p) => p.theme.accentColor} ${(p) =>
+  p.theme.background.mainTransparent};
+
 `;

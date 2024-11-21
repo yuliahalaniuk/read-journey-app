@@ -6,11 +6,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { filterSchema } from "../../validation-schemes/filterValidation";
 import PrimaryForm from "./PrimaryForm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { transformDataToQuery } from "../../utils/transformDataToQuery";
 
 const FilterForm = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const form = useForm<FilterFormData>({
     mode: "onBlur",
@@ -21,6 +22,10 @@ const FilterForm = () => {
   const handleSubmit = (data: FilterFormData) => {
     const query = transformDataToQuery(data);
     navigate(`?${query}`, { replace: true });
+  };
+
+  const handleReset = () => {
+    navigate(`?`, { replace: true });
   };
 
   return (
@@ -41,6 +46,7 @@ const FilterForm = () => {
       btnText="Apply"
       form={form}
       fieldsInfo={filterFormFieldsInfo}
+      onReset={handleReset}
     />
   );
 };

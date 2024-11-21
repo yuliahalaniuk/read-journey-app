@@ -10,7 +10,7 @@ import PrimaryForm from "./PrimaryForm";
 
 const AddBookForm = ({ onValid }: { onValid?: (data: any) => void }) => {
   const form = useForm<AddBookFormData>({
-    mode: "onBlur",
+    // mode: "onBlur",
     reValidateMode: "onSubmit",
     resolver: yupResolver<FilterFormData>(addBookSchema),
   });

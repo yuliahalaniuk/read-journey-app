@@ -20,6 +20,7 @@ import {
 } from "../redux/library/library.thunks";
 import { useLibrarySelector } from "../redux/selectors";
 import { ContentContainer } from "../atoms/PageContainer";
+import { MainTitle } from "../atoms/Text";
 
 const DiaryPage = () => {
   const location = useLocation();
@@ -69,14 +70,16 @@ const DiaryPage = () => {
         book={currentBook}
       />
 
-      <BaseBox>
+      <BaseBox $padding={"40px"}>
+        <MainTitle>My reading</MainTitle>
+
         <FlexBox>
-          <FlexBox style={{ margin: "18px" }}>
+          <FlexBox>
             <img
               src={
                 currentBook?.volumeInfo?.imageLinks?.thumbnail
                   ? currentBook?.volumeInfo.imageLinks?.thumbnail
-                  : "/images/iphone.png"
+                  : "/images/bookCover.png"
               }
               alt={currentBook?.volumeInfo?.title}
               width={140}

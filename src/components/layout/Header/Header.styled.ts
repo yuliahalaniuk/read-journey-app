@@ -12,6 +12,7 @@ export const Box = styled(FlexBox)<{ $isVisible?: boolean }>`
   opacity: ${(p) => (p.$isVisible ? 1 : 0)};
   transition: opacity ${(p) => p.theme.timingFnMain};
   backdrop-filter: blur(3px);
+  pointer-events: ${(p) => (p.$isVisible ? "all" : "none")};
 `;
 
 export const ImgContainer = styled(FlexBox)``;

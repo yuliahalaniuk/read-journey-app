@@ -1,17 +1,19 @@
 import React from "react";
-import { FlexForm } from "../../atoms/Flex";
+import { FlexBox, FlexForm } from "../../atoms/Flex";
 import styled from "styled-components";
 import { TransparentBtn } from "../../atoms/Buttons";
 import FormFields, { FormFieldsProps } from "../../atoms/components/FormFields";
 
 interface PrimaryFormProps extends FormFieldsProps {
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  onReset?: (e: any) => void;
   title?: string;
   btnText?: string;
 }
 
 const PrimaryForm: React.FC<PrimaryFormProps> = ({
   onSubmit,
+  onReset,
   title,
   btnText,
   ...props
@@ -19,10 +21,16 @@ const PrimaryForm: React.FC<PrimaryFormProps> = ({
   return (
     <FlexForm onSubmit={onSubmit} $align="start" style={{ flex: 1 }}>
       <Title>{title}</Title>
-
       <FormFields {...props} />
 
-      <TransparentBtn type="submit">{btnText}</TransparentBtn>
+      <FlexBox $align="flex-start" $fDirection="row" $gap="12px">
+        <TransparentBtn type="submit">{btnText}</TransparentBtn>
+        {onReset && (
+          <TransparentBtn type={"reset"} onClick={onReset}>
+            {"Reset"}
+          </TransparentBtn>
+        )}
+      </FlexBox>
     </FlexForm>
   );
 };

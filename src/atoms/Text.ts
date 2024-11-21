@@ -2,10 +2,21 @@ import styled from "styled-components";
 
 export const MainTitle = styled.p`
   font-weight: 700;
-  font-size: 28px;
+  font-size: 20px;
   line-height: 114%;
   letter-spacing: 0.02em;
   color: ${(p) => p.theme.text.main};
+  margin-bottom: 34px;
+  text-align: left;
+  width: 100%;
+  @media screen and (min-width: 768px) {
+    margin-bottom: 32px;
+    font-size: 28px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    margin-bottom: 44px;
+  }
 `;
 
 //ToDo css types

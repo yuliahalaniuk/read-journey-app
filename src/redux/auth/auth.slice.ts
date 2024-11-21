@@ -8,7 +8,7 @@ import {
 } from "./auth.thunks";
 
 export interface AuthState {
-  user: User | null;
+  user: Partial<User> | null;
   token: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
@@ -61,7 +61,7 @@ export const authSlice = createSlice({
         (action) => action.type.endsWith("/rejected"),
         (state, action: any) => {
           state.status = "failed";
-          state.error = action?.payload ?? "Failed to log in";
+          state.error = action?.payload ?? "Ooops... something went wrong";
         }
       );
   },

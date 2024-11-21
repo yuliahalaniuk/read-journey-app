@@ -20,15 +20,13 @@ import {
 const LogInForm = () => {
   const form = useForm<LoginFormData>({
     mode: "onBlur",
-    reValidateMode: "onSubmit",
+    reValidateMode: "onBlur",
     resolver: yupResolver<LoginFormData>(logInSchema),
   });
 
   const dispatch = useAppDispatch();
 
   const onValid = (data: LoginFormData) => {
-    console.log(data);
-
     dispatch(logInUserThunk(data));
   };
 

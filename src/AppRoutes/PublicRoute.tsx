@@ -4,7 +4,7 @@ import { useAuthSelector } from "../redux/selectors";
 const PublicRoute = () => {
   const auth = useAuthSelector();
 
-  return !auth?.token ? <Outlet /> : <Navigate to="/home" />;
+  return auth?.token ? <Navigate to="/home" /> : <Outlet />;
 };
 
 export default PublicRoute;

@@ -8,13 +8,12 @@ export interface FormFieldsProps {
   form?: any;
   containerStyles?: any;
 }
+
 const FormFields: React.FC<FormFieldsProps> = ({
   fieldsInfo,
   form,
   containerStyles,
 }) => {
-
-
   return (
     <FlexBox
       $gap="8px"
@@ -28,7 +27,12 @@ const FormFields: React.FC<FormFieldsProps> = ({
     >
       {fieldsInfo.map((info) => {
         return (
-          <FormInput key={info?.name} {...info} register={form.register} />
+          <FormInput
+            key={info.name}
+            {...info}
+            register={form.register}
+            errors={info.name && form.formState.errors[info.name]}
+          />
         );
       })}
     </FlexBox>

@@ -38,6 +38,8 @@ const LibrarySideBar = () => {
         },
       })
     );
+
+    showModal(<AddedBookModal />);
   };
 
   const settings = {
@@ -74,8 +76,10 @@ const LibrarySideBar = () => {
   }, [recommended]);
 
   return (
-    <SidebarContainer $gap="20px">
-      <AddBookForm onValid={handleAddBookFormSubmit} />
+    <SidebarContainer $gap="20px" $justify="space-between">
+      <FlexBox style={{ flex: 1 }}>
+        <AddBookForm onValid={handleAddBookFormSubmit} />
+      </FlexBox>{" "}
       <SliderContainer $gap="20px">
         <Title>Recommended</Title>
 

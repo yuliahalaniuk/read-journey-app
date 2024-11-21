@@ -12,8 +12,9 @@ import MenuModal from "../../modals/MenuModal";
 import { useLocation } from "react-router-dom";
 import { logOutThunk } from "../../../redux/auth/auth.thunks";
 import { useAppDispatch } from "../../../redux/store";
+import useScrollUp from "../../../hooks/useScrollUp";
 
-const Header = ({ isScrollingUp }: { isScrollingUp?: boolean }) => {
+const Header = () => {
   const { showModal, hideModal, isExiting } = useModal();
   const isDesktop = useMediaQuery(isDesktopQuery);
   const isMobile = useMediaQuery({
@@ -21,6 +22,7 @@ const Header = ({ isScrollingUp }: { isScrollingUp?: boolean }) => {
   });
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
+  const { isScrollingUp } = useScrollUp();
 
   const handleLogOut = () => {
     dispatch(logOutThunk());

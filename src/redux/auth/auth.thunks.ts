@@ -34,13 +34,21 @@ export const logInUserThunk = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
+      const { user }: { user: any } = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const token = await userCredential.user.getIdToken();
-      return { user: userCredential.user, token };
+
+      const userInfo = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      };
+
+      console.log("userCredential", user);
+      return { user: userInfo, token: user.accessToken };
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -52,9 +60,16 @@ export const signInWithGoogleThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const token = await result.user.getIdToken();
-      return { user: result.user, token };
+      const { user }: { user: any } = await signInWithPopup(auth, provider);
+
+      const userInfo = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      };
+
+      return { user: userInfo, token: user.accessToken };
     } catch (error: any) {
       return rejectWithValue(error.message);
     }

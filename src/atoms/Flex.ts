@@ -55,3 +55,18 @@ export const FlexUl = styled.ul<{
   align-items: ${(p) => (p.$align ? p.$align : "center")};
   justify-content: ${(p) => (p.$justify ? p.$justify : "start")};
 `;
+
+
+export const FlexLabel = styled.label<{
+  $gap?: string;
+  $fDirection?: string;
+  $align?: string;
+  $justify?: string;
+}>`
+  width: 100%;
+  display: flex;
+  flex-direction: ${(p) => (p.$fDirection ? p.$fDirection : "row")};
+  gap: ${(p) => (p.$gap ? p.$gap : "0px")};
+  align-items: ${(p) => (p.$align ? p.$align : "center")};
+  justify-content: ${(p) => (p.$justify ? p.$justify : "start")};
+`;
