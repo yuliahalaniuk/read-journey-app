@@ -65,6 +65,7 @@ const CardWrapper = styled(FlexBox)<{ size: CardSize }>`
   border-radius: 8px;
   overflow: hidden;
   background-color: transparent;
+  margin: 0 auto;
 `;
 
 const ImageContainer = styled.div<{ size: CardSize }>`

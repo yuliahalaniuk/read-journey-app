@@ -6,12 +6,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { filterSchema } from "../../validation-schemes/filterValidation";
 import PrimaryForm from "./PrimaryForm";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { transformDataToQuery } from "../../utils/transformDataToQuery";
 
 const FilterForm = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   const form = useForm<FilterFormData>({
     mode: "onBlur",

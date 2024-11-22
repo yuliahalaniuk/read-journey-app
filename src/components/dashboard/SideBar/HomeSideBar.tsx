@@ -43,9 +43,9 @@ const HomeSideBar = () => {
 };
 
 
-const ArrowBox = styled.span`
-  color: ${(p) => p.theme.text.main};
-`;
+// const ArrowBox = styled.span`
+//   color: ${(p) => p.theme.text.main};
+// `;
 
 const Title = styled.p`
   font-weight: 700;

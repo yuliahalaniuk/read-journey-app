@@ -17,6 +17,7 @@ import BookModal from "../../modals/BookModal";
 import { useModal } from "../../../providers/ModalProvider";
 import { BookEntity } from "../../../types/books";
 import AddedBookModal from "../../modals/AddedBookModal";
+import SLiderArrows from "../../../assets/SliderArrows";
 
 const LibrarySideBar = () => {
   const { recommended } = useBooksSelector();
@@ -48,6 +49,7 @@ const LibrarySideBar = () => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    // centerMode: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
@@ -87,13 +89,14 @@ const LibrarySideBar = () => {
           {recommended && recommended.length > 0 ? (
             <StyledSlider key={sliderKey} {...settings}>
               {recommended.map((book) => (
-                <FlexBox key={book.id} $justify="center">
-                  <BookCard
-                    book={book}
-                    size={CardSize.Small}
-                    onSelect={handleBookSelect}
-                  />
-                </FlexBox>
+                // <FlexBox key={book.id} $justify="center" className="Hehe">
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  size={CardSize.Small}
+                  onSelect={handleBookSelect}
+                />
+                // </FlexBox>
               ))}
             </StyledSlider>
           ) : (
@@ -119,49 +122,31 @@ const SliderContainer = styled(SecondaryBaseBox)`
   }
 `;
 const ArrowButton = styled.button`
-  /* display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+
+  width: 20px;
+  height: 20px;
   border: none;
   background-color: transparent;
-  color: red;
-  z-index: 100;
   cursor: pointer;
-  transition: all 0.3s;
-
-  &:hover {
-    background: ${(p) => p.theme.primary};
-    color: red;
-  }
+  /* transition: all 0.3s; */
 
   &:before {
-    content: "";
-    display: block;
-    font-size: 20px;
-    font-weight: bold;
-    width: 40px;
-    height: 40px;
-    color: ${(p) => p.theme.text.main};
+    display: none;
   }
 
-  &.slick-prev {
-
-    &:before {
-      content: "<";
-    }
+  .slick-next {
+    right: 0;
   }
 
-  &.slick-next {
-
-    &:before {
-      content: ">";
-    }
-  } */
+  .slick-prev {
+    left: 0;
+  }
 `;
 
 const NextArrow = (props: any) => {
@@ -170,14 +155,10 @@ const NextArrow = (props: any) => {
     <ArrowButton
       className="slick-next"
       onClick={onClick}
-      style={{
-        ...style,
-        display: "block",
-        width: "40px",
-        height: "40px",
-        color: "red",
-      }}
-    >{`>`}</ArrowButton>
+      style={{ ...style, right: "-16px" }}
+    >
+      <SLiderArrows.Right />
+    </ArrowButton>
   );
 };
 
@@ -187,21 +168,17 @@ const PrevArrow = (props: any) => {
     <ArrowButton
       className="slick-prev"
       onClick={onClick}
-      style={{
-        ...style,
-        display: "block",
-        width: "40px",
-        height: "40px",
-        color: "red",
-      }}
-    >{`<`}</ArrowButton>
+      style={{ ...style, left: "-16px" }}
+    >
+      <SLiderArrows.Left />
+    </ArrowButton>
   );
 };
 
 const StyledSlider = styled(Slider)`
   .slick-track {
     display: flex;
-    gap: 16px;
+    /* gap: 16px; */
   }
 `;
 

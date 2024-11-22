@@ -44,7 +44,7 @@ const PageForm = ({
   });
 
   const form = useForm<PageFormData>({
-    mode: "onBlur",
+    // mode: "onSubmit",
     reValidateMode: "onSubmit",
     resolver: yupResolver<PageFormData>(pageSchema),
   });
