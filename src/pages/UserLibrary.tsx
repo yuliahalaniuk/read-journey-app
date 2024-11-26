@@ -1,4 +1,4 @@
-import LibrarySideBar from "../components/dashboard/SideBar/LibrarySideBar";
+import LibrarySideBar from "../components/sidebars/LibrarySideBar";
 import { BaseBox } from "../atoms/BaseBox";
 import { MainTitle } from "../atoms/Text";
 import { FlexBox } from "../atoms/Flex";
@@ -45,7 +45,6 @@ const UserLibrary = () => {
         {...book}
         btnText="Start Reading"
         btnOnClick={() => {
-          console.log("Reading started");
           nav(`/diary/${book?.id}`);
           // addBook(book);
 
@@ -64,7 +63,7 @@ const UserLibrary = () => {
     <MainLayout>
       <LibrarySideBar />
 
-      <BaseBox $gap="40px">
+      <BaseBox>
         <FlexBox
           $gap="40px"
           $fDirection="row"

@@ -13,7 +13,9 @@ export const Content = styled(FlexBox)`
   flex: 1;
   display: grid;
   grid-template-rows: auto auto;
+  grid-template-columns: 1fr;
   justify-content: center;
+  align-items: stretch;
   max-width: 375px;
   width: 100%;
   gap: 16px;

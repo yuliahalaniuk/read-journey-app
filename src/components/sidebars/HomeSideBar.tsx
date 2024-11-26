@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import { SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { FlexUl } from "../../../atoms/Flex";
-import { instructionsData } from "../../../data/instructionsData";
-import FilterForm from "../../forms/FilterForm";
-import InstructionItem from "./InstructionsItem/InstructionItem";
-import { SidebarContainer } from "../../../atoms/SidebarContainer";
-import { TextWithAccent } from "../../../atoms/Text";
+import { SecondaryBaseBox } from "../../atoms/BaseBox";
+import { FlexUl } from "../../atoms/Flex";
+import { instructionsData } from "../../data/instructionsData";
+import FilterForm from "../forms/FilterForm";
+import InstructionItem from "./components/InstructionsItem/InstructionItem";
+import { SidebarContainer } from "../../atoms/SidebarContainer";
+import { TextWithAccent } from "../../atoms/Text";
 import { useMediaQuery } from "react-responsive";
-import { isDesktopQuery } from "../../../utils/mediaQueries";
-import LinkWithArrow from "../../../atoms/components/LinkWithArrow";
+import { isDesktopQuery } from "../../utils/mediaQueries";
+import LinkWithArrow from "../../atoms/components/LinkWithArrow";
 
 const HomeSideBar = () => {
   const isDesktop = useMediaQuery(isDesktopQuery);
@@ -41,7 +41,6 @@ const HomeSideBar = () => {
     </SidebarContainer>
   );
 };
-
 
 // const ArrowBox = styled.span`
 //   color: ${(p) => p.theme.text.main};

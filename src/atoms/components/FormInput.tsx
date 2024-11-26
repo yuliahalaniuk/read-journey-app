@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import InputSecurityControlHOC from "../../components/HOC/SecurityInputControl";
 import { FlexBox } from "../Flex";
 import { ErrorText, LabelContainer, StLabel, StyledInput } from "../StInput";
@@ -5,20 +6,28 @@ import { ErrorText, LabelContainer, StLabel, StyledInput } from "../StInput";
 const FormInput = ({
   label,
   name,
-  register,
+  form,
   errors,
   required,
   canBeHidden,
   placeholder,
+  value,
 }: {
   label?: string;
   name?: string;
-  register?: any;
+  form: any;
   errors?: Record<string, any>;
   required?: boolean;
   placeholder?: string;
   canBeHidden?: boolean;
+  value?: string;
 }) => {
+  useEffect(() => {
+    form.setValue(name, value);
+  }, [form, name, value]);
+
+  const fieldValue = form.watch(name);
+
   return (
     <FlexBox $gap="4px">
       <LabelContainer
@@ -36,11 +45,12 @@ const FormInput = ({
                   id={name}
                   type={type}
                   placeholder={placeholder}
-                  {...register(name, { required })}
+                  {...form.register(name, { required })}
+                  value={value}
+                  disabled={!!value}
                 />
               )}
               htmlType="text"
-              // placeholder={`Enter your ${label?.toLowerCase()}`}
               name={name}
             />
           ) : (
@@ -48,8 +58,10 @@ const FormInput = ({
               id={name}
               type="text"
               placeholder={placeholder}
-              // placeholder={`Enter your ${label?.toLowerCase()}`}
-              {...register(name, { required })}
+              {...form.register(name, { required })}
+              value={fieldValue}
+              disabled={!!value}
+              onChange={(e) => form.setValue(name, e.target.value)}
             />
           )}
         </FlexBox>

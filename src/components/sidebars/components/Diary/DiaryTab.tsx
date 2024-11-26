@@ -20,14 +20,14 @@ const DiaryTab = ({
 
   return (
     <>
-      {stats &&
+      {stats?.sessions &&
         Object.entries(stats.sessions)?.map(([date, sessions]) => {
           const total = Object.values(sessions as any).reduce((acc, next) => {
             return acc + (next as any).pagesRead;
           }, 0);
 
           return (
-            <FlexBox key={date} $gap="28px">
+            <FlexBox key={date} $gap="28px" className="DiaryTab">
               <FlexBox $fDirection="row" $gap="10px" $justify="space-between">
                 <FlexBox $fDirection="row" $gap="10px" $align="flex-start">
                   <svg
@@ -55,8 +55,7 @@ const DiaryTab = ({
               <FlexBox $gap="28px">
                 {Object.entries(sessions as any).map(
                   ([key, session]: [key: string, session: any]) => {
-                    const time = session.duration / 1000000;
-                    console.log("session in here", session);
+                    const time = session.duration;
                     return (
                       <FlexBox
                         key={session.id}
@@ -71,7 +70,9 @@ const DiaryTab = ({
                             ) + "%"}
                           </Text>
                           <Text $textAlign="left">
-                            {Math.floor(time / 60)} minutes
+                            {time > 60
+                              ? `${Math.floor(time / 60)} minutes`
+                              : `${Math.floor(time)} seconds`}
                           </Text>
                         </FlexBox>
 

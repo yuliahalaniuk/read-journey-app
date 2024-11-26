@@ -118,6 +118,62 @@ export const deleteAllThunk = createAsyncThunk(
   }
 );
 
+// export const addReadingSessionThunk = createAsyncThunk(
+//   "library/addReadingSession",
+//   async (
+//     {
+//       bookId,
+//       pagesRead,
+//       startTime,
+//     }: {
+//       bookId: string;
+//       pagesRead: number;
+//       startTime: number;
+//     },
+//     { rejectWithValue, getState }
+//   ) => {
+//     const state = getState() as RootState;
+//     const userId = state?.auth?.user?.uid;
+
+//     const currentDate = new Date().toISOString().split("T")[0];
+//     const readingRef = ref(database, `users/${userId}/stats/${bookId}`);
+//     const sessionDuration = Math.floor((Date.now() - startTime) / 1000);
+
+//     try {
+//       const snapshot = await get(readingRef);
+//       const bookData = snapshot.exists()
+//         ? snapshot.val()
+//         : { totalRead: 0, sessions: {} };
+
+//       const newSession = {
+//         pagesRead: pagesRead,
+//         startTime,
+//         endTime: Date.now(),
+//         duration: sessionDuration,
+//       };
+
+//       const updatedTotalRead = bookData.totalRead + pagesRead;
+//       const updatedSessions = {
+//         ...bookData.sessions,
+//         [currentDate]: {
+//           ...(bookData.sessions[currentDate] || {}),
+//           [push(ref(database, `users/${userId}/stats/${bookId}/sessions`))
+//             .key as any]: newSession,
+//         },
+//       };
+
+//       await set(readingRef, {
+//         totalRead: updatedTotalRead,
+//         sessions: updatedSessions,
+//       });
+
+//       return { totalRead: updatedTotalRead, sessions: updatedSessions };
+//     } catch (error) {
+//       return rejectWithValue(error);
+//     }
+//   }
+// );
+
 export const addReadingSessionThunk = createAsyncThunk(
   "library/addReadingSession",
   async (
@@ -146,7 +202,7 @@ export const addReadingSessionThunk = createAsyncThunk(
         : { totalRead: 0, sessions: {} };
 
       const newSession = {
-        pagesRead: bookData.totalRead + pagesRead,
+        pagesRead: pagesRead,
         startTime,
         endTime: Date.now(),
         duration: sessionDuration,
@@ -154,11 +210,11 @@ export const addReadingSessionThunk = createAsyncThunk(
 
       const updatedTotalRead = bookData.totalRead + pagesRead;
       const updatedSessions = {
-        ...bookData.sessions,
+        ...(bookData.sessions || {}), // Handle undefined sessions
         [currentDate]: {
-          ...(bookData.sessions[currentDate] || {}),
+          ...(bookData.sessions?.[currentDate] || {}), // Handle undefined date
           [push(ref(database, `users/${userId}/stats/${bookId}/sessions`))
-            .key as any]: newSession,
+            .key!]: newSession,
         },
       };
 
@@ -173,6 +229,7 @@ export const addReadingSessionThunk = createAsyncThunk(
     }
   }
 );
+
 
 export const deleteSessionThunk = createAsyncThunk(
   "library/deleteSession",

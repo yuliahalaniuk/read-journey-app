@@ -16,6 +16,7 @@ export const SidebarContainer = styled(BaseBox)`
 
   @media screen and (min-width: 1280px) {
     max-width: 353px;
+    /* width: 353px; */
     grid-template-rows: 1fr auto;
     grid-template-columns: 1fr;
     height: auto;

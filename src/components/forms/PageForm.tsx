@@ -1,12 +1,8 @@
-import { PageFormData, pageFormFieldsInfo } from "../../data/formFieldsInfo";
+import { PageFormData } from "../../data/formFieldsInfo";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PrimaryForm from "./PrimaryForm";
-import { pageSchema } from "../../validation-schemes/pageValidation";
 import * as yup from "yup";
-// const onValid = (data: PageFormData) => {
-//   console.log(data);
-// };
 
 export type ActionType = "start" | "stop";
 
@@ -44,19 +40,30 @@ const PageForm = ({
   });
 
   const form = useForm<PageFormData>({
-    // mode: "onSubmit",
     reValidateMode: "onSubmit",
     resolver: yupResolver<PageFormData>(pageSchema),
   });
-
-  console.log("form errors", form.formState.errors);
+  const inputProps = {
+    name: "page",
+    label: "Page number",
+    required: false,
+    ...(action === "start" ? { value: String(minPages) } : null),
+  };
 
   return (
     <PrimaryForm
-      onSubmit={onValid && form.handleSubmit(onValid)}
+      onSubmit={form.handleSubmit(
+        (data) => {
+          console.log("data", data);
+          onValid?.({ page: Number(data.page) });
+        },
+        (errors) => {
+          console.log("Page Form submission errors:", errors);
+        }
+      )}
       {...(action && textInfo[action])}
       form={form}
-      fieldsInfo={pageFormFieldsInfo}
+      fieldsInfo={[inputProps]}
     />
   );
 };

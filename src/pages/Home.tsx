@@ -1,4 +1,4 @@
-import HomeSideBar from "../components/dashboard/SideBar/HomeSideBar";
+import HomeSideBar from "../components/sidebars/HomeSideBar";
 import { BaseBox } from "../atoms/BaseBox";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import { MainTitle } from "../atoms/Text";
@@ -49,7 +49,7 @@ const Home = () => {
     <MainLayout>
       <HomeSideBar />
 
-      <BaseBox $gap="40px">
+      <BaseBox>
         <MainTitle>Recommended</MainTitle>
 
         <GridBox>

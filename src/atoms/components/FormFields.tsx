@@ -30,7 +30,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
           <FormInput
             key={info.name}
             {...info}
-            register={form.register}
+            form={form}
             errors={info.name && form.formState.errors[info.name]}
           />
         );

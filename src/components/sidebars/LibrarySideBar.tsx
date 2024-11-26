@@ -1,23 +1,23 @@
 import styled from "styled-components";
-import { SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { FlexBox } from "../../../atoms/Flex";
-import { SidebarContainer } from "../../../atoms/SidebarContainer";
-import { useBooksSelector } from "../../../redux/selectors";
-import BookCard, { CardSize } from "../Card/BookCard";
+import { SecondaryBaseBox } from "../../atoms/BaseBox";
+import { FlexBox } from "../../atoms/Flex";
+import { SidebarContainer } from "../../atoms/SidebarContainer";
+import { useBooksSelector } from "../../redux/selectors";
+import BookCard, { CardSize } from "../dashboard/Card/BookCard";
 import { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import AddBookForm from "../../forms/AddBookForm";
-import { useAppDispatch } from "../../../redux/store";
-import { addOneThunk } from "../../../redux/library/library.thunks";
+import AddBookForm from "../forms/AddBookForm";
+import { useAppDispatch } from "../../redux/store";
+import { addOneThunk } from "../../redux/library/library.thunks";
 import { nanoid } from "@reduxjs/toolkit";
-import LinkWithArrow from "../../../atoms/components/LinkWithArrow";
-import BookModal from "../../modals/BookModal";
-import { useModal } from "../../../providers/ModalProvider";
-import { BookEntity } from "../../../types/books";
-import AddedBookModal from "../../modals/AddedBookModal";
-import SLiderArrows from "../../../assets/SliderArrows";
+import LinkWithArrow from "../../atoms/components/LinkWithArrow";
+import BookModal from "../modals/BookModal";
+import { useModal } from "../../providers/ModalProvider";
+import { BookEntity } from "../../types/books";
+import AddedBookModal from "../modals/AddedBookModal";
+import SLiderArrows from "../../assets/SliderArrows";
 
 const LibrarySideBar = () => {
   const { recommended } = useBooksSelector();
@@ -25,8 +25,6 @@ const LibrarySideBar = () => {
   const dispatch = useAppDispatch();
   const { showModal } = useModal();
   const handleAddBookFormSubmit = (data: any) => {
-    console.log("data", data);
-
     dispatch(
       addOneThunk({
         book: {
@@ -50,6 +48,7 @@ const LibrarySideBar = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
     // centerMode: true,
+
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
@@ -82,43 +81,48 @@ const LibrarySideBar = () => {
       <FlexBox style={{ flex: 1 }}>
         <AddBookForm onValid={handleAddBookFormSubmit} />
       </FlexBox>{" "}
-      <SliderContainer $gap="20px">
+      <SecondaryBaseBox $gap="20px">
         <Title>Recommended</Title>
 
-        <FlexBox $align="stretch">
-          {recommended && recommended.length > 0 ? (
-            <StyledSlider key={sliderKey} {...settings}>
-              {recommended.map((book) => (
-                // <FlexBox key={book.id} $justify="center" className="Hehe">
-                <BookCard
-                  key={book.id}
-                  book={book}
-                  size={CardSize.Small}
-                  onSelect={handleBookSelect}
-                />
-                // </FlexBox>
-              ))}
-            </StyledSlider>
-          ) : (
-            <p>No recommendations available</p>
-          )}
-        </FlexBox>
+        <SliderContainer className="SliderCont">
+          <FlexBox $align="stretch">
+            {recommended && recommended.length > 0 ? (
+              <StyledSlider key={sliderKey} {...settings}>
+                {recommended.map((book) => (
+                  <BookCard
+                    key={book.id}
+                    book={book}
+                    size={CardSize.Small}
+                    onSelect={handleBookSelect}
+                  />
+                ))}
+              </StyledSlider>
+            ) : (
+              <p>No recommendations available</p>
+            )}
+          </FlexBox>
+        </SliderContainer>
 
         <LinkWithArrow text="Home" href="/home" />
-      </SliderContainer>
+      </SecondaryBaseBox>
     </SidebarContainer>
   );
 };
 
-const SliderContainer = styled(SecondaryBaseBox)`
-  max-width: 335px;
+const SliderContainer = styled(FlexBox)`
+  max-width: 240px;
+  margin: 0 auto;
+
+  @media screen and (min-width: 400px) {
+    max-width: 290px;
+  }
 
   @media screen and (min-width: 768px) {
     max-width: 320px;
   }
 
   @media screen and (min-width: 1280px) {
-    width: 313px;
+    width: 273px;
   }
 `;
 const ArrowButton = styled.button`
@@ -183,14 +187,14 @@ const StyledSlider = styled(Slider)`
 `;
 
 const Title = styled.p`
+  width: 100%;
   font-weight: 700;
   font-size: 18px;
   line-height: 100%;
   letter-spacing: -0.02em;
-  text-align: center;
+  text-align: left;
 
   color: ${(p) => p.theme.text.main};
 `;
 
 export default LibrarySideBar;
-

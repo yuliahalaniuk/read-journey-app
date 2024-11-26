@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
-import DiarySideBar from "../components/dashboard/SideBar/DiarySideBar";
+import DiarySideBar from "../components/sidebars/DiarySideBar";
 import { BaseBox } from "../atoms/BaseBox";
 import { useLocation } from "react-router-dom";
 import { FlexBox } from "../atoms/Flex";
@@ -19,7 +19,6 @@ import {
   getOneThunk,
 } from "../redux/library/library.thunks";
 import { useLibrarySelector } from "../redux/selectors";
-import { ContentContainer } from "../atoms/PageContainer";
 import { MainTitle } from "../atoms/Text";
 
 const DiaryPage = () => {
@@ -43,9 +42,11 @@ const DiaryPage = () => {
   const handlePageFormSubmit = (data: PageFormData) => {
     if (!isStarted) {
       setIsStarted(true);
-      startRef.current = { page: data.page, time: Date.now() };
+      startRef.current = { page: currentBook?.totalRead, time: Date.now() };
     } else {
       const pagesRead = (data?.page || 0) - (startRef.current.page || 0);
+
+      console.log("pagesRead i pass", pagesRead);
       setIsStarted(false);
 
       dispatch(
@@ -58,38 +59,45 @@ const DiaryPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("startRef", startRef.current);
-  // }, [startRef]);
+  const handlePageFormStart = () => {
+    setIsStarted(true);
+    startRef.current = {
+      page: currentBook?.totalRead,
+      time: Date.now(),
+    };
+  };
+  useEffect(() => {
+    console.log("startRef", startRef.current);
+  }, [startRef]);
 
   return (
     <MainLayout>
       <DiarySideBar
+        handlePageFormStart={handlePageFormStart}
         handleSubmit={handlePageFormSubmit}
         isStarted={isStarted}
-        book={currentBook}
       />
 
       <BaseBox $padding={"40px"}>
         <MainTitle>My reading</MainTitle>
 
-        <FlexBox>
+        <FlexBox $justify="center" $align="center" style={{ flex: 1 }}>
           <FlexBox>
             <img
               src={
-                currentBook?.volumeInfo?.imageLinks?.thumbnail
-                  ? currentBook?.volumeInfo.imageLinks?.thumbnail
+                currentBook?.info?.volumeInfo?.imageLinks?.thumbnail
+                  ? currentBook?.info?.volumeInfo.imageLinks?.thumbnail
                   : "/images/bookCover.png"
               }
-              alt={currentBook?.volumeInfo?.title}
+              alt={currentBook?.info?.volumeInfo?.title}
               width={140}
               height={213}
             />
           </FlexBox>
 
           <FlexBox style={{ margin: "20px" }}>
-            <NameText>{currentBook?.volumeInfo?.title}</NameText>
-            {currentBook?.volumeInfo?.authors?.map((x: string) => (
+            <NameText>{currentBook?.info?.volumeInfo?.title}</NameText>
+            {currentBook?.info?.volumeInfo?.authors?.map((x: string) => (
               <SubText>{x}</SubText>
             ))}
           </FlexBox>
@@ -97,7 +105,7 @@ const DiaryPage = () => {
           <BaseButton
             onClick={() => {
               if (!isStarted) {
-                setIsStarted(true);
+                handlePageFormStart();
               } else {
                 showModal(
                   <PageModal
@@ -106,8 +114,8 @@ const DiaryPage = () => {
                       handlePageFormSubmit(data);
                       hideModal();
                     }}
-                    maxPages={currentBook.volumeInfo.pageCount}
-                    minPages={0}
+                    maxPages={currentBook?.info?.volumeInfo?.pageCount}
+                    minPages={currentBook?.totalRead || 0}
                   />
                 );
               }

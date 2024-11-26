@@ -9,19 +9,28 @@ import {
   getAllThunk,
   getOneThunk,
 } from "./library.thunks";
-import { BookEntity } from "../../types/books";
+import { BookEntity, SessionEntity } from "../../types/books";
+import { toast } from "react-toastify";
 
 export interface LibraryState {
   books: BookEntity[];
   filteredBooks: BookEntity[];
-  currentBook: any | null;
+  currentBook: {
+    info: BookEntity | null;
+    totalRead: number;
+    sessions: Record<string, Record<string, { pagesRead: number }>>;
+  };
   stats: {};
 }
 
 const initialState: LibraryState = {
   books: [],
   filteredBooks: [],
-  currentBook: null,
+  currentBook: {
+    info: null,
+    totalRead: 0,
+    sessions: {},
+  },
   stats: {},
 };
 
@@ -32,7 +41,7 @@ export const librarySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllThunk.fulfilled, (state, action) => {
-        console.log("action.payload", action.payload);
+        // console.log("action.payload", action.payload);
         state.books = action.payload;
         state.filteredBooks = action.payload;
       })
@@ -43,7 +52,10 @@ export const librarySlice = createSlice({
         state.books.push(action.payload);
       })
       .addCase(getOneThunk.fulfilled, (state, action) => {
-        state.currentBook = action.payload;
+        state.currentBook = {
+          ...state.currentBook,
+          info: action.payload,
+        };
       })
       .addCase(deleteOneThunk.fulfilled, (state, action) => {
         state.books = state.books.filter((book) => book.id !== action.payload);
@@ -53,11 +65,8 @@ export const librarySlice = createSlice({
         state.filteredBooks = [];
       })
       .addCase(addReadingSessionThunk.fulfilled, (state, action) => {
-        state.currentBook = {
-          ...state.currentBook,
-          totalRead: action.payload.totalRead,
-          sessions: action.payload.sessions,
-        };
+        state.currentBook.totalRead = action.payload.totalRead;
+        state.currentBook.sessions = action.payload.sessions;
       })
       .addCase(deleteSessionThunk.fulfilled, (state, action) => {
         const { date, sessionId } = action.payload;
@@ -71,7 +80,6 @@ export const librarySlice = createSlice({
               delete state.currentBook.sessions[date];
             }
 
-            // Recalculate totalRead if needed
             const totalRead = Object.values(state.currentBook.sessions).reduce(
               (total: number, sessionMap: any) =>
                 total +
@@ -88,8 +96,7 @@ export const librarySlice = createSlice({
       })
 
       .addCase(addReadingSessionThunk.rejected, (state, action) => {
-        state.currentBook =
-          action.error.message || "Failed to update reading data";
+        toast.error("Failed to update reading data");
       });
   },
 });
