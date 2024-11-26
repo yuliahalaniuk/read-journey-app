@@ -37,19 +37,18 @@ class Service {
     ];
 
     const newArr = firebaseConfigKeys.reduce((config, key) => {
-      const camelCaseKey = convertEnvToCamelCase(key.replace(/FIREBASE_/, ""));
+      const camelCaseKey = convertEnvToCamelCase(
+        key.replace(/REACT_APP_FIREBASE_/, "")
+      );
       const value = this.getEnvVar(key);
 
       if (value) {
         config[camelCaseKey] = value;
-      } else {
-        console.warn(`Missing config for ${key}`);
-      }
+      } 
 
       return config;
     }, {} as Record<string, string | undefined>);
 
-    console.log("Generated Firebase config:", newArr);
     return newArr;
   }
 }
