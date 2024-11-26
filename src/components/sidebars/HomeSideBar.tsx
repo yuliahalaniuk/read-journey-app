@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { SecondaryBaseBox } from "../../atoms/BaseBox";
-import { FlexUl } from "../../atoms/Flex";
+import { FlexBox, FlexUl } from "../../atoms/Flex";
 import { instructionsData } from "../../data/instructionsData";
 import FilterForm from "../forms/FilterForm";
 import InstructionItem from "./components/InstructionsItem/InstructionItem";
@@ -15,29 +15,36 @@ const HomeSideBar = () => {
 
   return (
     <SidebarContainer $gap="20px">
-      <FilterForm />
+      <FlexBox $gap="20px">
+        <FilterForm />
 
-      <SecondaryBaseBox $gap="20px">
-        <Title>Start your workout</Title>
+        <SecondaryBaseBox $gap="20px">
+          <Title>Start your workout</Title>
 
-        <FlexUl $gap="20px">
-          {instructionsData?.map((instr) => {
-            return <InstructionItem key={instr?.id} {...instr} />;
-          })}
-        </FlexUl>
+          <FlexUl $gap="20px">
+            {instructionsData?.map((instr) => {
+              return <InstructionItem key={instr?.id} {...instr} />;
+            })}
+          </FlexUl>
 
-        <LinkWithArrow href="/library" text="My library" />
-      </SecondaryBaseBox>
-
-      {isDesktop && (
-        <SecondaryBaseBox $fDirection="row" $gap="8px">
-          <img src={"/images/books.png"} alt={"Books"} width={40} height={40} />
-          <TextWithAccent $textAlign="left">
-            "Books are <span>windows</span> to the world, and reading is a
-            journey into the unknown."
-          </TextWithAccent>
+          <LinkWithArrow href="/library" text="My library" />
         </SecondaryBaseBox>
-      )}
+
+        {isDesktop && (
+          <SecondaryBaseBox $fDirection="row" $gap="8px">
+            <img
+              src={"/images/books.png"}
+              alt={"Books"}
+              width={40}
+              height={40}
+            />
+            <TextWithAccent $textAlign="left">
+              "Books are <span>windows</span> to the world, and reading is a
+              journey into the unknown."
+            </TextWithAccent>
+          </SecondaryBaseBox>
+        )}
+      </FlexBox>
     </SidebarContainer>
   );
 };
