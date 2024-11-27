@@ -1,7 +1,7 @@
 {
   "name": "read-journey-app",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "homepage": "https://yuliahalaniuk.github.io/read-journey-app/",
   "dependencies": {
     "@headlessui/react": "^2.1.8",
@@ -43,8 +43,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-     "predeploy": "npm run build",
-  "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +67,7 @@
     "@svgr/webpack": "^8.1.0",
     "@types/lodash": "^4.17.13",
     "@types/react-slick": "^0.23.13",
-    "@types/redux-persist": "^4.3.1"
+    "@types/redux-persist": "^4.3.1",
+    "gh-pages": "^6.2.0"
   }
 }
