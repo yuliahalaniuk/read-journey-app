@@ -9,7 +9,7 @@ import {
   getAllThunk,
   getOneThunk,
 } from "./library.thunks";
-import { BookEntity, SessionEntity } from "../../types/books";
+import { BookEntity } from "../../types/books";
 import { toast } from "react-toastify";
 
 export interface LibraryState {
