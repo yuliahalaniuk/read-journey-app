@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/read-journey-app/static/css/main.7bef2f2c.css",
+    "main.js": "/read-journey-app/static/js/main.82afd775.js",
+    "static/media/slick.svg": "/read-journey-app/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/read-journey-app/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/read-journey-app/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/read-journey-app/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/read-journey-app/index.html",
+    "main.7bef2f2c.css.map": "/read-journey-app/static/css/main.7bef2f2c.css.map",
+    "main.82afd775.js.map": "/read-journey-app/static/js/main.82afd775.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7bef2f2c.css",
+    "static/js/main.82afd775.js"
+  ]
+}
