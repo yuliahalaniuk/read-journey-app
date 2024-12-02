@@ -34,7 +34,7 @@ export const AccentedBtn = styled(BaseButton)`
 
   transition: all ${(p) => p.theme.timingFnMain};
 
-  max-width: 225px;
+  /* max-width: 225px; */
 
   @media screen and (min-width: 768px) {
     font-size: 20px;
@@ -65,3 +65,5 @@ export const TransparentBtn = styled(BaseButton)<{ $sizeType?: "s" | "m" }>`
     padding: ${(p) => (p.$sizeType === "m" ? "14px 28px" : "12px 28px")};
   }
 `;
+
+

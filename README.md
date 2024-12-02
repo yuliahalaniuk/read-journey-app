@@ -1,46 +1,50 @@
-# Getting Started with Create React App
+# READ JOURNEY
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Live Page](https://read-journey-app-eta.vercel.app/)
 
-## Available Scripts
+![read-journey-app](./public/images/readMe/logIn.png)
 
-In the project directory, you can run:
+## Project description
 
-### `npm start`
+Welcome to "Read Journey" repository that contains source code and
+assets for this website! It is a personal reading diary designed to help book enthusiasts track, manage, and reflect on their reading habits. With this app, users can log books they’ve read, save books they want to explore, and document their progress along their literary journey.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 📊 Features
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- #### Variety of Books
+Explore a wide range of books curated just for you.
+Add recommended books to your library with a single click.
 
-### `npm test`
+- #### Organized Digital Library
+Keep your book collection well-organized.
+Easily manage books you plan to read, are currently reading, or have already finished.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- #### Reading Progress Tracking
+Track your reading progress for each book.
+Use visual progress bars, daily updates, and completion percentages to stay motivated.
 
-### `npm run build`
+- #### Detailed Statistics and Insights
+Get a clear overview of your reading habits and achievements.
+See useful details like the number of books you’ve completed, your progress percentages, and more.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🔍 Accessibility
 
-### `npm run eject`
+- Intuitive design
+- Semantic HTML
+- Mobile-Friendly
+- The web resource is available for any device with an Internet connection
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🛠️ Technologies Used
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- React
+- Styled Components
+- Firebase
+- Axios
+- TypeScript
+- React Hook Form
+- React responsive
+- Chart.js
+- React Slick
+- Yup

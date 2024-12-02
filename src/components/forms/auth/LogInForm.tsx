@@ -45,17 +45,15 @@ const LogInForm = () => {
       <FlexBox $align="start" $gap="16px">
         <ButtonPairBox $fDirection="row">
           <AccentedBtn type="submit">Log in</AccentedBtn>
-
-          <BaseLink to={"/register"}>{`Don’t have an account?`}</BaseLink>
+          <AccentedBtn
+            onClick={() => {
+              dispatch(signInWithGoogleThunk());
+            }}
+          >
+            Log in with Google
+          </AccentedBtn>
         </ButtonPairBox>
-
-        <TransparentBtn
-          onClick={() => {
-            dispatch(signInWithGoogleThunk());
-          }}
-        >
-          Log in with Google
-        </TransparentBtn>
+        <BaseLink to={"/register"}>{`Don’t have an account?`}</BaseLink>
       </FlexBox>
     </Form>
   );
