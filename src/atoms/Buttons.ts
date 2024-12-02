@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const BaseButton = styled.button`
+  color: ${(p) => p.theme.text.main};
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,6 +17,8 @@ export const BaseButton = styled.button`
   flex-shrink: 0;
   width: max-content;
 `;
+
+
 
 export const AccentedBtn = styled(BaseButton)`
   background-color: ${(p) => p.theme.accentColor};

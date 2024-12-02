@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BaseButton } from "./Buttons";
+import { BaseButton } from "../Buttons";
 
 const DeleteBtn = (props: any) => {
   return (

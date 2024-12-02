@@ -8,7 +8,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { addBookSchema } from "../../validation-schemes/addBookSchema";
 import PrimaryForm from "./PrimaryForm";
 
-const AddBookForm = ({ onValid }: { onValid?: (data: any) => void }) => {
+const AddBookForm = ({
+  onValid,
+}: {
+  onValid?: (data: AddBookFormData) => void;
+}) => {
   const form = useForm<AddBookFormData>({
     // mode: "onBlur",
     reValidateMode: "onSubmit",

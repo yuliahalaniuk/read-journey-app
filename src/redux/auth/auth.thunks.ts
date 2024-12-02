@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase/firebase";
@@ -11,7 +12,11 @@ import { auth } from "../../firebase/firebase";
 export const registerUserThunk = createAsyncThunk(
   "auth/registerUser",
   async (
-    { email, password }: { email: string; password: string },
+    {
+      email,
+      password,
+      name,
+    }: { email: string; password: string; name: string },
     { rejectWithValue }
   ) => {
     try {
@@ -20,7 +25,18 @@ export const registerUserThunk = createAsyncThunk(
         email,
         password
       );
-      return userCredential.user;
+
+      await updateProfile(userCredential.user, {
+        displayName: name,
+      });
+      // await sendEmailVerification(userCredential.user);
+
+      return {
+        accessToken: (userCredential.user as any).accessToken,
+        displayName: userCredential.user.displayName,
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+      };
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -47,7 +63,6 @@ export const logInUserThunk = createAsyncThunk(
         photoURL: user.photoURL,
       };
 
-      console.log("userCredential", user);
       return { user: userInfo, token: user.accessToken };
     } catch (error: any) {
       return rejectWithValue(error.message);

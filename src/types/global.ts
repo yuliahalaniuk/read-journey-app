@@ -13,3 +13,8 @@ export interface SelectOptionEntity {
   value: string;
   label: string;
 }
+
+export enum CardSize {
+  Large = "large",
+  Small = "small",
+}

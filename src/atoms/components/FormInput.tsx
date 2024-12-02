@@ -16,7 +16,7 @@ const FormInput = ({
   label?: string;
   name?: string;
   form: any;
-  errors?: Record<string, any>;
+  errors?: any;
   required?: boolean;
   placeholder?: string;
   canBeHidden?: boolean;

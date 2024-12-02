@@ -14,7 +14,7 @@ import { database } from "../../firebase/firebase";
 import { useLocation } from "react-router-dom";
 import Layout from "./components/Diary/Layout";
 import DiaryTab from "./components/Diary/DiaryTab";
-import { BookEntity } from "../../types/books";
+import { BookEntity, SessionEntity } from "../../types/books";
 import DoughnutGraph from "../grahps/DoughnutGraph";
 import { useAuthSelector, useLibrarySelector } from "../../redux/selectors";
 import PageForm from "../forms/PageForm";
@@ -41,7 +41,7 @@ const DiarySideBar = ({
   const path = location.pathname.split("/");
   const bookId = path[path.length - 1];
   const [stats, setStats] = useState<{
-    sessions?: any;
+    sessions?: SessionEntity[];
     totalRead?: number;
   } | null>(null);
   const { currentBook } = useLibrarySelector();
@@ -74,11 +74,9 @@ const DiarySideBar = ({
 
   useEffect(() => {
     const userBooksRef = ref(database, `users/${user?.uid}/stats/${bookId}`);
-    // console.log("userBooksRef", userBooksRef);
 
     onValue(userBooksRef, (snapshot) => {
       const data = snapshot.val();
-      console.log("stats in sidebar", data);
       setStats(data);
     });
   }, [bookId, user?.uid]);

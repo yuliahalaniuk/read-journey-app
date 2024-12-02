@@ -1,5 +1,5 @@
 import { FlexBox, FlexForm } from "../../../atoms/Flex";
-import { AccentedBtn, TransparentBtn } from "../../../atoms/Buttons";
+import { AccentedBtn } from "../../../atoms/Buttons";
 import { BaseLink } from "../../../atoms/BaseLink";
 import {
   LoginFormData,

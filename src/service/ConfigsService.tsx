@@ -11,7 +11,7 @@ export enum EnvKEysEnum {
   FIREBASE_DATABASE_URL = "REACT_APP_FIREBASE_DATABASE_URL",
 }
 
-class Service {
+export class Service {
   getEnvVar = (key: EnvKEysEnum): string | undefined => {
     const envVar = process.env[key];
 
@@ -22,7 +22,7 @@ class Service {
     return envVar;
   };
 
-  getForFirebase() {
+  static getForFirebase() {
     const firebaseConfigKeys = {
       apiKey: EnvKEysEnum.FIREBASE_API_KEY,
       authDomain: EnvKEysEnum.FIREBASE_AUTH_DOMAIN,

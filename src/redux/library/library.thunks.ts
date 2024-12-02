@@ -8,7 +8,6 @@ export const getAllThunk = createAsyncThunk(
   "library/getAll",
   async (_, { getState, rejectWithValue }) => {
     try {
-      console.log('in here get all')
       const state = getState() as RootState;
       const userId = state?.auth?.user?.uid;
 
@@ -31,64 +30,36 @@ export const getAllThunk = createAsyncThunk(
   }
 );
 
-
 export const getOneThunk = createAsyncThunk(
   "library/getOne",
   async ({ bookId }: { bookId?: string }, { getState, rejectWithValue }) => {
     try {
-      console.log('in getOne Thunk')
       const state = getState() as RootState;
       const userId = state?.auth?.user?.uid;
 
       if (!userId || !bookId) {
         throw new Error("User ID or Book ID is missing.");
       }
-      console.log("in getOne Thunk 2");
 
       const userBookRef = ref(database, `books/${userId}/${bookId}`);
       const snapshot = await get(userBookRef);
 
-      console.log(snapshot);
-
-      console.log("in getOne Thunk 3");
-
-
       if (!snapshot.exists()) {
         throw new Error("Book not found.");
       }
-      
-const book = snapshot.val();
 
-console.log('book', book)
+      const book = snapshot.val();
+
       return book as BookEntity;
     } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : String(error));
+      return rejectWithValue(
+        error instanceof Error ? error.message : String(error)
+      );
     }
   }
 );
 
-  // const controller = new AbortController();
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       // `https://freetestapi.com/api/v1/books/${bookId}`,
-  //       `https://www.googleapis.com/books/v1/volumes/${bookId}`,
-  //       {
-  //         // signal: controller.signal,
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     console.log("data", data);
-  //     setBook(data);
-  //   } catch (e: { name: string } | any) {
-  //     if (e.name !== "AbortError") {
-  //       console.error("Error", e);
-  //     }
-  //   }
-  // };
 
-  // fetchData();
-// );
 
 export const filterByGenreThunk = createAsyncThunk(
   "library/filterByGenre",

@@ -31,7 +31,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
             key={info.name}
             {...info}
             form={form}
-            errors={info.name && form.formState.errors[info.name]}
+            errors={info.name && form?.formState.errors[info.name]}
           />
         );
       })}

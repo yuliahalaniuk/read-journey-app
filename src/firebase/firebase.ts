@@ -2,9 +2,9 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
-import ConfigsService from "../service/ConfigsService";
-
-const firebaseConfig = ConfigsService.getForFirebase();
+import { Service } from "../service/ConfigsService";
+//ConfigsService
+const firebaseConfig = Service.getForFirebase();
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

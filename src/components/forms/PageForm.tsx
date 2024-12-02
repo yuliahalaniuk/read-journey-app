@@ -32,7 +32,7 @@ const PageForm = ({
     page: yup
       .number()
       .required("Page is required")
-      .min(minPages || 1, `Minimum page number is ${minPages || 1}`)
+      .min(minPages || 0, `Minimum page number is ${minPages || 0}`)
       .max(
         maxPages || Infinity,
         `Maximum page number is ${maxPages || Infinity}`
@@ -54,7 +54,6 @@ const PageForm = ({
     <PrimaryForm
       onSubmit={form.handleSubmit(
         (data) => {
-          console.log("data", data);
           onValid?.({ page: Number(data.page) });
         },
         (errors) => {

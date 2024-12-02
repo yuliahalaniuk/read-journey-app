@@ -12,9 +12,10 @@ import { FlexBox, FlexForm } from "../../../atoms/Flex";
 import FormFields from "../../../atoms/components/FormFields";
 import { useAppDispatch } from "../../../redux/store";
 import { registerUserThunk } from "../../../redux/auth/auth.thunks";
-
+import { useNavigate } from "react-router-dom";
 const RegisterForm = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const form = useForm<RegisterFormData>({
     mode: "onBlur",
@@ -22,11 +23,12 @@ const RegisterForm = () => {
     resolver: yupResolver<RegisterFormData>(registrationSchema),
   });
 
-  const onValid = (data: RegisterFormData) => {
-    console.log(data);
-
+  const onValid = async (data: RegisterFormData) => {
     if (data.email && data.password) {
-      dispatch(registerUserThunk(data));
+      const action = await dispatch(registerUserThunk(data));
+      if (registerUserThunk.fulfilled.match(action)) {
+        navigate("/logIn");
+      }
     }
   };
 

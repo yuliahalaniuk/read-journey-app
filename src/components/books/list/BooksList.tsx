@@ -1,10 +1,10 @@
-import React, { ReactNode, useMemo } from "react";
+import { ElementType, ReactNode, useMemo } from "react";
 import { BookEntity } from "../../../types/books";
 import { FlexBox, FlexLi } from "../../../atoms/Flex";
-import BookCard from "../Card/BookCard";
+import BookCard from "../card/BookCard";
 import TabPlaceholder from "../../../atoms/components/TabPlaceholder";
-import styled from "styled-components";
 import { SizeTypeEnum } from "../../../types/global";
+import { GridBox } from "../../../atoms/GridBox";
 
 const BooksList = ({
   placeholderText,
@@ -16,7 +16,7 @@ const BooksList = ({
   placeholderText?: ReactNode;
   onSelect?: (book?: BookEntity) => void;
   deleteAction?: (bookId?: string) => void;
-  CustomUl?: any;
+  CustomUl?: ElementType;
   books?: BookEntity[];
 }) => {
   const renderList = useMemo(() => {
@@ -71,13 +71,5 @@ const BooksList = ({
     </FlexBox>
   );
 };
-
-export const GridBox = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-  width: 100%;
-  overflow: hidden;
-`;
 
 export default BooksList;

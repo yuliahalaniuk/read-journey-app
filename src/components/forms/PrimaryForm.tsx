@@ -6,7 +6,7 @@ import FormFields, { FormFieldsProps } from "../../atoms/components/FormFields";
 
 interface PrimaryFormProps extends FormFieldsProps {
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
-  onReset?: (e: any) => void;
+  onReset?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   title?: string;
   btnText?: string;
 }

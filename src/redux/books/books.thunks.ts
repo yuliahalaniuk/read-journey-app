@@ -1,37 +1,57 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import baseApiClient from "../../api/baseApiClient";
 
 export const getAllBooksThunk = createAsyncThunk(
   "books/getAll",
-  async ({ query }: { query?: string }, { rejectWithValue }) => {
+  async (
+    {
+      query,
+      offset = 0,
+      maxResults = 10,
+    }: { query?: string; offset?: number; maxResults?: number },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${query ? query : "*"}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch books data");
-      }
-      const data = await response.json();
+      const { data } = await baseApiClient.get("/", {
+        params: {
+          q: query ? query : "*",
+          startIndex: offset,
+          maxResults,
+        },
+      });
       return data.items;
-    } catch (e) {
-      return rejectWithValue(e);
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.error?.message || error.message
+      );
     }
   }
 );
 
 export const getRecommendedThunk = createAsyncThunk(
   "books/getRecommended",
-  async (_, { rejectWithValue }) => {
+  async (
+    {
+      offset = 0,
+      maxResults = 10,
+    }: { offset?: number; maxResults?: number } = {},
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await fetch(
-        "https://www.googleapis.com/books/v1/volumes?q=*"
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch books data");
-      }
-      const data = await response.json();
+      const { data } = await baseApiClient.get("/", {
+        params: {
+          q: "subject:popular",
+          startIndex: offset,
+          maxResults,
+        },
+      });
       return data.items;
-    } catch (e) {
-      return rejectWithValue(e);
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.error?.message || error.message
+      );
     }
   }
 );
+
+

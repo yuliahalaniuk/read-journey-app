@@ -8,11 +8,16 @@ import {
 } from "./AuthPageTemplate.styled";
 import { useMediaQuery } from "react-responsive";
 import { isTabletAndMoreQuery } from "../../../utils/mediaQueries";
+import { useAuthSelector } from "../../../redux/selectors";
+import GlobalSpinner from "../../../atoms/components/GlobalSpinner";
 
 const AuthPageTemplate = ({ children }: { children?: ReactNode }) => {
   const isDesktopOrLaptop = useMediaQuery(isTabletAndMoreQuery);
+  const { loading } = useAuthSelector();
 
-  return (
+  return loading ? (
+    <GlobalSpinner />
+  ) : (
     <MainContainer className="Main">
       <Box $align="start">
         <ImgContainer $align="start">

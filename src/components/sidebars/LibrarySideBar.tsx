@@ -3,7 +3,7 @@ import { SecondaryBaseBox } from "../../atoms/BaseBox";
 import { FlexBox } from "../../atoms/Flex";
 import { SidebarContainer } from "../../atoms/SidebarContainer";
 import { useBooksSelector } from "../../redux/selectors";
-import BookCard, { CardSize } from "../dashboard/Card/BookCard";
+import BookCard from "../books/card/BookCard";
 import { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,6 +19,8 @@ import { BookEntity } from "../../types/books";
 import AddedBookModal from "../modals/AddedBookModal";
 import SLiderArrows from "../../assets/SliderArrows";
 import MotivationText from "./components/MotivationText";
+import { AddBookFormData } from "../../data/formFieldsInfo";
+import { CardSize } from "../../types/global";
 
 const LibrarySideBar = () => {
   const { recommended } = useBooksSelector();
@@ -26,7 +28,7 @@ const LibrarySideBar = () => {
   const dispatch = useAppDispatch();
   const { showModal } = useModal();
 
-  const handleAddBookFormSubmit = (data: any) => {
+  const handleAddBookFormSubmit = (data: AddBookFormData) => {
     dispatch(
       addOneThunk({
         book: {
@@ -34,7 +36,7 @@ const LibrarySideBar = () => {
           volumeInfo: {
             title: data.title,
             pageCount: data.pages,
-            authors: [data.author],
+            ...(data.author && { authors: [data.author] }),
           },
         },
       })
@@ -80,11 +82,10 @@ const LibrarySideBar = () => {
 
   return (
     <SidebarContainer $gap="20px" $justify="space-between">
-      {/* <FlexBox style={{ flex: 1 }}> */}
       <AddBookForm onValid={handleAddBookFormSubmit} />
-      {/* </FlexBox>{" "} */}
+
       <SecondaryBaseBox $gap="20px">
-        <Title>Recommended</Title>
+        <Title>Popular now</Title>
 
         <SliderContainer className="SliderCont">
           <FlexBox $align="stretch">
