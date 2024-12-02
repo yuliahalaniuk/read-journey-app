@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { database } from "../../firebase/firebase";
-import { get, onValue, push, ref, remove, set } from "firebase/database";
+import { get, push, ref, remove, set } from "firebase/database";
 import { BookEntity } from "../../types/books";
 import { RootState } from "../store";
 
