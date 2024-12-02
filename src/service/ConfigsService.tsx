@@ -1,5 +1,3 @@
-import { convertEnvToCamelCase } from "../utils/convertEnvToCamelCase";
-
 export enum EnvKEysEnum {
   GOOGLE_BOOKS_API_KEY = "REACT_APP_GOOGLE_BOOKS_API_KEY",
   GOOGLE_BOOKS_BASE_API_URL = "REACT_APP_GOOGLE_BOOKS_BASE_API_URL",
@@ -24,32 +22,30 @@ class Service {
     return envVar;
   };
 
-  getFirebaseConfigs() {
-    const firebaseConfigKeys: EnvKEysEnum[] = [
-      EnvKEysEnum.FIREBASE_API_KEY,
-      EnvKEysEnum.FIREBASE_AUTH_DOMAIN,
-      EnvKEysEnum.FIREBASE_PROJECT_ID,
-      EnvKEysEnum.FIREBASE_STORAGE_BUCKET,
-      EnvKEysEnum.FIREBASE_MESSAGING_SENDER_ID,
-      EnvKEysEnum.FIREBASE_APP_ID,
-      EnvKEysEnum.FIREBASE_MEASUREMENT_ID,
-      EnvKEysEnum.FIREBASE_DATABASE_URL,
-    ];
+  getForFirebase() {
+    const firebaseConfigKeys = {
+      apiKey: EnvKEysEnum.FIREBASE_API_KEY,
+      authDomain: EnvKEysEnum.FIREBASE_AUTH_DOMAIN,
+      projectId: EnvKEysEnum.FIREBASE_PROJECT_ID,
+      storageBucket: EnvKEysEnum.FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: EnvKEysEnum.FIREBASE_MESSAGING_SENDER_ID,
+      appId: EnvKEysEnum.FIREBASE_APP_ID,
+      measurementId: EnvKEysEnum.FIREBASE_MEASUREMENT_ID,
+      databaseURL: EnvKEysEnum.FIREBASE_DATABASE_URL,
+    };
 
-    const newArr = firebaseConfigKeys.reduce((config, key) => {
-      const camelCaseKey = convertEnvToCamelCase(
-        key.replace(/REACT_APP_FIREBASE_/, "")
-      );
-      const value = this.getEnvVar(key);
+    const config = Object.entries(firebaseConfigKeys).reduce(
+      (acc, [key, envKey]) => {
+        const value = process.env[envKey];
+        if (value) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
 
-      if (value) {
-        config[camelCaseKey] = value;
-      } 
-
-      return config;
-    }, {} as Record<string, string | undefined>);
-
-    return newArr;
+    return config;
   }
 }
 

@@ -41,9 +41,11 @@ export const librarySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllThunk.fulfilled, (state, action) => {
-        // console.log("action.payload", action.payload);
-        state.books = action.payload;
-        state.filteredBooks = action.payload;
+        console.log("action.payload", action.payload);
+
+
+        state.books = action.payload as any;
+        state.filteredBooks = action.payload as any;
       })
       .addCase(filterByGenreThunk.fulfilled, (state, action) => {
         state.filteredBooks = action.payload;
@@ -52,6 +54,8 @@ export const librarySlice = createSlice({
         state.books.push(action.payload);
       })
       .addCase(getOneThunk.fulfilled, (state, action) => {
+        console.log("in getOne", action.payload);
+        
         state.currentBook = {
           ...state.currentBook,
           info: action.payload,

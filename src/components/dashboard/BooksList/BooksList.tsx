@@ -1,6 +1,6 @@
 import React, { ReactNode, useMemo } from "react";
 import { BookEntity } from "../../../types/books";
-import { FlexLi } from "../../../atoms/Flex";
+import { FlexBox, FlexLi } from "../../../atoms/Flex";
 import BookCard from "../Card/BookCard";
 import TabPlaceholder from "../../../atoms/components/TabPlaceholder";
 import styled from "styled-components";
@@ -57,12 +57,18 @@ const BooksList = ({
   return !!books?.length ? (
     renderList
   ) : (
-    <TabPlaceholder
-      circleSizeType={SizeTypeEnum.M}
-      size={50}
-      imgSrc={"/images/books.png"}
-      text={placeholderText ? placeholderText : <>Nothing found</>}
-    />
+    <FlexBox
+      style={{ width: "100%", height: "100%" }}
+      $justify="center"
+      $align="center"
+    >
+      <TabPlaceholder
+        circleSizeType={SizeTypeEnum.M}
+        size={50}
+        imgSrc={"/images/books.png"}
+        text={placeholderText ? placeholderText : <>Nothing found</>}
+      />
+    </FlexBox>
   );
 };
 

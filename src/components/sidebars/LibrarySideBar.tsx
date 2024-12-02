@@ -18,12 +18,14 @@ import { useModal } from "../../providers/ModalProvider";
 import { BookEntity } from "../../types/books";
 import AddedBookModal from "../modals/AddedBookModal";
 import SLiderArrows from "../../assets/SliderArrows";
+import MotivationText from "./components/MotivationText";
 
 const LibrarySideBar = () => {
   const { recommended } = useBooksSelector();
   const [sliderKey, setSliderKey] = useState<number>(0);
   const dispatch = useAppDispatch();
   const { showModal } = useModal();
+
   const handleAddBookFormSubmit = (data: any) => {
     dispatch(
       addOneThunk({
@@ -78,9 +80,9 @@ const LibrarySideBar = () => {
 
   return (
     <SidebarContainer $gap="20px" $justify="space-between">
-      <FlexBox style={{ flex: 1 }}>
-        <AddBookForm onValid={handleAddBookFormSubmit} />
-      </FlexBox>{" "}
+      {/* <FlexBox style={{ flex: 1 }}> */}
+      <AddBookForm onValid={handleAddBookFormSubmit} />
+      {/* </FlexBox>{" "} */}
       <SecondaryBaseBox $gap="20px">
         <Title>Recommended</Title>
 
@@ -105,6 +107,7 @@ const LibrarySideBar = () => {
 
         <LinkWithArrow text="Home" href="/home" />
       </SecondaryBaseBox>
+      <MotivationText />
     </SidebarContainer>
   );
 };

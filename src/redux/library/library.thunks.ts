@@ -8,44 +8,64 @@ export const getAllThunk = createAsyncThunk(
   "library/getAll",
   async (_, { getState, rejectWithValue }) => {
     try {
+      console.log('in here get all')
       const state = getState() as RootState;
       const userId = state?.auth?.user?.uid;
 
       const userBooksRef = ref(database, `books/${userId}`);
 
-      return new Promise<BookEntity[]>((resolve) => {
-        onValue(userBooksRef, (snapshot) => {
-          const data = snapshot.val();
-          const booksArray: BookEntity[] = data ? Object.values(data) : [];
-          resolve(booksArray);
-        });
-      });
+      // return new Promise<BookEntity[]>((resolve) => {
+      //   onValue(userBooksRef, (snapshot) => {
+      //     const data = snapshot.val();
+      //     const booksArray: BookEntity[] = data ? Object.values(data) : [];
+      //     resolve(booksArray);
+      //   });
+      // });
+
+      const snapshot = await get(userBooksRef);
+      const data = snapshot.val();
+      return data ? Object.values(data) : [];
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
 
+
 export const getOneThunk = createAsyncThunk(
   "library/getOne",
   async ({ bookId }: { bookId?: string }, { getState, rejectWithValue }) => {
     try {
+      console.log('in getOne Thunk')
       const state = getState() as RootState;
       const userId = state?.auth?.user?.uid;
 
-      const userBookRef = ref(database, `books/${userId}/${bookId}`);
+      if (!userId || !bookId) {
+        throw new Error("User ID or Book ID is missing.");
+      }
+      console.log("in getOne Thunk 2");
 
-      return new Promise<BookEntity>((resolve) => {
-        onValue(userBookRef, (snapshot) => {
-          const data = snapshot.val();
-          // console.log("booksArray", data);
-          resolve(data);
-        });
-      });
+      const userBookRef = ref(database, `books/${userId}/${bookId}`);
+      const snapshot = await get(userBookRef);
+
+      console.log(snapshot);
+
+      console.log("in getOne Thunk 3");
+
+
+      if (!snapshot.exists()) {
+        throw new Error("Book not found.");
+      }
+      
+const book = snapshot.val();
+
+console.log('book', book)
+      return book as BookEntity;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error instanceof Error ? error.message : String(error));
     }
   }
+);
 
   // const controller = new AbortController();
   // const fetchData = async () => {
@@ -68,7 +88,7 @@ export const getOneThunk = createAsyncThunk(
   // };
 
   // fetchData();
-);
+// );
 
 export const filterByGenreThunk = createAsyncThunk(
   "library/filterByGenre",
