@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FlexBox } from "../Flex";
-import { CircleLoaderSpiner } from "./GlobalSpinner";
+// import { CircleLoaderSpiner } from "./GlobalSpinner";
 
 const Image = ({ src, alt }: { src?: string; alt?: string }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -11,11 +11,7 @@ const Image = ({ src, alt }: { src?: string; alt?: string }) => {
 
   return (
     <FlexBox style={{ position: "relative", width: "100%" }}>
-      {!imageLoaded && (
-        <FlexBox>
-          <CircleLoaderSpiner />
-        </FlexBox>
-      )}
+      {!imageLoaded && <FlexBox>{/* <CircleLoaderSpiner /> */}</FlexBox>}
       <img
         alt={alt || "Book Thumbnail"}
         src={src || "/images/bookCover.png"}
