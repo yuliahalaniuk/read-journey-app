@@ -14,12 +14,16 @@ export const getAllBooksThunk = createAsyncThunk(
     try {
       const { data } = await baseApiClient.get("/", {
         params: {
-          q: query ? query : "*",
+          q: query || "*",
           startIndex: offset,
           maxResults,
         },
       });
-      return data.items;
+
+      const books = data.items || [];
+      const hasMore = books.length === maxResults;
+
+      return { books, hasMore };
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.error?.message || error.message

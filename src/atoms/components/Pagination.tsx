@@ -1,6 +1,7 @@
-import { BaseButton } from "../Buttons";
-import { FlexBox } from "../Flex";
+import { CircleBtn } from "../Buttons";
+import { FlexBox } from "../FlexBox";
 import SliderArrow from "../../assets/SliderArrows";
+import { useTheme } from "styled-components";
 
 const Pagination = ({
   onPrevClick,
@@ -13,29 +14,27 @@ const Pagination = ({
   isPrev?: boolean;
   isNext?: boolean;
 }) => {
+  const theme = useTheme();
+
   return (
     <FlexBox
       $fDirection="row"
       $justify="center"
-      style={{ textAlign: "center", marginTop: "20px", width: "100%" }}
+      style={{ textAlign: "center", width: "max-content" }}
       $gap="16px"
     >
-      <BaseButton
-        onClick={onPrevClick}
-        style={{ gap: "8px" }}
-        disabled={isPrev}
-      >
-        <SliderArrow direction="left" />
-        Previous
-      </BaseButton>
-      <BaseButton
-        onClick={onNextClick}
-        style={{ gap: "8px" }}
-        disabled={isNext}
-      >
-        Next
-        <SliderArrow direction="right" />
-      </BaseButton>
+      <CircleBtn onClick={onPrevClick} style={{ gap: "8px" }} disabled={isPrev}>
+        <SliderArrow
+          direction="left"
+          color={isPrev ? theme.border.select : theme.accentColor}
+        />
+      </CircleBtn>
+      <CircleBtn onClick={onNextClick} style={{ gap: "8px" }} disabled={isNext}>
+        <SliderArrow
+          direction="right"
+          color={isNext ? theme.border.select : theme.accentColor}
+        />
+      </CircleBtn>
     </FlexBox>
   );
 };

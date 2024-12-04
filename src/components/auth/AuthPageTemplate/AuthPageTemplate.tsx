@@ -9,7 +9,7 @@ import {
 import { useMediaQuery } from "react-responsive";
 import { isTabletAndMoreQuery } from "../../../utils/mediaQueries";
 import { useAuthSelector } from "../../../redux/selectors";
-import GlobalSpinner from "../../../atoms/components/GlobalSpinner";
+import { GlobalSpinner } from "../../../atoms/components/Spinners";
 
 const AuthPageTemplate = ({ children }: { children?: ReactNode }) => {
   const isDesktopOrLaptop = useMediaQuery(isTabletAndMoreQuery);

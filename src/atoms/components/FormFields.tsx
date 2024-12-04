@@ -1,5 +1,5 @@
 import React from "react";
-import { FlexBox } from "../Flex";
+import { FlexBox } from "../FlexBox";
 import FormInput from "./FormInput";
 import { FormFieldInfo } from "../../data/formFieldsInfo";
 
@@ -17,6 +17,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
   return (
     <FlexBox
       $gap="8px"
+      $fillWidth
       style={
         containerStyles
           ? containerStyles

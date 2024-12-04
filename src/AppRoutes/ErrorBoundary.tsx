@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouteError, Link } from "react-router-dom";
 import styled from "styled-components";
-import { FlexBox } from "../atoms/Flex";
+import { FlexBox } from "../atoms/FlexBox";
 
 const ErrorPageContainer = styled(FlexBox)`
   align-items: center;

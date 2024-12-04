@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { FlexBaseProps, FlexBoxBaseCss } from "./base/Flex";
 
-export const BaseButton = styled.button`
+export const Btn = styled.button<FlexBaseProps>`
+  ${FlexBoxBaseCss}
+`;
+export const BaseButton = styled(Btn)`
   color: ${(p) => p.theme.text.main};
-
-  display: flex;
   justify-content: center;
   align-items: center;
 
@@ -17,8 +19,6 @@ export const BaseButton = styled.button`
   flex-shrink: 0;
   width: max-content;
 `;
-
-
 
 export const AccentedBtn = styled(BaseButton)`
   background-color: ${(p) => p.theme.accentColor};
@@ -37,8 +37,6 @@ export const AccentedBtn = styled(BaseButton)`
   }
 
   transition: all ${(p) => p.theme.timingFnMain};
-
-  /* max-width: 225px; */
 
   @media screen and (min-width: ${(p) => p.theme.breakpoints.tablet}) {
     font-size: 20px;
@@ -83,5 +81,24 @@ export const DelButton = styled(BaseButton)`
   &:hover,
   &:focus {
     border: 2px solid ${(p) => p.theme.delete.border};
+  }
+`;
+
+export const CircleBtn = styled(BaseButton)`
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid ${(p) => p.theme.border.select};
+  transition: all ${(p) => p.theme.timingFnMain};
+
+  &:hover,
+  &:focus {
+    border: 2px solid ${(p) => p.theme.accentColor};
+  }
+
+  &:disabled {
+    border: 2px solid ${(p) => p.theme.border.select};
   }
 `;

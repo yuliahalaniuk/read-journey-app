@@ -1,11 +1,10 @@
 /// <reference types="react/canary" />
-import { BaseBox } from "../../../atoms/BaseBox";
 import { BaseButton, TransparentBtn } from "../../../atoms/Buttons";
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox } from "../../../atoms/FlexBox";
 import { useMediaQuery } from "react-responsive";
 import UserComponent from "./components/UserComponent/UserComponent";
 import NavBar from "./components/Navbar/NavBar";
-import { Box } from "./Header.styled";
+import { Box, HeaderSt } from "./Header.styled";
 import MenuIcon from "../../../assets/MenuIcon";
 import { isDesktopQuery } from "../../../utils/mediaQueries";
 import { useModal } from "../../../providers/ModalProvider";
@@ -44,8 +43,8 @@ const Header = () => {
 
   return (
     <Box $isVisible={isScrollingUp}>
-      <BaseBox $fDirection="row" $justify="space-between">
-        <FlexBox $align="start">
+      <HeaderSt $fDirection="row" $justify="space-between">
+        <FlexBox $align="start" $justify="center">
           <img
             src={isDesktop ? "/images/logo.png" : "/images/logoSmall.png"}
             alt={"Logo"}
@@ -56,7 +55,7 @@ const Header = () => {
 
         {!isMobile && <NavBar pathname={pathname} />}
 
-        <FlexBox $fDirection="row" $gap="16px" $justify="end">
+        <FlexBox $fDirection="row" $gap="16px" $justify="end" $align="center">
           <UserComponent />
 
           {isMobile ? (
@@ -67,7 +66,7 @@ const Header = () => {
             <TransparentBtn onClick={handleLogOut}>Log out</TransparentBtn>
           )}
         </FlexBox>
-      </BaseBox>
+      </HeaderSt>
     </Box>
   );
 };

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexLi } from "../../../../../atoms/Flex";
+import { FlexLi } from "../../../../../atoms/FlexBox";
 
 export const NavLinkItem = styled(FlexLi)<{ $isActive?: boolean }>`
   width: fit-content;

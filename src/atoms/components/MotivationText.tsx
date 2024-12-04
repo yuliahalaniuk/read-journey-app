@@ -10,7 +10,7 @@ const MotivationText = () => {
   return isDesktop ? (
     <SecondaryBaseBox $fDirection="row" $gap="8px">
       <img src={"/images/books.png"} alt={"Books"} width={40} height={40} />
-      <TextWithAccent $textAlign="left">
+      <TextWithAccent>
         "Books are <span>windows</span> to the world, and reading is a journey
         into the unknown."
       </TextWithAccent>

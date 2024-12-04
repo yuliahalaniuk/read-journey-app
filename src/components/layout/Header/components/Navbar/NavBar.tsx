@@ -1,14 +1,17 @@
-import { FlexUl } from "../../../../../atoms/Flex";
+import { FlexUl } from "../../../../../atoms/FlexBox";
 import { navLinksData } from "../../../../../data/navLinksData";
 import { NavLink } from "react-router-dom";
 import { NavLinkItem } from "./NavBar.styled";
+import { Property } from "csstype";
 
 const NavBar = ({
   direction = "row",
   pathname,
+  onLinkClick,
 }: {
-  direction?: string;
+  direction?: Property.FlexDirection;
   pathname?: string;
+  onLinkClick?: () => void;
 }) => {
   return (
     <FlexUl
@@ -19,8 +22,13 @@ const NavBar = ({
     >
       {navLinksData?.map((info) => {
         return (
-          <NavLinkItem key={info?.id} $isActive={pathname === info?.href}>
-            <NavLink to={info?.href}>{info?.label}</NavLink>
+          <NavLinkItem
+            key={info?.id}
+            $isActive={pathname?.includes(info?.href)}
+          >
+            <NavLink to={info?.href} onClick={onLinkClick}>
+              {info?.label}
+            </NavLink>
           </NavLinkItem>
         );
       })}

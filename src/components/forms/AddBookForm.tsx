@@ -26,7 +26,7 @@ const AddBookForm = ({
           onValid?.(data);
         },
         (errors) => {
-          console.log("Filter Form submission errors:", errors);
+          // console.log("Filter Form submission errors:", errors);
         }
       )}
       title="New book:"

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexBox } from "./Flex";
+import { FlexBox } from "./FlexBox";
 import { SizeMapEntity, SizeTypeEnum } from "../types/global";
 import { generateMediaSizes } from "../utils/generateMediaSizes";
 

@@ -49,19 +49,16 @@ export const librarySlice = createSlice({
         state.filteredBooks = action.payload as any;
         state.loading = false;
       })
-      // .addCase(filterByGenreThunk.fulfilled, (state, action) => {
-      //   state.filteredBooks = action.payload;
-      //   state.loading = false;
-      // })
       .addCase(addOneThunk.fulfilled, (state, action) => {
         state.books.push(action.payload);
         state.loading = false;
       })
+
       .addCase(getOneThunk.fulfilled, (state, action) => {
         state.currentBook = {
           info: action.payload.book,
-          sessions: action.payload.stats.sessions,
-          totalRead: action.payload.stats.totalRead,
+          sessions: action.payload?.stats?.sessions || {},
+          totalRead: action.payload?.stats?.totalRead || 0,
         };
         state.loading = false;
       })
@@ -118,6 +115,7 @@ function updateSession(
           ),
         0
       );
+
       state.currentBook.totalRead = totalRead;
     }
   }

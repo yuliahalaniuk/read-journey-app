@@ -1,4 +1,4 @@
-import { FlexBox } from "../../atoms/Flex";
+import { FlexBox } from "../../atoms/FlexBox";
 import { TransparentBtn } from "../../atoms/Buttons";
 import NavBar from "../layout/Header/components/Navbar/NavBar";
 import CloseIcon from "../../assets/CloseIcon";
@@ -28,7 +28,7 @@ const MenuModal = ({
         </CloseBtn>
       </FlexBox>
       <FlexBox style={{ paddingLeft: "50px" }}>
-        <NavBar direction="column" pathname={pathname} />
+        <NavBar direction="column" pathname={pathname} onLinkClick={onClose} />
       </FlexBox>
 
       <TransparentBtn onClick={handleLogOut}>Log out</TransparentBtn>

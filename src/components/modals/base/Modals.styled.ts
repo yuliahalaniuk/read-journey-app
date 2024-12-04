@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox } from "../../../atoms/FlexBox";
 import { BaseButton } from "../../../atoms/Buttons";
 import { slideInFromRight, slideOutToRight } from "../../../theme/animations";
 
@@ -21,6 +21,14 @@ export const MenuBody = styled(FlexBox)<{ $isExiting?: boolean }>`
   opacity: 1;
 
   padding: 34px 20px 40px;
+  align-items: center;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   ${({ $isExiting, theme }) =>
     $isExiting

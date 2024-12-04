@@ -1,5 +1,5 @@
 import React from "react";
-import { FlexBox, FlexForm } from "../../atoms/Flex";
+import { FlexBox, FlexForm } from "../../atoms/FlexBox";
 import { TransparentBtn } from "../../atoms/Buttons";
 import FormFields, { FormFieldsProps } from "../../atoms/components/FormFields";
 import { Title } from "./Forms.styled";
@@ -19,7 +19,7 @@ const PrimaryForm: React.FC<PrimaryFormProps> = ({
   ...props
 }) => {
   return (
-    <FlexForm onSubmit={onSubmit} $align="start" style={{ flex: 1 }}>
+    <FlexForm onSubmit={onSubmit} $align="start" $flex={1}>
       <Title>{title}</Title>
       <FormFields {...props} />
 

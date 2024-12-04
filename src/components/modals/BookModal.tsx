@@ -1,4 +1,4 @@
-import { FlexBox } from "../../atoms/Flex";
+import { FlexBox } from "../../atoms/FlexBox";
 import { TransparentBtn } from "../../atoms/Buttons";
 import { BookEntity } from "../../types/books";
 import { NameText, PagesText, SubText } from "./base/Modals.styled";
@@ -14,7 +14,7 @@ const BookModal = ({
   const { title, authors, pageCount, imageLinks } = volumeInfo || {};
   return (
     <>
-      <FlexBox style={{ margin: "18px" }}>
+      <FlexBox $margin="18px" $align="center">
         <img
           src={
             imageLinks?.thumbnail

@@ -1,13 +1,14 @@
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox, Main } from "../../../atoms/FlexBox";
 import styled from "styled-components";
 
 export const Container = styled(FlexBox)`
   min-height: 100vh;
   position: relative;
   padding: 0 20px 20px;
+  align-items: center;
 `;
 
-export const Content = styled(FlexBox)`
+export const Content = styled(Main)`
   overflow: hidden;
   min-height: 100%;
   flex: 1;

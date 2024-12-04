@@ -8,7 +8,7 @@ import PublicRoute from "./PublicRoute";
 import ErrorBoundary from "./ErrorBoundary";
 import DiaryPage from "../pages/Diary";
 import { ModalProvider } from "../providers/ModalProvider";
-import GlobalSpinner from "../atoms/components/GlobalSpinner";
+import { GlobalSpinner } from "../atoms/components/Spinners";
 
 export const appRoutesList = [
   {
@@ -36,13 +36,11 @@ export const appRoutesList = [
       {
         path: "library",
 
-        element: <UserLibrary />,
-      },
-      {
-        path: "diary",
-        element: <DiaryPage />,
-
         children: [
+          {
+            index: true,
+            element: <UserLibrary />,
+          },
           {
             path: ":id",
             element: <DiaryPage />,

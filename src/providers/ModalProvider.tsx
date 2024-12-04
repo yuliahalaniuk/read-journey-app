@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { baseTheme } from "../theme";
 import Modal from "../atoms/Modal";
 import CloseIcon from "../assets/CloseIcon";
+import { RemoveScroll } from "react-remove-scroll";
 
 interface ModalContextProps {
   showModal: (
@@ -59,7 +60,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
 
       {modalContent &&
         createPortal(
-          <div className="modal-root">
+          <RemoveScroll>
             <Modal.Backdrop
               onClick={handleCloseOnBackdrop}
               $isExiting={isExiting}
@@ -75,7 +76,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
                 </Modal.Body>
               )}
             </Modal.Backdrop>
-          </div>,
+          </RemoveScroll>,
           document.body
         )}
     </ModalCtx.Provider>

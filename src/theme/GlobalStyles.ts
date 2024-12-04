@@ -101,6 +101,17 @@ input {
   border-radius: 0;
 }
 
+aside {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: auto; 
+  height: auto;
+  background: transparent; 
+  border: none;
+  position: relative; 
+}
+
 /* --------------------- Custom Scrollbar --------------------*/
 
 ::-webkit-scrollbar {

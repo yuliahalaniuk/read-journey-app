@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexBox, FlexForm } from "../../atoms/Flex";
+import { FlexBox, FlexForm } from "../../atoms/FlexBox";
 import { P } from "../../atoms/Text";
 
 export const Form = styled(FlexForm)`

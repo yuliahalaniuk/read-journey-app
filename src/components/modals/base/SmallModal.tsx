@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox } from "../../../atoms/FlexBox";
 import { TextWithAccent } from "../../../atoms/Text";
 import { ModalTitle } from "./Modals.styled";
 
@@ -15,7 +15,7 @@ const SmallModal = ({
 }) => {
   return (
     <>
-      <FlexBox style={{ margin: "18px" }}>
+      <FlexBox $margin="18px" $align="center">
         <img src={imgSrc} alt={"test"} width={70} height={70} />
       </FlexBox>
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexBox } from "../../../../atoms/Flex";
+import { FlexBox } from "../../../../atoms/FlexBox";
 
 export const AvatarBox = styled(FlexBox)`
   width: 40px;

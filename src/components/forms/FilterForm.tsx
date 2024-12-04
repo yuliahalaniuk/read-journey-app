@@ -31,7 +31,7 @@ const FilterForm = () => {
     <PrimaryForm
       onSubmit={form.handleSubmit(
         (data) => {
-          console.log("Filter Form submitted with data:", data);
+          // console.log("Filter Form submitted with data:", data);
           const filteredData = Object.fromEntries(
             Object.entries(data).filter(([_, value]) => value?.trim())
           );

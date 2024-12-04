@@ -1,4 +1,4 @@
-import { BaseBox } from "../../../atoms/BaseBox";
+import { SectionBox } from "../../../atoms/BaseBox";
 import { MainTitle } from "../../../atoms/Text";
 import { useBooksSelector } from "../../../redux/selectors";
 import { useModal } from "../../../providers/ModalProvider";
@@ -8,7 +8,9 @@ import { addOneThunk } from "../../../redux/library/library.thunks";
 import AddedBookModal from "../../modals/AddedBookModal";
 import { useAppDispatch } from "../../../redux/store";
 import BooksList from "../../books/list/BooksList";
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox } from "../../../atoms/FlexBox";
+import Pagination from "../../../atoms/components/Pagination";
+import { BaseSpinner } from "../../../atoms/components/Spinners";
 
 const HomeContent = ({
   handlePreviousPage,
@@ -19,7 +21,7 @@ const HomeContent = ({
   handleNextPage?: () => void;
   offset?: number;
 }) => {
-  const { books } = useBooksSelector();
+  const { books, loading, hasMore } = useBooksSelector();
   const { showModal } = useModal();
   const dispatch = useAppDispatch();
 
@@ -48,10 +50,20 @@ const HomeContent = ({
   };
 
   return (
-    <BaseBox>
-      <MainTitle>Popular</MainTitle>
+    <SectionBox>
+      <FlexBox $fDirection="row" $justify="space-between" $align="flex-start">
+        <MainTitle>Popular</MainTitle>
+        <Pagination
+          onPrevClick={handlePreviousPage}
+          onNextClick={handleNextPage}
+          isPrev={offset === 0}
+          isNext={!hasMore}
+        />
+      </FlexBox>
 
-      <FlexBox style={{ flex: 1 }}>
+      {loading ? (
+        <BaseSpinner />
+      ) : (
         <BooksList
           books={books}
           placeholderText={
@@ -62,8 +74,8 @@ const HomeContent = ({
           }
           onSelect={handleBookSelect}
         />
-      </FlexBox>
-    </BaseBox>
+      )}
+    </SectionBox>
   );
 };
 

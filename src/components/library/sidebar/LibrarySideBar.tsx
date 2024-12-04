@@ -1,5 +1,5 @@
 import { SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox } from "../../../atoms/FlexBox";
 import { SidebarContainer } from "../../../atoms/SidebarContainer";
 import { useBooksSelector } from "../../../redux/selectors";
 import BookCard from "../../books/card/BookCard";

@@ -43,6 +43,7 @@ const PageForm = ({
     reValidateMode: "onSubmit",
     resolver: yupResolver<PageFormData>(pageSchema),
   });
+
   const inputProps = {
     name: "page",
     label: "Page number",
@@ -57,7 +58,7 @@ const PageForm = ({
           onValid?.({ page: Number(data.page) });
         },
         (errors) => {
-          console.log("Page Form submission errors:", errors);
+          // console.log("Page Form submission errors:", errors);
         }
       )}
       {...(action && textInfo[action])}

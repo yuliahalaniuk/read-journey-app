@@ -1,6 +1,6 @@
 import { ElementType, ReactNode, useMemo } from "react";
 import { BookEntity } from "../../../types/books";
-import { FlexBox, FlexLi } from "../../../atoms/Flex";
+import { FlexBox, FlexLi } from "../../../atoms/FlexBox";
 import BookCard from "../card/BookCard";
 import TabPlaceholder from "../../../atoms/components/TabPlaceholder";
 import { SizeTypeEnum } from "../../../types/global";

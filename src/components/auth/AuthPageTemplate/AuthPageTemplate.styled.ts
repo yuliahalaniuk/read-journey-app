@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BaseBox } from "../../../atoms/BaseBox";
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox } from "../../../atoms/FlexBox";
 
 export const Title = styled.h1`
   width: 100%;

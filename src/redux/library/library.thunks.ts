@@ -17,17 +17,6 @@ export const getAllThunk = createThunkWithCallbacks(
   }
 );
 
-// export const filterByGenreThunk = createThunkWithCallbacks(
-//   "library/filterByGenre",
-//   async ({ genre }: { genre: string }, { getState }) => {
-//     const { books } = (getState() as RootState).books;
-//     if (genre === "all") return books;
-//     return books.filter((book: BookEntity) =>
-//       book?.volumeInfo?.categories?.includes(genre)
-//     );
-//   }
-// );
-
 export const getOneThunk = createThunkWithCallbacks(
   "library/getOne",
   async ({ bookId }: { bookId?: string }, { getState }) => {
@@ -72,8 +61,18 @@ export const deleteOneThunk = createThunkWithCallbacks(
     { userId, bookId }: { userId?: string; bookId?: string },
     { getState }
   ) => {
-    const bookRef = ref(database, `books/${userId}/${bookId}`);
-    await remove(bookRef);
+    const state = getState() as RootState;
+    const currentUserId = userId || state.auth?.user?.uid;
+
+    if (!currentUserId || !bookId) {
+      throw new Error("User ID or Book ID is missing.");
+    }
+
+    const bookRef = ref(database, `books/${currentUserId}/${bookId}`);
+    const statsRef = ref(database, `users/${currentUserId}/stats/${bookId}`);
+
+    await Promise.all([remove(bookRef), remove(statsRef)]);
+
     return bookId;
   }
 );

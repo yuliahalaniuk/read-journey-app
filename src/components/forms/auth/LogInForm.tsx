@@ -1,4 +1,4 @@
-import { FlexBox } from "../../../atoms/Flex";
+import { FlexBox } from "../../../atoms/FlexBox";
 import { AccentedBtn } from "../../../atoms/Buttons";
 import { BaseLink } from "../../../atoms/BaseLink";
 import {

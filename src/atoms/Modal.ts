@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { FlexBox } from "./Flex";
+import { FlexBox } from "./FlexBox";
 import { BaseButton } from "./Buttons";
 import {
   fadeInBackdrop,
@@ -30,6 +30,7 @@ export const Body = styled(FlexBox)<{
   color: ${(p) => p.theme.text.main};
   opacity: 1;
 
+  align-items: center;
   padding: ${(p) => (p.$sizeType === "m" ? "40px 40px" : "60px 46px")};
 
   ${CloseBtn} {

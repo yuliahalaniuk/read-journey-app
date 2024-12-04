@@ -9,6 +9,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { centerTextPlugin } from "./plugins/centerTextPlugin";
 import { horBarOptions } from "./data/horBarOptions";
+import { FlexBox } from "../../atoms/FlexBox";
 
 const DiaryGraph = ({ gData }: { gData: [number, number] }) => {
   Chart.unregister(centerTextPlugin);
@@ -47,9 +48,9 @@ const DiaryGraph = ({ gData }: { gData: [number, number] }) => {
   };
 
   return (
-    <div style={{ height: "50px", width: "100px" }}>
+    <FlexBox $maxWidth={"60px"} $height={"50px"}>
       <Line data={data} options={horBarOptions} />
-    </div>
+    </FlexBox>
   );
 };
 

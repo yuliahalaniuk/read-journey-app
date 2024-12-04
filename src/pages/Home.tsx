@@ -5,14 +5,10 @@ import { useAppDispatch } from "../redux/store";
 import { getAllBooksThunk } from "../redux/books/books.thunks";
 import { useLocation } from "react-router-dom";
 import HomeContent from "../components/home/content/HomeContent";
-import { useBooksSelector } from "../redux/selectors";
-import GlobalSpinner from "../atoms/components/GlobalSpinner";
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const { search } = useLocation();
-  const { loading } = useBooksSelector();
-
   const [offset, setOffset] = useState(0);
   const maxResults = 10;
 
@@ -29,9 +25,7 @@ const Home = () => {
     setOffset((prev) => Math.max(0, prev - maxResults));
   };
 
-  return loading ? (
-    <GlobalSpinner />
-  ) : (
+  return (
     <MainLayout>
       <HomeSideBar />
 

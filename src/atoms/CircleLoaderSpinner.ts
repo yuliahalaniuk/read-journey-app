@@ -1,9 +1,6 @@
-import React from "react";
 import styled from "styled-components";
-import { FlexBox } from "../Flex";
-import { Text } from "../Text";
 
-export const CircleLoaderSpiner = styled.div<{
+export const CircleLoaderSpinner = styled.div<{
   $size?: number;
   $strokeWidth?: number;
 }>`
@@ -27,20 +24,3 @@ export const CircleLoaderSpiner = styled.div<{
     }
   }
 `;
-
-const GlobalSpinner = () => {
-  return (
-    <FlexBox
-      $gap={"20px"}
-      $align="center"
-      $justify="center"
-      style={{ width: "100vw", height: "100vh" }}
-    >
-      <CircleLoaderSpiner />
-
-      <Text $size={"24px"}>Loading...</Text>
-    </FlexBox>
-  );
-};
-
-export default GlobalSpinner;

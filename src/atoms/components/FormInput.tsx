@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import InputSecurityControlHOC from "../../components/HOC/SecurityInputControl";
-import { FlexBox } from "../Flex";
+import { FlexBox } from "../FlexBox";
 import { ErrorText, LabelContainer, StLabel, StyledInput } from "../StInput";
 
 const FormInput = ({
@@ -29,7 +29,7 @@ const FormInput = ({
   const fieldValue = form.watch(name);
 
   return (
-    <FlexBox $gap="4px">
+    <FlexBox $gap="4px" $fillWidth>
       <LabelContainer
         $justify={"space-between"}
         $gap="10px"

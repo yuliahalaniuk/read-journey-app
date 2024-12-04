@@ -1,8 +1,9 @@
 import React from "react";
 import { Text, TextWithAccent } from "../../../../atoms/Text";
 import { SecondaryBaseBox } from "../../../../atoms/BaseBox";
-import { FlexBox } from "../../../../atoms/Flex";
+import { FlexBox } from "../../../../atoms/FlexBox";
 import DoughnutGraph from "../../../grahps/DoughnutGraph";
+import { GraphIndicator } from "./Tabs.styled";
 
 const StatisticsTab = ({
   totalRead,
@@ -15,13 +16,13 @@ const StatisticsTab = ({
 }) => {
   return (
     <>
-      <TextWithAccent $textAlign="left">
+      <TextWithAccent>
         Each page, each chapter is a new round of knowledge, a new step towards
         understanding. By rewriting statistics, we create our own reading
         history.
       </TextWithAccent>
 
-      <SecondaryBaseBox $gap="20px" style={{ width: "100%" }}>
+      <SecondaryBaseBox $gap="20px" $fillWidth $align="center">
         <DoughnutGraph data={doughnutData} />
 
         <FlexBox
@@ -29,19 +30,9 @@ const StatisticsTab = ({
           $gap="16px"
           $justify="flex-start"
           $align="flex-start"
-          style={{ maxWidth: "max-content" }}
+          $maxWidth="max-content"
         >
-          <div
-            style={{
-              width: "14px",
-              height: "14px",
-              backgroundColor: "#30B94D",
-              borderRadius: "4px",
-              flexShrink: 0,
-              marginTop: "2px",
-            }}
-          ></div>
-
+          <GraphIndicator />
           <FlexBox $gap="8px" $align="flex-start">
             <Text $primary $textAlign="left" $size="20px">
               {readPerc}%

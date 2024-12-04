@@ -1,6 +1,6 @@
 import React from "react";
 import { InstructionDataEntity } from "../../../../data/instructionsData";
-import { FlexLi } from "../../../../atoms/Flex";
+import { FlexLi } from "../../../../atoms/FlexBox";
 import { AvatarBox, Text } from "./InstructionsItem.styled";
 
 const InstructionItem = ({ id, text }: InstructionDataEntity) => {

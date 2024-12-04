@@ -1,12 +1,10 @@
-import React from "react";
-import { FlexBox } from "../../../../atoms/Flex";
+import { FlexBox, FlexUl } from "../../../../atoms/FlexBox";
 import { Text } from "../../../../atoms/Text";
-import DeleteBtmIcon from "../../../../assets/DeleteBtmIcon";
-import { BaseButton } from "../../../../atoms/Buttons";
 import { useAppDispatch } from "../../../../redux/store";
 import { deleteSessionThunk } from "../../../../redux/library/library.thunks";
-import DiaryGraph from "../../../grahps/HorisontalBar";
 import { DiaryTabContainer } from "./Tabs.styled";
+import SquareIcon from "../../../../assets/SquareIcon";
+import DiarySession from "../components/Session";
 
 const DiaryTab = ({
   stats,
@@ -19,101 +17,60 @@ const DiaryTab = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const handleDeleteSession = ({ key, date }: any) => {
+    dispatch(
+      deleteSessionThunk({
+        args: {
+          sessionId: key,
+          date,
+          bookId,
+        },
+      })
+    );
+  };
   return (
-    <DiaryTabContainer $gap="20px" style={{ width: "313px" }}>
-      {stats?.sessions
-        ? Object.entries(stats.sessions)?.map(([date, sessions]) => {
-            const total = Object.values(sessions as any).reduce((acc, next) => {
-              return acc + (next as any).pagesRead;
-            }, 0);
+    <DiaryTabContainer $gap="20px">
+      {stats?.sessions ? (
+        Object.entries(stats.sessions)?.map(([date, sessions]) => {
+          const total = Object.values(sessions as any).reduce((acc, next) => {
+            return acc + (next as any).pagesRead;
+          }, 0);
 
-            return (
-              <FlexBox key={date} $gap="28px" className="DiaryTab">
-                <FlexBox $fDirection="row" $gap="10px" $justify="space-between">
-                  <FlexBox $fDirection="row" $gap="10px" $align="flex-start">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <rect width="20" height="20" rx="4" fill="#F9F9F9" />
-                      <rect
-                        x="4"
-                        y="4"
-                        width="12"
-                        height="12"
-                        rx="2"
-                        fill="#141414"
-                      />
-                    </svg>
-                    <Text $primary>{date}</Text>
-                  </FlexBox>
-                  <Text
-                    style={{ whiteSpace: "nowrap" }}
-                  >{`${total} pages`}</Text>
+          return (
+            <FlexBox key={date} $gap="8px" className="DiaryTab" $fillWidth>
+              <FlexBox
+                $fDirection="row"
+                $gap="10px"
+                $fillWidth
+                $justify="space-between"
+              >
+                <FlexBox $fDirection="row" $gap="10px" $align="flex-start">
+                  <SquareIcon />
+                  <Text $primary>{date}</Text>
                 </FlexBox>
-
-                <FlexBox $gap="28px">
-                  {Object.entries(sessions as any).map(
-                    ([key, session]: [key: string, session: any]) => {
-                      const time = session.duration;
-                      return (
-                        <FlexBox
-                          key={session.id}
-                          style={{ paddingLeft: "20px" }}
-                          $fDirection="row"
-                          $align="center"
-                        >
-                          <FlexBox $gap="8px" $align="flex-start">
-                            <Text $primary $textAlign="left" $size="20px">
-                              {((session.pagesRead * 100) / bookPages).toFixed(
-                                0
-                              ) + "%"}
-                            </Text>
-                            <Text $textAlign="left">
-                              {time > 60
-                                ? `${Math.floor(time / 60)} minutes`
-                                : `${Math.floor(time)} seconds`}
-                            </Text>
-                          </FlexBox>
-
-                          <FlexBox $fDirection="row" $align="center">
-                            <FlexBox $gap="8px">
-                              <DiaryGraph gData={[10, 15]} />
-
-                              <Text $textAlign="left" $size="12px">
-                                {`${(session.pagesRead / (time / 3600)).toFixed(
-                                  0
-                                )} pages per hour`}
-                              </Text>
-                            </FlexBox>
-                            <BaseButton
-                              onClick={() => {
-                                dispatch(
-                                  deleteSessionThunk({
-                                    args: {
-                                      sessionId: key,
-                                      date,
-                                      bookId,
-                                    },
-                                  })
-                                );
-                              }}
-                            >
-                              <DeleteBtmIcon />
-                            </BaseButton>
-                          </FlexBox>
-                        </FlexBox>
-                      );
-                    }
-                  )}
-                </FlexBox>
+                <Text style={{ whiteSpace: "nowrap" }}>{`${total} pages`}</Text>
               </FlexBox>
-            );
-          })
-        : "Not found"}
+
+              <FlexUl $gap="8px">
+                {Object.entries(sessions as any).map(
+                  ([key, session]: [key: string, session: any]) => {
+                    return (
+                      <DiarySession
+                        key={session.id}
+                        session={session}
+                        bookPages={bookPages}
+                        onDelete={() => handleDeleteSession({ key, date })}
+                      />
+                    );
+                  }
+                )}
+              </FlexUl>
+            </FlexBox>
+          );
+        })
+      ) : (
+        <FlexBox>Oppps... Not found</FlexBox>
+      )}
     </DiaryTabContainer>
   );
 };

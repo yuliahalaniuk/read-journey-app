@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexLabel } from "./Flex";
+import { FlexLabel } from "./FlexBox";
 
 export const ErrorText = styled.p`
   width: 100%;
