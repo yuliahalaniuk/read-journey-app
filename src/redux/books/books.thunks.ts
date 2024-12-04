@@ -40,7 +40,7 @@ export const getRecommendedThunk = createAsyncThunk(
     try {
       const { data } = await baseApiClient.get("/", {
         params: {
-          q: "subject:popular",
+          q: "*",
           startIndex: offset,
           maxResults,
         },

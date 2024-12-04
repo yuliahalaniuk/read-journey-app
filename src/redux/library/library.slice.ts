@@ -2,10 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addOneThunk,
   addReadingSessionThunk,
-  deleteAllThunk,
   deleteOneThunk,
   deleteSessionThunk,
-  filterByGenreThunk,
   getAllThunk,
   getOneThunk,
 } from "./library.thunks";
@@ -39,7 +37,11 @@ const initialState: LibraryState = {
 export const librarySlice = createSlice({
   name: "library",
   initialState,
-  reducers: {},
+  reducers: {
+    removeCurrentBook: (state) => {
+      state.currentBook = { info: null, totalRead: 0, sessions: {} };
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllThunk.fulfilled, (state, action) => {
@@ -47,18 +49,19 @@ export const librarySlice = createSlice({
         state.filteredBooks = action.payload as any;
         state.loading = false;
       })
-      .addCase(filterByGenreThunk.fulfilled, (state, action) => {
-        state.filteredBooks = action.payload;
-        state.loading = false;
-      })
+      // .addCase(filterByGenreThunk.fulfilled, (state, action) => {
+      //   state.filteredBooks = action.payload;
+      //   state.loading = false;
+      // })
       .addCase(addOneThunk.fulfilled, (state, action) => {
         state.books.push(action.payload);
         state.loading = false;
       })
       .addCase(getOneThunk.fulfilled, (state, action) => {
         state.currentBook = {
-          ...state.currentBook,
-          info: action.payload,
+          info: action.payload.book,
+          sessions: action.payload.stats.sessions,
+          totalRead: action.payload.stats.totalRead,
         };
         state.loading = false;
       })
@@ -66,11 +69,6 @@ export const librarySlice = createSlice({
         state.books = state.books.filter((book) => book.id !== action.payload);
         state.loading = false;
         toast.success("The book was deleted successfully");
-      })
-      .addCase(deleteAllThunk.fulfilled, (state) => {
-        state.books = [];
-        state.filteredBooks = [];
-        state.loading = false;
       })
       .addCase(addReadingSessionThunk.fulfilled, (state, action) => {
         state.currentBook.totalRead = action.payload.totalRead;
@@ -92,6 +90,8 @@ export const librarySlice = createSlice({
       );
   },
 });
+
+export const { removeCurrentBook } = librarySlice.actions;
 
 function updateSession(
   state: LibraryState,

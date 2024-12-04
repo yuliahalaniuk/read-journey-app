@@ -1,12 +1,12 @@
-import LibrarySideBar from "../components/sidebars/LibrarySideBar";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../redux/store";
 import { getAllThunk } from "../redux/library/library.thunks";
 import { getRecommendedThunk } from "../redux/books/books.thunks";
-import LibraryContent from "../components/library/LibraryContent";
+import LibraryContent from "../components/library/content/LibraryContent";
 import { SelectOptionEntity } from "../types/global";
 import { libraryFilterOptions } from "../data/libraryFilterOptions";
+import LibrarySideBar from "../components/library/sidebar/LibrarySideBar";
 
 const UserLibrary = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ const UserLibrary = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllThunk());
+    dispatch(getAllThunk({ args: {} }));
     dispatch(getRecommendedThunk({}));
   }, [dispatch]);
 

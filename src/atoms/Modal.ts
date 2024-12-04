@@ -23,8 +23,8 @@ export const Body = styled(FlexBox)<{
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: ${(p) => p.theme.borderRadius.modal};
-  width: 100%;
-  max-width: ${(p) => (p.$sizeType === "m" ? "500px" : "342px")};
+  width: 90%;
+  max-width: ${(p) => (p.$sizeType === "m" ? "480px" : "342px")};
   z-index: 201;
   background-color: ${(p) => p.theme.background.secondary};
   color: ${(p) => p.theme.text.main};

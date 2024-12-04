@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Chart,
   LineElement,
@@ -9,51 +8,23 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { centerTextPlugin } from "./plugins/centerTextPlugin";
+import { horBarOptions } from "./data/horBarOptions";
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      enabled: false,
-    },
-  },
-  scales: {
-    x: {
-      display: false,
-    },
-    y: {
-      display: false,
-      min: 0,
-      max: 30,
-      beginAtZero: false,
-    },
-  },
-  elements: {
-    line: {
-      borderWidth: 2,
-    },
-  },
-};
-
-const DiaryGraph = () => {
+const DiaryGraph = ({ gData }: { gData: [number, number] }) => {
   Chart.unregister(centerTextPlugin);
   Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Filler);
 
   const data = {
-    labels: [10, 15], // Dummy data points (x-axis)
+    labels: gData,
     datasets: [
       {
-        data: [10, 15], // Slanting graph (y-axis values) from 25 to 10 (similar to your SVG)
+        data: gData,
         backgroundColor: (context: any) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
 
           if (!chartArea) {
-            return null; // Wait until layout is calculated
+            return null;
           }
 
           const gradient = ctx.createLinearGradient(
@@ -77,7 +48,7 @@ const DiaryGraph = () => {
 
   return (
     <div style={{ height: "50px", width: "100px" }}>
-      <Line data={data} options={options} />
+      <Line data={data} options={horBarOptions} />
     </div>
   );
 };

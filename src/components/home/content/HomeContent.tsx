@@ -1,16 +1,14 @@
-import { BaseBox } from "../../atoms/BaseBox";
-import { MainTitle } from "../../atoms/Text";
-import { useBooksSelector } from "../../redux/selectors";
-import { useModal } from "../../providers/ModalProvider";
-import { BookEntity } from "../../types/books";
-import BookModal from "../modals/BookModal";
-import { addOneThunk } from "../../redux/library/library.thunks";
-import AddedBookModal from "../modals/AddedBookModal";
-import { useAppDispatch } from "../../redux/store";
-import BooksList from "../books/list/BooksList";
-
-import Pagination from "../../atoms/components/Pagination";
-import { FlexBox } from "../../atoms/Flex";
+import { BaseBox } from "../../../atoms/BaseBox";
+import { MainTitle } from "../../../atoms/Text";
+import { useBooksSelector } from "../../../redux/selectors";
+import { useModal } from "../../../providers/ModalProvider";
+import { BookEntity } from "../../../types/books";
+import BookModal from "../../modals/BookModal";
+import { addOneThunk } from "../../../redux/library/library.thunks";
+import AddedBookModal from "../../modals/AddedBookModal";
+import { useAppDispatch } from "../../../redux/store";
+import BooksList from "../../books/list/BooksList";
+import { FlexBox } from "../../../atoms/Flex";
 
 const HomeContent = ({
   handlePreviousPage,
@@ -35,8 +33,14 @@ const HomeContent = ({
         {...book}
         btnText="Add to library"
         btnOnClick={() => {
-          dispatch(addOneThunk({ book })); // onSuccess
-          showModal(<AddedBookModal />);
+          dispatch(
+            addOneThunk({
+              args: { book },
+              onSuccess: () => {
+                showModal(<AddedBookModal />);
+              },
+            })
+          );
         }}
       />,
       { bodySize: "m" }
@@ -59,12 +63,6 @@ const HomeContent = ({
           onSelect={handleBookSelect}
         />
       </FlexBox>
-
-      <Pagination
-        onNextClick={handleNextPage}
-        onPrevClick={handlePreviousPage}
-        isPrev={offset === 0}
-      />
     </BaseBox>
   );
 };

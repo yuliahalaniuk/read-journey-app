@@ -1,8 +1,8 @@
 import React from "react";
 import { FlexBox, FlexForm } from "../../atoms/Flex";
-import styled from "styled-components";
 import { TransparentBtn } from "../../atoms/Buttons";
 import FormFields, { FormFieldsProps } from "../../atoms/components/FormFields";
+import { Title } from "./Forms.styled";
 
 interface PrimaryFormProps extends FormFieldsProps {
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -35,14 +35,5 @@ const PrimaryForm: React.FC<PrimaryFormProps> = ({
   );
 };
 
-const Title = styled.p`
-  font-weight: 500;
-  font-size: 10px;
-  line-height: 120%;
-  letter-spacing: -0.02em;
-  padding-left: 14px;
 
-  margin-bottom: 8px;
-  color: ${(p) => p.theme.text.main};
-`;
 export default PrimaryForm;

@@ -101,9 +101,8 @@ input {
   border-radius: 0;
 }
 
+/* --------------------- Custom Scrollbar --------------------*/
 
-
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;

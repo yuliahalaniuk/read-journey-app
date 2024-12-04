@@ -1,7 +1,6 @@
-import React from "react";
 import { BaseButton } from "../Buttons";
 import { FlexBox } from "../Flex";
-import SLiderArrows from "../../assets/SliderArrows";
+import SliderArrow from "../../assets/SliderArrows";
 
 const Pagination = ({
   onPrevClick,
@@ -26,7 +25,7 @@ const Pagination = ({
         style={{ gap: "8px" }}
         disabled={isPrev}
       >
-        <SLiderArrows.Left />
+        <SliderArrow direction="left" />
         Previous
       </BaseButton>
       <BaseButton
@@ -35,7 +34,7 @@ const Pagination = ({
         disabled={isNext}
       >
         Next
-        <SLiderArrows.Right />
+        <SliderArrow direction="right" />
       </BaseButton>
     </FlexBox>
   );

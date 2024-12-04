@@ -1,6 +1,13 @@
-const MenuIcon = () => {
+import { IconProps } from "../types/global";
+
+const MenuIcon: React.FC<IconProps> = ({
+  color = "#F9F9F9",
+  ariaLabel = "Menu icon",
+}) => {
   return (
     <svg
+      role="img"
+      aria-label={ariaLabel}
       width="28"
       height="28"
       viewBox="0 0 28 28"
@@ -9,10 +16,10 @@ const MenuIcon = () => {
     >
       <path
         d="M3.5 14H24.5M3.5 7H24.5M10.5 21H24.5"
-        stroke="#F9F9F9"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

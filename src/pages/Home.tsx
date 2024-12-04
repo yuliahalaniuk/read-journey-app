@@ -1,10 +1,10 @@
-import HomeSideBar from "../components/sidebars/HomeSideBar";
+import HomeSideBar from "../components/home/sidebar/HomeSideBar";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../redux/store";
 import { getAllBooksThunk } from "../redux/books/books.thunks";
 import { useLocation } from "react-router-dom";
-import HomeContent from "../components/home/HomeContent";
+import HomeContent from "../components/home/content/HomeContent";
 import { useBooksSelector } from "../redux/selectors";
 import GlobalSpinner from "../atoms/components/GlobalSpinner";
 

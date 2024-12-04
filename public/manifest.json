@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Read Journey",
+  "name": "Read Journey",
+  "description": "Reading diary to track your progress",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,15 +12,13 @@
       "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#141414",
+  "theme_color": "#f9f9f9",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["books", "education", "productivity", "lifestyle", "reading"]
 }

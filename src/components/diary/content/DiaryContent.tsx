@@ -1,13 +1,13 @@
-import NotStartedIcon from "../../assets/NotStartedIcon";
-import RecordStartedIcon from "../../assets/RecordStartedIcon";
-import { BaseBox } from "../../atoms/BaseBox";
-import { BaseButton } from "../../atoms/Buttons";
-import { FlexBox } from "../../atoms/Flex";
-import { MainTitle } from "../../atoms/Text";
-import { useModal } from "../../providers/ModalProvider";
-import { useLibrarySelector } from "../../redux/selectors";
-import PageModal from "../modals/PageModal";
-import { NameText, SubText } from "./DiaryContent.styled";
+import NotStartedIcon from "../../../assets/NotStartedIcon";
+import RecordStartedIcon from "../../../assets/RecordStartedIcon";
+import { BaseBox } from "../../../atoms/BaseBox";
+import { BaseButton } from "../../../atoms/Buttons";
+import { FlexBox } from "../../../atoms/Flex";
+import { MainTitle } from "../../../atoms/Text";
+import { useModal } from "../../../providers/ModalProvider";
+import { useLibrarySelector } from "../../../redux/selectors";
+import PageModal from "../../modals/PageModal";
+import { MainBookImg, NameText, SubText } from "./DiaryContent.styled";
 
 const DiaryContent = ({
   isStarted,
@@ -45,15 +45,15 @@ const DiaryContent = ({
 
       <FlexBox $justify="center" $align="center" style={{ flex: 1 }}>
         <FlexBox>
-          <img
+          <MainBookImg
             src={
               currentBook?.info?.volumeInfo?.imageLinks?.thumbnail
                 ? currentBook?.info?.volumeInfo.imageLinks?.thumbnail
                 : "/images/bookCover.png"
             }
             alt={currentBook?.info?.volumeInfo?.title}
-            width={140}
-            height={213}
+            width={137}
+            height={208}
           />
         </FlexBox>
 

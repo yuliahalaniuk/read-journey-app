@@ -20,15 +20,17 @@ export const Content = styled(FlexBox)`
   width: 100%;
   gap: 16px;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.tablet}) {
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr;
     max-width: 100%;
+    max-width: 704px;
   }
 
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.desktop}) {
     grid-template-rows: 1fr;
     grid-template-columns: auto 1fr;
     align-items: stretch;
+    max-width: 100%;
   }
 `;

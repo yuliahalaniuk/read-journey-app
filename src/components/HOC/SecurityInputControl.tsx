@@ -1,9 +1,8 @@
 import React, { HTMLInputTypeAttribute, useState } from "react";
-import styled from "styled-components";
 import { UseFormReturn } from "react-hook-form";
-import { BaseButton } from "../../atoms/Buttons";
 import EyeOpenIcon from "../../assets/EyeOpenIcon";
 import EyeClosedIcon from "../../assets/EyeClosedIcon";
+import { SecurityButton } from "./HOC.styled";
 
 const InputSecurityControlHOC = ({
   children,
@@ -45,19 +44,11 @@ const InputSecurityControlHOC = ({
           })
         : children}
 
-      <SecurityButton onClick={handleVisibility}>
+      <SecurityButton onClick={handleVisibility} type="button">
         {isVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
       </SecurityButton>
     </>
   );
 };
-
-const SecurityButton = styled(BaseButton)`
-  position: absolute;
-  right: 0;
-  padding: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-`;
 
 export default InputSecurityControlHOC;

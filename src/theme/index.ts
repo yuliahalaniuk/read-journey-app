@@ -43,7 +43,7 @@ export const baseTheme = {
   breakpoints: {
     mobile: "480px",
     tablet: "768px",
-    desktop: "1280px",
+    desktop: "1200px",
   },
 
   colors: {

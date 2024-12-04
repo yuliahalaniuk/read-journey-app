@@ -18,3 +18,19 @@ export enum CardSize {
   Large = "large",
   Small = "small",
 }
+
+
+export enum DiaryTabsEnum {
+  Progress = "progress",
+  Diary = "diary",
+  Statistics = "statistics",
+}
+
+export interface IconProps {
+  color?: string;
+  ariaLabel?: string;
+  size?: number;
+  strokeWidth?: number;
+  className?: string;
+  strokeColor?: string;
+}

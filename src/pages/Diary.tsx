@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
-import DiarySideBar from "../components/sidebars/DiarySideBar";
 import { useLocation } from "react-router-dom";
 import { PageFormData } from "../data/formFieldsInfo";
 import { useAppDispatch } from "../redux/store";
@@ -9,7 +8,9 @@ import {
   getOneThunk,
 } from "../redux/library/library.thunks";
 import { useLibrarySelector } from "../redux/selectors";
-import DiaryContent from "../components/diary/DiaryContent";
+import DiaryContent from "../components/diary/content/DiaryContent";
+import DiarySideBar from "../components/diary/sidebar/DiarySideBar";
+import { removeCurrentBook } from "../redux/library/library.slice";
 
 const DiaryPage = () => {
   const location = useLocation();
@@ -25,7 +26,11 @@ const DiaryPage = () => {
   }>({});
 
   useEffect(() => {
-    dispatch(getOneThunk({ bookId }));
+    dispatch(getOneThunk({ args: { bookId } }));
+
+    return () => {
+      dispatch(removeCurrentBook());
+    };
   }, [dispatch, bookId]);
 
   const handlePageFormSubmit = (data: PageFormData) => {
@@ -39,9 +44,11 @@ const DiaryPage = () => {
 
       dispatch(
         addReadingSessionThunk({
-          bookId,
-          pagesRead,
-          startTime: startRef.current.time || 0,
+          args: {
+            bookId,
+            pagesRead,
+            startTime: startRef.current.time || 0,
+          },
         })
       );
     }

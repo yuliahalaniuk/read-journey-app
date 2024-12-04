@@ -1,3 +1,4 @@
+/// <reference types="react/canary" />
 import { BaseBox } from "../../../atoms/BaseBox";
 import { BaseButton, TransparentBtn } from "../../../atoms/Buttons";
 import { FlexBox } from "../../../atoms/Flex";
@@ -25,7 +26,7 @@ const Header = () => {
   const { isScrollingUp } = useScrollUp();
 
   const handleLogOut = () => {
-    dispatch(logOutThunk());
+    dispatch(logOutThunk({ args: {} }));
   };
 
   const handleMenuClick = () => {

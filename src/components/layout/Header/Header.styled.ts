@@ -13,6 +13,15 @@ export const Box = styled(FlexBox)<{ $isVisible?: boolean }>`
   transition: opacity ${(p) => p.theme.timingFnMain};
   backdrop-filter: blur(3px);
   pointer-events: ${(p) => (p.$isVisible ? "all" : "none")};
+  max-width: 375px;
+
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.tablet}) {
+    max-width: 704px;
+  }
+
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.desktop}) {
+    max-width: 100%;
+  }
 `;
 
 export const ImgContainer = styled(FlexBox)``;

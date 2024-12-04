@@ -41,7 +41,7 @@ export const LabelContainer = styled(FlexLabel)<{
       p.$errors ? p.theme.colors.errorPressed : p.theme.text.main};
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.tablet}) {
     padding-block: 16px;
   }
 `;
@@ -63,7 +63,7 @@ export const StyledInput = styled.input`
     border-color: ${(p) => p.theme.accentColor};
   }
 
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.desktop}) {
     font-size: 14px;
   }
 

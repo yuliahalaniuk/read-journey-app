@@ -19,7 +19,7 @@ export const BaseLink = styled(NavLink)`
 
   transition: all ${(p) => p.theme.timingFnMain};
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.tablet}) {
     font-size: 16px;
   }
 `;

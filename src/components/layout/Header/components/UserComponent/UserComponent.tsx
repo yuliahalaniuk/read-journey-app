@@ -2,12 +2,10 @@ import { AvatarBox, UserName } from "./UserComponent.styled";
 import { FlexBox } from "../../../../../atoms/Flex";
 import { useMediaQuery } from "react-responsive";
 import { useAuthSelector } from "../../../../../redux/selectors";
+import { isDesktopQuery } from "../../../../../utils/mediaQueries";
 
 const UserComponent = () => {
-  const isDesktop = useMediaQuery({
-    query: "(min-width: 1280px)",
-  });
-
+  const isDesktop = useMediaQuery(isDesktopQuery);
   const { user } = useAuthSelector();
 
   return isDesktop ? (

@@ -1,11 +1,10 @@
 import { ReactNode } from "react";
-import { FlexBox } from "../../../../atoms/Flex";
-import { SideBarTitle } from "../../../../atoms/SideBarTitle";
-import { BaseButton } from "../../../../atoms/Buttons";
-import HourGlassIcon from "../../../../assets/HourGlassIcon";
-import PieChartIcon from "../../../../assets/PieChartIcon";
-import { DiaryTabsEnum } from "../../DiarySideBar";
-import styled from "styled-components";
+import { FlexBox } from "../../../atoms/Flex";
+import { SideBarTitle } from "../../../atoms/SideBarTitle";
+import { BaseButton } from "../../../atoms/Buttons";
+import HourGlassIcon from "../../../assets/HourGlassIcon";
+import PieChartIcon from "../../../assets/PieChartIcon";
+import { DiaryTabsEnum } from "../../../types/global";
 
 const Layout = ({
   children,
@@ -19,7 +18,7 @@ const Layout = ({
   tab?: DiaryTabsEnum;
 }) => {
   return (
-    <LayoutContainer $gap="20px" style={{ width: "100%" }}>
+    <FlexBox $gap="20px" style={{ width: "100%" }}>
       <FlexBox
         $fDirection="row"
         $justify="space-between"
@@ -57,16 +56,8 @@ const Layout = ({
       </FlexBox>
 
       {children}
-    </LayoutContainer>
+    </FlexBox>
   );
 };
-
-const LayoutContainer = styled(FlexBox)`
-  /* @media screen and (min-width: 1280px) {
-    max-height: 60%;
-    height: 60%;
-    overflow: hidden;
-  } */
-`;
 
 export default Layout;

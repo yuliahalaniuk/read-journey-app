@@ -6,10 +6,10 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase/firebase";
+import { createThunkWithCallbacks } from "../../utils/createThunkWithCallbacks";
 
-export const registerUserThunk = createAsyncThunk(
+export const registerUserThunk = createThunkWithCallbacks(
   "auth/registerUser",
   async (
     {
@@ -17,8 +17,9 @@ export const registerUserThunk = createAsyncThunk(
       password,
       name,
     }: { email: string; password: string; name: string },
-    { rejectWithValue }
+    thunkAPI
   ) => {
+    const { rejectWithValue } = thunkAPI;
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -43,12 +44,13 @@ export const registerUserThunk = createAsyncThunk(
   }
 );
 
-export const logInUserThunk = createAsyncThunk(
+export const logInUserThunk = createThunkWithCallbacks(
   "auth/logInUser",
   async (
     { email, password }: { email: string; password: string },
-    { rejectWithValue }
+    thunkAPI
   ) => {
+    const { rejectWithValue } = thunkAPI;
     try {
       const { user }: { user: any } = await signInWithEmailAndPassword(
         auth,
@@ -70,9 +72,10 @@ export const logInUserThunk = createAsyncThunk(
   }
 );
 
-export const signInWithGoogleThunk = createAsyncThunk(
+export const signInWithGoogleThunk = createThunkWithCallbacks(
   "auth/signInWithGoogle",
-  async (_, { rejectWithValue }) => {
+  async (_, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
     try {
       const provider = new GoogleAuthProvider();
       const { user }: { user: any } = await signInWithPopup(auth, provider);
@@ -91,6 +94,13 @@ export const signInWithGoogleThunk = createAsyncThunk(
   }
 );
 
-export const logOutThunk = createAsyncThunk("auth/logOut", async () => {
-  await signOut(auth);
-});
+export const logOutThunk = createThunkWithCallbacks(
+  "auth/logOut",
+  async (_, thunkAPI) => {
+    try {
+      await signOut(auth);
+    } catch (error: any) {
+      thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

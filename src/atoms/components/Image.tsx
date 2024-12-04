@@ -1,28 +1,22 @@
-import React, { useState } from "react";
-import { FlexBox } from "../Flex";
-// import { CircleLoaderSpiner } from "./GlobalSpinner";
+import { useState, useEffect } from "react";
 
-const Image = ({ src, alt }: { src?: string; alt?: string }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+const ProgressiveImg = ({ placeholderSrc, src, ...props }: any) => {
+  const [imgSrc, setImgSrc] = useState(placeholderSrc || src);
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
+  useEffect(() => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      setImgSrc(src);
+    };
+  }, [src]);
 
   return (
-    <FlexBox style={{ position: "relative", width: "100%" }}>
-      {!imageLoaded && <FlexBox>{/* <CircleLoaderSpiner /> */}</FlexBox>}
-      <img
-        alt={alt || "Book Thumbnail"}
-        src={src || "/images/bookCover.png"}
-        onLoad={handleImageLoad}
-        style={{
-          display: imageLoaded ? "block" : "none",
-          visibility: imageLoaded ? "visible" : "hidden",
-        }}
-      />
-    </FlexBox>
+    <img
+      {...{ src: imgSrc, ...props }}
+      alt={props.alt || ""}
+      className="image"
+    />
   );
 };
-
-export default Image;
+export default ProgressiveImg;

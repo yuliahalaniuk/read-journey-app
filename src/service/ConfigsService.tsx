@@ -22,7 +22,7 @@ export class Service {
     return envVar;
   };
 
-  static getForFirebase() {
+  getForFirebase() {
     const firebaseConfigKeys = {
       apiKey: EnvKEysEnum.FIREBASE_API_KEY,
       authDomain: EnvKEysEnum.FIREBASE_AUTH_DOMAIN,
@@ -50,4 +50,5 @@ export class Service {
 }
 
 const ConfigsService = new Service();
+
 export default ConfigsService;

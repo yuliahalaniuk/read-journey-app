@@ -1,4 +1,4 @@
-import Image from "../../../atoms/components/Image";
+import ProgressiveImg from "../../../atoms/components/Image";
 import { BookEntity } from "../../../types/books";
 import { CardSize } from "../../../types/global";
 import {
@@ -36,7 +36,12 @@ const BookCard = ({
       }}
     >
       <ImageContainer size={size}>
-        <Image alt="Book Thumbnail" src={imageLinks?.thumbnail} />
+        <ProgressiveImg
+          alt="Book Thumbnail"
+          src={imageLinks?.thumbnail || "/images/bookCover.png"}
+          width={size === CardSize.Large ? "137px" : "71px"}
+          height={size === CardSize.Large ? "208px" : "107px"}
+        />
       </ImageContainer>
 
       <Content size={size}>

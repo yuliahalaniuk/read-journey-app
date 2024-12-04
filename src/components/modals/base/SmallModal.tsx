@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { FlexBox } from "../../../atoms/Flex";
-import styled from "styled-components";
 import { TextWithAccent } from "../../../atoms/Text";
+import { ModalTitle } from "./Modals.styled";
 
 const SmallModal = ({
   title,
@@ -19,22 +19,12 @@ const SmallModal = ({
         <img src={imgSrc} alt={"test"} width={70} height={70} />
       </FlexBox>
 
-      <Title>{title}</Title>
+      <ModalTitle>{title}</ModalTitle>
       <TextWithAccent $primary={false}>{text}</TextWithAccent>
     </>
   );
 };
 
-const Title = styled.p`
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 100%;
-  letter-spacing: -0.02em;
-  text-align: center;
 
-  color: ${(p) => p.theme.text.main};
-  margin-bottom: 10px;
-  text-align: center;
-`;
 
 export default SmallModal;

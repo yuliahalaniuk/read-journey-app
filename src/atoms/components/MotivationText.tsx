@@ -1,8 +1,8 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
-import { isDesktopQuery } from "../../../utils/mediaQueries";
-import { SecondaryBaseBox } from "../../../atoms/BaseBox";
-import { TextWithAccent } from "../../../atoms/Text";
+import { isDesktopQuery } from "../../utils/mediaQueries";
+import { SecondaryBaseBox } from "../BaseBox";
+import { TextWithAccent } from "../Text";
 
 const MotivationText = () => {
   const isDesktop = useMediaQuery(isDesktopQuery);

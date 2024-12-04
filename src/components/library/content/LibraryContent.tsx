@@ -1,17 +1,17 @@
-import { BaseBox } from "../../atoms/BaseBox";
-import { FlexBox } from "../../atoms/Flex";
-import { MainTitle } from "../../atoms/Text";
-import SelectSt from "../../atoms/components/Select";
-import BooksList from "../books/list/BooksList";
+import { BaseBox } from "../../../atoms/BaseBox";
+import { FlexBox } from "../../../atoms/Flex";
+import { MainTitle } from "../../../atoms/Text";
+import SelectSt from "../../../atoms/components/Select";
+import BooksList from "../../books/list/BooksList";
 import { useNavigate } from "react-router-dom";
-import { useAuthSelector, useLibrarySelector } from "../../redux/selectors";
-import { useModal } from "../../providers/ModalProvider";
-import { BookEntity } from "../../types/books";
-import { libraryFilterOptions } from "../../data/libraryFilterOptions";
-import BookModal from "../modals/BookModal";
-import { deleteOneThunk } from "../../redux/library/library.thunks";
-import { useAppDispatch } from "../../redux/store";
-import { SelectOptionEntity } from "../../types/global";
+import { useAuthSelector, useLibrarySelector } from "../../../redux/selectors";
+import { useModal } from "../../../providers/ModalProvider";
+import { BookEntity } from "../../../types/books";
+import { libraryFilterOptions } from "../../../data/libraryFilterOptions";
+import BookModal from "../../modals/BookModal";
+import { deleteOneThunk } from "../../../redux/library/library.thunks";
+import { useAppDispatch } from "../../../redux/store";
+import { SelectOptionEntity } from "../../../types/global";
 
 const LibraryContent = ({
   selectedOption,
@@ -41,7 +41,7 @@ const LibraryContent = ({
   };
 
   const handleDeleteBook = (id?: string) => {
-    dispatch(deleteOneThunk({ bookId: id, userId: user?.uid }));
+    dispatch(deleteOneThunk({ args: { bookId: id, userId: user?.uid } }));
   };
 
   return (

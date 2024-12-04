@@ -1,4 +1,3 @@
-import { screen } from "@testing-library/react";
 import styled from "styled-components";
 import { FlexBox } from "./Flex";
 
@@ -11,11 +10,11 @@ export const ContentContainer = styled(FlexBox)`
   max-width: 375px;
   width: 100%;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.tablet}) {
     max-width: 704px;
   }
 
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.desktop}) {
     max-width: 100%;
   }
 `;
