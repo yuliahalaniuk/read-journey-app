@@ -11,12 +11,14 @@ import { useLibrarySelector } from "../redux/selectors";
 import DiaryContent from "../components/diary/content/DiaryContent";
 import DiarySideBar from "../components/diary/sidebar/DiarySideBar";
 import { removeCurrentBook } from "../redux/library/library.slice";
+import { useModal } from "../providers/ModalProvider";
+import BookReadModal from "../components/modals/BookReadModal";
 
 const DiaryPage = () => {
   const location = useLocation();
   const path = location.pathname.split("/");
   const bookId = path[path.length - 1];
-
+  const { showModal } = useModal();
   const dispatch = useAppDispatch();
   const { currentBook } = useLibrarySelector();
   const [isStarted, setIsStarted] = useState(false);
@@ -27,30 +29,27 @@ const DiaryPage = () => {
 
   useEffect(() => {
     dispatch(getOneThunk({ args: { bookId } }));
-
     return () => {
       dispatch(removeCurrentBook());
     };
   }, [dispatch, bookId]);
 
   const handlePageFormSubmit = (data: PageFormData) => {
-    if (!isStarted) {
-      setIsStarted(true);
-      startRef.current = { page: currentBook?.totalRead, time: Date.now() };
-    } else {
-      const pagesRead = (data?.page || 0) - (startRef.current.page || 0);
+    const pagesRead = (data?.page || 0) - (startRef.current.page || 0);
+    setIsStarted(false);
 
-      setIsStarted(false);
+    dispatch(
+      addReadingSessionThunk({
+        args: {
+          bookId,
+          pagesRead,
+          startTime: startRef.current.time || 0,
+        },
+      })
+    );
 
-      dispatch(
-        addReadingSessionThunk({
-          args: {
-            bookId,
-            pagesRead,
-            startTime: startRef.current.time || 0,
-          },
-        })
-      );
+    if (data?.page === currentBook.info?.volumeInfo?.pageCount) {
+      showModal(<BookReadModal />);
     }
   };
 

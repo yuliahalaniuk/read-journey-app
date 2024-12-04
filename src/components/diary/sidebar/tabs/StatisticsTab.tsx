@@ -4,6 +4,7 @@ import { SecondaryBaseBox } from "../../../../atoms/BaseBox";
 import { FlexBox } from "../../../../atoms/FlexBox";
 import DoughnutGraph from "../../../grahps/DoughnutGraph";
 import { GraphIndicator } from "./Tabs.styled";
+import { ChartData } from "chart.js";
 
 const StatisticsTab = ({
   totalRead,
@@ -11,8 +12,8 @@ const StatisticsTab = ({
   doughnutData,
 }: {
   totalRead?: number;
-  readPerc?: any;
-  doughnutData?: any;
+  readPerc?: string;
+  doughnutData: ChartData<"doughnut">;
 }) => {
   return (
     <>

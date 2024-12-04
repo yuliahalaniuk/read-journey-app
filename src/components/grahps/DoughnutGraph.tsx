@@ -1,8 +1,8 @@
-import { ArcElement, Chart } from "chart.js";
+import { ArcElement, Chart, ChartData } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { centerTextPlugin } from "./plugins/centerTextPlugin";
 
-const DoughnutGraph = ({ data }: { data?: any }) => {
+const DoughnutGraph = ({ data }: { data: ChartData<"doughnut"> }) => {
   Chart.register(ArcElement, centerTextPlugin);
   return (
     <Doughnut
@@ -12,8 +12,8 @@ const DoughnutGraph = ({ data }: { data?: any }) => {
         cutout: "80%",
         elements: {
           arc: {
-            borderWidth: 1,
-            offset: 10,
+            borderWidth: 0,
+            offset: 0,
           },
         },
         plugins: {

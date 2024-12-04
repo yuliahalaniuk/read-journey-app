@@ -34,3 +34,4 @@ export interface IconProps {
   className?: string;
   strokeColor?: string;
 }
+

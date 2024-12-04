@@ -40,7 +40,7 @@ const DiarySideBar = ({
           data: [totalRead, pageCount - totalRead],
           backgroundColor: ["#30B94D", "#1F1F1F"],
           borderColor: "transparent",
-          borderRadius: [12, 0],
+          borderRadius: totalRead === pageCount ? [0, 0] : [12, 0],
         },
       ],
     };
@@ -52,7 +52,7 @@ const DiarySideBar = ({
   }, [info?.volumeInfo?.pageCount, totalRead]);
 
   const renderTab = useMemo(() => {
-    if (sessions) {
+    if (sessions && Object.values(sessions).length) {
       if (tab === DiaryTabsEnum.Diary) {
         return (
           <Layout
