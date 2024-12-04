@@ -42,7 +42,7 @@ const Header = () => {
   };
 
   return (
-    <Box $isVisible={isScrollingUp}>
+    <Box $isVisible={isMobile ? true : isScrollingUp}>
       <HeaderSt $fDirection="row" $justify="space-between">
         <FlexBox $align="start" $justify="center">
           <img
