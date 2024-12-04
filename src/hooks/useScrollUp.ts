@@ -11,9 +11,14 @@ const useScrollUp = (scrollRef?: RefObject<HTMLElement | null>) => {
     const handleScroll = throttle(() => {
       const currentScrollY = scrollElement.scrollTop || document.body.scrollTop;
 
-      setIsScrollingUp(currentScrollY < lastScrollY);
+      if (currentScrollY > lastScrollY) {
+        setIsScrollingUp(false);
+      } else {
+        setIsScrollingUp(true);
+      }
+
       setLastScrollY(currentScrollY);
-    }, 200);
+    }, 100);
 
     const target = scrollRef?.current || window;
     target.addEventListener("scroll", handleScroll);

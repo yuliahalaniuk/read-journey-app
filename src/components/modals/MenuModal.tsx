@@ -18,7 +18,7 @@ const MenuModal = ({
 
   return (
     <MenuBody $align="center" $justify="space-between" $isExiting={isExiting}>
-      <FlexBox $align="end">
+      <FlexBox $align="end" $fillWidth>
         <CloseBtn
           onClick={() => {
             onClose?.();
@@ -27,7 +27,7 @@ const MenuModal = ({
           <CloseIcon />
         </CloseBtn>
       </FlexBox>
-      <FlexBox style={{ paddingLeft: "50px" }}>
+      <FlexBox $padding={"0 0 0 20px"}>
         <NavBar direction="column" pathname={pathname} onLinkClick={onClose} />
       </FlexBox>
 

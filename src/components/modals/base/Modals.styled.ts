@@ -19,6 +19,7 @@ export const MenuBody = styled(FlexBox)<{ $isExiting?: boolean }>`
   background-color: ${(p) => p.theme.background.secondary};
   color: ${(p) => p.theme.text.main};
   opacity: 1;
+  width: 100%;
 
   padding: 34px 20px 40px;
   align-items: center;

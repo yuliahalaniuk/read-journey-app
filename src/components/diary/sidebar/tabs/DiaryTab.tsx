@@ -5,13 +5,15 @@ import { deleteSessionThunk } from "../../../../redux/library/library.thunks";
 import { DiaryTabContainer } from "./Tabs.styled";
 import SquareIcon from "../../../../assets/SquareIcon";
 import DiarySession from "../components/Session";
+import { HasSessions } from "../../../../types/books";
+import { SessionEntity } from "../../../../types/stats";
 
 const DiaryTab = ({
   stats,
   bookPages = 0,
   bookId,
 }: {
-  stats?: any;
+  stats?: HasSessions & { totalRead?: number };
   bookPages?: number;
   bookId?: string;
 }) => {
@@ -30,9 +32,9 @@ const DiaryTab = ({
   };
   return (
     <DiaryTabContainer $gap="20px">
-      {stats?.sessions ? (
+      {stats?.sessions &&
         Object.entries(stats.sessions)?.map(([date, sessions]) => {
-          const total = Object.values(sessions as any).reduce((acc, next) => {
+          const total = Object.values(sessions).reduce((acc, next) => {
             return acc + (next as any).pagesRead;
           }, 0);
 
@@ -52,11 +54,11 @@ const DiaryTab = ({
               </FlexBox>
 
               <FlexUl $gap="8px">
-                {Object.entries(sessions as any).map(
-                  ([key, session]: [key: string, session: any]) => {
+                {Object.entries(sessions).map(
+                  ([key, session]: [key: string, session: SessionEntity]) => {
                     return (
                       <DiarySession
-                        key={session.id}
+                        key={key}
                         session={session}
                         bookPages={bookPages}
                         onDelete={() => handleDeleteSession({ key, date })}
@@ -67,10 +69,7 @@ const DiaryTab = ({
               </FlexUl>
             </FlexBox>
           );
-        })
-      ) : (
-        <FlexBox>Oppps... Not found</FlexBox>
-      )}
+        })}
     </DiaryTabContainer>
   );
 };

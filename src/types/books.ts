@@ -1,3 +1,5 @@
+import { SessionEntity } from "./stats";
+
 export interface BookEntity {
   id?: string;
   volumeInfo?: {
@@ -13,11 +15,14 @@ export interface BookEntity {
   };
 }
 
-export interface UserBookData {
+export interface UserBookData extends HasSessions {
   totalRead: number;
-  sessions: SessionEntity[];
 }
 
-export interface SessionEntity {}
+export interface HasSessions {
+  sessions: Record<string, Record<BookId, SessionEntity>>;
+}
+
+export type BookId = string;
 
 export const LS_BOOK_KEY = "read_app_books";

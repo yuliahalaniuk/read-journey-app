@@ -7,7 +7,7 @@ import {
   getAllThunk,
   getOneThunk,
 } from "./library.thunks";
-import { BookEntity } from "../../types/books";
+import { BookEntity, HasSessions } from "../../types/books";
 import { toast } from "react-toastify";
 
 export interface LibraryState {
@@ -16,8 +16,7 @@ export interface LibraryState {
   currentBook: {
     info: BookEntity | null;
     totalRead: number;
-    sessions: Record<string, Record<string, { pagesRead: number }>>;
-  };
+  } & HasSessions;
   stats: {};
   loading: boolean;
 }

@@ -4,7 +4,7 @@ import AuthPageTemplate from "../../components/auth/AuthPageTemplate/AuthPageTem
 const LogInPage = () => {
   return (
     <AuthPageTemplate>
-      <LogInForm />;
+      <LogInForm />
     </AuthPageTemplate>
   );
 };
